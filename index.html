@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>光影与信仰 — 华人基督徒影评导读站</title>
+  <meta name="description" content="四位华人基督徒作者的电影评论导读索引：齐宏伟、石衡潭、王书亚、刘小枫。本站不搬运原文，仅作路标。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="home">
+  <main id="home-content">
+    <section class="hero">
+      <div class="container">
+        <div class="kicker reveal">A Reading Guide · 导读索引</div>
+        <h1 class="hero-title reveal reveal-1">
+          光影<span class="divider"></span>与<br />
+          <span class="em">信仰</span>
+        </h1>
+        <p class="hero-sub reveal reveal-2">
+          四位华人基督徒作者，写过哪些电影，从什么角度切入。<br />
+          本站做路标，不做搬运——把你引向原文。
+        </p>
+        <div class="hero-meta reveal reveal-3">
+          <span><strong id="stat-authors">4</strong> 位作者</span>
+          <span><strong id="stat-films">10</strong> 部精选电影</span>
+          <span>不复制原文 · 仅作导读</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="filmstrip" aria-hidden="true"></div></div>
+
+    <section id="authors" class="container">
+      <div class="section-head">
+        <h2>四位作者</h2>
+        <span class="count">点击进入作者页</span>
+      </div>
+      <div class="authors-grid" id="authors-grid"></div>
+    </section>
+
+    <section id="featured" class="featured-section">
+      <div class="container">
+        <div class="section-head">
+          <h2>精选电影</h2>
+          <span class="count">每部配风格化插画 · 点击查看摘要</span>
+        </div>
+        <div class="featured-row" id="featured-row"></div>
+      </div>
+    </section>
+
+    <section id="disclaimer" class="container">
+      <div class="disclaimer">
+        <div class="label">版权与说明</div>
+        <p>本站是一个<strong style="color:var(--ink)">导读索引站</strong>，不收录任何作者的影评原文。齐宏伟、石衡潭、王书亚、刘小枫四位作者的影评文章均有版权，归作者本人与原出版社所有。</p>
+        <p>每部电影页面只展示：标题、年份、导演等事实信息 + 一段由本站自撰的简短主题摘要（基于公开剧情与作者评论切入角度概括，不代表原文表述）+ 指向作者原著（豆瓣图书等公开页面）的"前往阅读"链接。</p>
+        <p>所有插画为本站用 SVG 生成的版画风格象征性构图，<strong style="color:var(--ink)">非真实电影海报</strong>，不涉及海报版权。</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // 胶片孔条
+    const strip = document.querySelector(".filmstrip");
+    if (strip) {
+      strip.innerHTML = Array.from({length: 40}, () => '<div class="hole"></div>').join("");
+    }
+  </script>
+</body>
+</html>
