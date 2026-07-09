@@ -68,6 +68,24 @@ SOURCES = {
         "search_url": "https://search.douban.com/book/subject_search?search_text={query}",
         "url_pattern": r"book\.douban\.com/subject/\d+",
         "notes": "豆瓣图书页面，用于书籍引用链接（非在线文章）"
+    },
+    "100md": {
+        "name": "百拇医药网",
+        "base_url": "http://www.100md.com",
+        "author_id": "wangshuya",
+        "author_name": "王书亚",
+        "search_url": "http://www.100md.com/index/paper/1672-8335/index.htm",
+        "url_pattern": r"100md\.com/html/paper/1672-8335/\d+/\d+/\d+\.htm",
+        "notes": "百拇医药网收录《南方人物周刊》全期刊文章，包含王书亚'电光倒影'专栏。URL格式: 100md.com/html/paper/1672-8335/年份/期号/页码.htm"
+    },
+    "kongfz": {
+        "name": "孔夫子旧书网",
+        "base_url": "https://mbook.kongfz.com",
+        "author_id": None,
+        "author_name": "书籍目录",
+        "search_url": "https://search.kongfz.com/search.php?key={query}",
+        "url_pattern": r"kongfz\.com/\d+/\d+",
+        "notes": "孔夫子旧书网，可查找旧书完整目录信息，用于获取书籍篇目列表"
     }
 }
 
@@ -89,6 +107,8 @@ EXISTING_FILMS = [
     "搜索", "云图", "阿米什的恩典", "母亲",
     "血战钢锯岭", "火星救援", "魔鬼代言人", "小萝莉的猴神大叔",
     "哪吒2", "默杀", "第二十条",
+    "黑暗骑士", "超级礼物", "窃听风暴", "非诚勿扰", "追风筝的人",
+    "无间道", "贫民窟的百万富翁", "芳香之旅", "面纱", "12怒汉",
 ]
 
 # ============================================================

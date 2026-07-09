@@ -624,6 +624,196 @@ const FILMS = [
         excerpt: "从信仰的角度谈这部电影的话笔者最大的收获就是\"当该有的公义扭曲时，依然选择相信上帝，等候上帝，因为这是作为基督徒唯一且正确的选择。\"社会上的知识、学历和文凭虽然不能与智慧、能力和水平划上等号，却往往也与我们每一个人都息息相关。基督徒若有了这些常识基础，然后再加上特殊恩典的临到，我们就能够更好的为祂所用，成为祂的美好的见证。"
       }
     ]
+  },
+  {
+    id: "heian-qishi",
+    title: "黑暗骑士",
+    titleEn: "The Dark Knight",
+    year: 2008,
+    director: "克里斯托弗·诺兰",
+    country: "美国",
+    genre: "动作 / 犯罪 / 剧情",
+    summary: "蝙蝠侠与小丑的对决。王书亚读出「我们说真话的那天」——小丑焚烧钞票时，如同奥古斯丁忏悔偷梨：罪本身的吸引力抓住了人。英雄主义走到尽头，拯救者从圣徒变英雄再变怪物，直到黑暗骑士选择背负谎言。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "电光倒影专栏 · 南方人物周刊",
+        section: "我们说真话的那天",
+        source: "https://k.sina.cn/article_1081012247_406ef0170200015oz.html",
+        excerpt: "这个世界，仿佛一个敌占区。所谓信仰，就是一个来到敌占区的乔装者，开始散播大后方的消息。所谓文化，就是那些没见过的人，对大后方的道听途说，和各种二手材料的添油加醋。直到《黑暗骑士》横空出世，要与至高者同等的齐天大圣，终于走到尽头。小丑对罪孽以外的一切都不感兴趣，他点火焚烧从银行抢劫来、如山堆起的钞票。说，我要告诉人们，没有什么东西是不能烧的。如奥古斯丁在《忏悔录》里承认，我偷梨子不是为了吃，只因为偷梨子这件事是错的。罪本身的吸引力，抓住了我。"
+      }
+    ]
+  },
+  {
+    id: "chaoji-liwu",
+    title: "超级礼物",
+    titleEn: "The Ultimate Gift",
+    year: 2006,
+    director: "迈克尔·萨杰",
+    country: "美国",
+    genre: "剧情 / 家庭",
+    summary: "亿万富翁瑞德去世后，孙儿杰森通过一系列「超级礼物」的考验——辛勤工作、真正的朋友、梦想、感恩等——最终领悟财富与幸福的真谛。王书亚读出清教徒的商业精神与「马太效应」的托管原则。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "电光倒影专栏 · 南方人物周刊",
+        section: "我拿什么祝福你",
+        source: "https://news.sina.cn/sa/2007-10-15/detail-ikftpnny3948754.d.html",
+        excerpt: "瑞德制定了一个计划，要给杰森一个系列的\"超级礼物\"，每一关都需要得到遗嘱执行人的认同。他也希望在他死后，能最终得到杰森的谅解。杰森流落公园，和人抢凳子，意外结识了一对母女。可爱的小女孩艾蜜莉患上白血病，只剩半年的生命。这半年，他虚浮的生命被慢慢改变。艾蜜莉死后，杰森最终得到了一亿遗产。他全部捐献出去，建立了收留孤儿和单亲家庭的\"艾蜜莉之家\"。"
+      }
+    ]
+  },
+  {
+    id: "qieting-fengbao",
+    title: "窃听风暴",
+    titleEn: "The Lives of Others",
+    year: 2006,
+    director: "弗洛里安·亨克尔·冯·多纳斯马克",
+    country: "德国",
+    genre: "剧情 / 悬疑",
+    summary: "1984年东德，秘密警察维斯勒奉命监听剧作家德莱曼。在监听过程中，他被艺术与人性的力量触动，最终选择保护被监听者。王书亚读出「我们头顶干净的天空」——当国家设计不出一个人独处时哼出的旋律，那沉默的、小小的、不被看见的内部世界，就仍然存在。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《天堂沉默了半小时》 · 江西人民出版社 2008",
+        section: "我们头顶干净的天空",
+        source: "https://book.douban.com/subject/3009030/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "feicheng-wurao",
+    title: "非诚勿扰",
+    titleEn: "If You Are the One",
+    year: 2008,
+    director: "冯小刚",
+    country: "中国",
+    genre: "喜剧 / 爱情",
+    summary: "海归秦奋通过征婚广告寻找真爱，经历一系列荒诞相亲后遇到 Smiley。王书亚读出「你往哪里去，我也往哪里去」——路得的誓言在当代相亲故事中的回响，揭示爱情不是权利与义务的交换，而是跟随与委身。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《我有平安如江河》 · 江西人民出版社 2009",
+        section: "你往哪里去，我也往哪里去",
+        source: "https://book.douban.com/subject/4007145/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "zhuifengzheng-deren",
+    title: "追风筝的人",
+    titleEn: "The Kite Runner",
+    year: 2007,
+    director: "马克·福斯特",
+    country: "美国",
+    genre: "剧情",
+    summary: "阿富汗少年阿米尔背叛了忠诚的仆人朋友哈桑，多年后回到故土寻找赎罪之路。王书亚读出「为你，千千万万遍」——哈桑的无条件忠诚映照出恩典的面目，而阿米尔的回归则是一人一本忏悔录的缩影。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《我有平安如江河》 · 江西人民出版社 2009",
+        section: "为你，千千万万遍",
+        source: "https://book.douban.com/subject/4007145/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "wujiandao",
+    title: "无间道",
+    titleEn: "Infernal Affairs",
+    year: 2002,
+    director: "刘伟强 / 麦兆辉",
+    country: "中国香港",
+    genre: "犯罪 / 剧情 / 惊悚",
+    summary: "警方卧底陈永仁与黑帮卧底刘建明，各自在对方阵营中挣扎求生。王书亚读出「无底坑中有凄惨的笑」——无间道即佛教无间地狱，人在罪中无路可出，除非有一位从外面闯入地狱的拯救者。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《我有平安如江河》 · 江西人民出版社 2009",
+        section: "无底坑中有凄惨的笑",
+        source: "https://book.douban.com/subject/4007145/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "pinminku-baiwanshuai",
+    title: "贫民窟的百万富翁",
+    titleEn: "Slumdog Millionaire",
+    year: 2008,
+    director: "丹尼·博伊尔",
+    country: "英国",
+    genre: "剧情 / 爱情",
+    summary: "孟买贫民窟少年贾马尔参加问答节目，每个答案都对应他苦难童年的一段记忆。王书亚读出「这是最好的年代，这是最坏的年代」——命运不是宿命，而是 \"It is written\"，有一位了不起的作家给你一个稳妥与应许。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《我有平安如江河》 · 江西人民出版社 2009",
+        section: "这是最好的年代，这是最坏的年代",
+        source: "https://book.douban.com/subject/4007145/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "fangxiang-zhilv",
+    title: "芳香之旅",
+    titleEn: "This Life of Mine",
+    year: 2006,
+    director: "章家瑞",
+    country: "中国",
+    genre: "剧情 / 爱情",
+    summary: "女公交车司机春芬从五十年代到新世纪的一生，经历两段婚姻与时代的巨变。王书亚读出「我们一生都在模仿幸福」——当幸福成为模仿，真正的盼望却被遮蔽，直到苦难中的信心才照亮前路。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《天堂沉默了半小时》 · 江西人民出版社 2008",
+        section: "我们一生都在模仿幸福",
+        source: "https://book.douban.com/subject/3009030/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "miansha",
+    title: "面纱",
+    titleEn: "The Painted Veil",
+    year: 2006,
+    director: "约翰·卡兰",
+    country: "美国 / 中国",
+    genre: "剧情 / 爱情",
+    summary: "1920年代英国女子凯蒂随细菌学家丈夫沃尔特来到中国乡村抗疫，在霍乱与背叛之间寻得救赎。王书亚读出「霍乱时期的恩典」——婚姻中的背叛与饶恕，如同瘟疫中的救赎，恩典在不配的人身上显出最大的力量。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《天堂沉默了半小时》 · 江西人民出版社 2008",
+        section: "霍乱时期的恩典",
+        source: "https://book.douban.com/subject/3009030/",
+        excerpt: ""
+      }
+    ]
+  },
+  {
+    id: "twelve-angry-men",
+    title: "12怒汉",
+    titleEn: "12 Angry Men",
+    year: 1957,
+    director: "西德尼·吕美特",
+    country: "美国",
+    genre: "剧情",
+    summary: "12位陪审员在休息室里决定一个少年的生死，8号陪审员以一己之力扭转全场。王书亚读出「爱就完全了律法」——格兰西的法律故事中，一个酗酒男人因一个女人的爱与接纳而重生，律法的公义在爱的恩典中才得以完全。",
+    reviews: [
+      {
+        authorId: "wangshuya",
+        work: "《我有平安如江河》 · 江西人民出版社 2009",
+        section: "爱就完全了律法",
+        source: "https://book.douban.com/subject/4007145/",
+        excerpt: ""
+      }
+    ]
   }
 ];
 
