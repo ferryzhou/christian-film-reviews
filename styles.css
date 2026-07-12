@@ -1,15 +1,15 @@
 /* 光影与信仰 — 共享样式 */
 :root {
-  --bg: #15130f;
-  --bg-soft: #1c1812;
-  --ink: #ede4d3;
-  --ink-dim: #b8ad97;
-  --muted: #6a6253;
-  --gold: #c9a35e;
-  --gold-dim: #8a7440;
-  --crimson: #7a2e2e;
-  --line: rgba(201, 163, 94, 0.18);
-  --line-soft: rgba(237, 228, 211, 0.08);
+  --bg: #f7f3ea;
+  --bg-soft: #efe7d4;
+  --ink: #2a2418;
+  --ink-dim: #5a5040;
+  --muted: #8a7e62;
+  --gold: #9a7320;
+  --gold-dim: #c9a35e;
+  --crimson: #8b3838;
+  --line: rgba(154, 115, 32, 0.28);
+  --line-soft: rgba(42, 36, 24, 0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,7 +53,7 @@ a:hover { color: var(--ink); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(21, 19, 15, 0.92);
+  background: rgba(247, 243, 234, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line-soft);
 }
@@ -189,7 +189,7 @@ a:hover { color: var(--ink); }
 .author-card:hover {
   transform: translateY(-6px);
   border-color: var(--gold-dim);
-  background: #221d15;
+  background: #e8dfc8;
 }
 .author-card .initial {
   font-family: "Cormorant Garamond", serif;
