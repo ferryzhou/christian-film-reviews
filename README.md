@@ -1,5 +1,7 @@
 # 光影与信仰 · Christian Film Reviews
 
+**在线访问：<https://ferryzhou.github.io/christian-film-reviews/>**
+
 华人基督徒影评导读索引站。收录齐宏伟、石衡潭、王书亚、刘小枫及基督时报"福音影评"专栏作者的电影评论线索：谁评过哪部电影，从什么角度切入，原文在哪里。
 
 **本站做路标，不做搬运** —— 站内只有事实信息与本站自撰的主题摘要，所有"前往阅读"链接指向作者原著或公开原文页面。
@@ -56,7 +58,8 @@ python3 -m http.server 8000
 
 ## 部署
 
-站点发布在 surge.sh，通过本地的 `deploy-films.py` 脚本部署（脚本与凭据不入库，见 `.gitignore`）。合并到 `main` 不会自动发布。
+- **GitHub Pages**：<https://ferryzhou.github.io/christian-film-reviews/>，由 `main` 分支自动发布。
+- **surge.sh**：另有一份通过本地 `deploy-films.py` 脚本手动部署的副本（脚本与凭据不入库，见 `.gitignore`），合并到 `main` 不会自动更新该副本。
 
 ## 版权说明
 
