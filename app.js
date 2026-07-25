@@ -51,7 +51,7 @@ function renderHome() {
   const authorsGrid = $("#authors-grid");
   if (authorsGrid) {
     authorsGrid.innerHTML = AUTHORS.map((a, i) => `
-      <a class="author-card reveal reveal-${i + 1}" href="author.html?id=${a.id}">
+      <a class="author-card reveal reveal-${Math.min(i + 1, 4)}" href="author.html?id=${a.id}">
         <div class="initial">${a.name[0]}</div>
         <div class="name">${a.name}</div>
         ${a.penName ? `<div class="pen">笔名 · ${a.penName}</div>` : `<div class="pen">&nbsp;</div>`}
@@ -61,12 +61,36 @@ function renderHome() {
     `).join("");
   }
 
-  // 精选电影
+  // 电影索引：搜索 + 按作者筛选
   const featuredRow = $("#featured-row");
-  if (featuredRow) {
-    featuredRow.innerHTML = FILMS.map((f, i) => `
+  const searchInput = $("#film-search");
+  const chipsWrap = $("#filter-chips");
+  const filmsCount = $("#films-count");
+  const state = { q: "", authorId: "" };
+
+  function matchingFilms() {
+    const q = state.q.trim().toLowerCase();
+    return FILMS.filter(f => {
+      if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
+      if (!q) return true;
+      return [f.title, f.titleEn, f.director, String(f.year), f.country, f.genre]
+        .some(v => v && v.toLowerCase().includes(q));
+    });
+  }
+
+  function renderFilms() {
+    const films = matchingFilms();
+    if (filmsCount) {
+      filmsCount.textContent = films.length === FILMS.length
+        ? `共 ${FILMS.length} 部 · 点击查看导读与出处`
+        : `${films.length} / ${FILMS.length} 部`;
+    }
+    if (!films.length) {
+      featuredRow.innerHTML = `<p class="no-results">没有匹配的电影。换个关键词，或清除筛选试试。</p>`;
+      return;
+    }
+    featuredRow.innerHTML = films.map((f, i) => `
       <a class="film-card reveal reveal-${(i % 4) + 1}" href="film.html?id=${f.id}">
-        <div class="poster"></div>
         <div class="info">
           <div class="title">${f.title}</div>
           <div class="meta">${f.year} · ${f.director}</div>
@@ -76,11 +100,35 @@ function renderHome() {
     `).join("");
   }
 
+  if (featuredRow) {
+    if (chipsWrap) {
+      chipsWrap.innerHTML = [{ id: "", name: "全部" }, ...AUTHORS].map(a => `
+        <button type="button" class="chip${a.id === state.authorId ? " active" : ""}" data-author="${a.id}">${a.name}</button>
+      `).join("");
+      chipsWrap.addEventListener("click", e => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        state.authorId = chip.dataset.author;
+        $$(".chip", chipsWrap).forEach(c => c.classList.toggle("active", c === chip));
+        renderFilms();
+      });
+    }
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        state.q = searchInput.value;
+        renderFilms();
+      });
+    }
+    renderFilms();
+  }
+
   // 统计数字
   const statAuthors = $("#stat-authors");
   const statFilms = $("#stat-films");
+  const authorsCount = $("#authors-count");
   if (statAuthors) statAuthors.textContent = AUTHORS.length;
   if (statFilms) statFilms.textContent = FILMS.length;
+  if (authorsCount) authorsCount.textContent = `共 ${AUTHORS.length} 位 · 点击进入作者页`;
 }
 
 // ========= 作者页渲染 =========
@@ -168,7 +216,6 @@ function renderFilm() {
     </div>
 
     <section class="film-hero reveal">
-      <div class="poster-full"></div>
       <div class="container">
         <div class="title-block">
           <h1>${film.title}</h1>
