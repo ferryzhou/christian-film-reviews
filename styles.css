@@ -295,6 +295,20 @@ a:hover { color: var(--ink); }
   background: var(--gold);
   border-color: var(--gold);
 }
+.film-sort {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.25s, border-color 0.25s;
+}
+.film-sort:hover, .film-sort:focus { color: var(--gold); border-color: var(--gold-dim); }
 .no-results {
   padding: 3rem 0;
   color: var(--muted);
@@ -340,6 +354,12 @@ a:hover { color: var(--ink); }
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.film-card .info .reviewers {
+  margin-top: 0.7rem;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.03em;
 }
 
 /* ========= 版权声明带 ========= */

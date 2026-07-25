@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>光影与信仰 — 华人基督徒影评导读站</title>
   <meta name="description" content="华人基督徒作者的电影评论导读索引：齐宏伟、石衡潭、王书亚、刘小枫及基督时报福音影评。本站不搬运原文，仅作路标。" />
+  <meta property="og:title" content="光影与信仰 — 华人基督徒影评导读站" />
+  <meta property="og:description" content="华人基督徒作者的电影评论导读索引。本站不搬运原文，仅作路标。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_CN" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='24' font-size='24' text-anchor='middle' fill='%239a7320'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
@@ -50,6 +55,11 @@
         <div class="film-controls">
           <input type="search" class="film-search" id="film-search" placeholder="搜索片名 / 导演 / 年份…" aria-label="搜索电影" />
           <div class="filter-chips" id="filter-chips" role="group" aria-label="按作者筛选"></div>
+          <select class="film-sort" id="film-sort" aria-label="排序方式">
+            <option value="default">默认排序</option>
+            <option value="year-desc">年份 新 → 旧</option>
+            <option value="year-asc">年份 旧 → 新</option>
+          </select>
         </div>
         <div class="featured-row" id="featured-row"></div>
       </div>

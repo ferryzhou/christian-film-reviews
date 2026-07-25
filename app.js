@@ -15,6 +15,15 @@ function getFilm(id) {
 function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
+function setMetaDescription(text) {
+  let m = document.querySelector('meta[name="description"]');
+  if (!m) {
+    m = document.createElement("meta");
+    m.setAttribute("name", "description");
+    document.head.appendChild(m);
+  }
+  m.setAttribute("content", text);
+}
 
 // 通用页头/页脚注入
 function injectChrome(activePage) {
@@ -66,16 +75,24 @@ function renderHome() {
   const searchInput = $("#film-search");
   const chipsWrap = $("#filter-chips");
   const filmsCount = $("#films-count");
-  const state = { q: "", authorId: "" };
+  const sortSelect = $("#film-sort");
+  const state = { q: "", authorId: "", sort: "default" };
 
   function matchingFilms() {
     const q = state.q.trim().toLowerCase();
-    return FILMS.filter(f => {
+    const films = FILMS.filter(f => {
       if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
       if (!q) return true;
       return [f.title, f.titleEn, f.director, String(f.year), f.country, f.genre]
         .some(v => v && v.toLowerCase().includes(q));
     });
+    if (state.sort === "year-desc") films.sort((a, b) => b.year - a.year);
+    else if (state.sort === "year-asc") films.sort((a, b) => a.year - b.year);
+    return films;
+  }
+
+  function reviewerNames(f) {
+    return [...new Set(f.reviews.map(r => getAuthor(r.authorId)?.name).filter(Boolean))];
   }
 
   function renderFilms() {
@@ -95,6 +112,7 @@ function renderHome() {
           <div class="title">${f.title}</div>
           <div class="meta">${f.year} · ${f.director}</div>
           <div class="blurb">${f.summary}</div>
+          <div class="reviewers">评 · ${reviewerNames(f).join(" / ")}</div>
         </div>
       </a>
     `).join("");
@@ -116,6 +134,12 @@ function renderHome() {
     if (searchInput) {
       searchInput.addEventListener("input", () => {
         state.q = searchInput.value;
+        renderFilms();
+      });
+    }
+    if (sortSelect) {
+      sortSelect.addEventListener("change", () => {
+        state.sort = sortSelect.value;
         renderFilms();
       });
     }
@@ -143,6 +167,7 @@ function renderAuthor() {
   document.title = `${author.name} — 光影与信仰`;
 
   const films = filmsByAuthor(id);
+  setMetaDescription(`${author.name}（${author.title}）的影评导读：共评过 ${films.length} 部电影。研究领域：${author.field}。`);
   const content = $("#author-content");
   content.innerHTML = `
     <div class="container">
@@ -207,6 +232,7 @@ function renderFilm() {
     return;
   }
   document.title = `${film.title} — 光影与信仰`;
+  setMetaDescription(`${film.title}（${film.titleEn}，${film.year}）影评导读。${film.summary.slice(0, 120)}…`);
 
   const content = $("#film-content");
   const authorById = id_ => AUTHORS.find(a => a.id === id_);
