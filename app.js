@@ -110,7 +110,7 @@ function renderHome() {
       <a class="film-card reveal reveal-${(i % 4) + 1}" href="film.html?id=${f.id}">
         <div class="info">
           <div class="title">${f.title}</div>
-          <div class="meta">${f.year} · ${f.director}</div>
+          <div class="meta">${[f.year, f.director].filter(Boolean).join(" · ")}</div>
           <div class="blurb">${f.summary}</div>
           <div class="reviewers">评 · ${reviewerNames(f).join(" / ")}</div>
         </div>
@@ -210,8 +210,8 @@ function renderAuthor() {
             <a class="row" href="film.html?id=${f.id}">
               <div class="num">${String(i + 1).padStart(2, "0")}</div>
               <div>
-                <div class="ft">${f.title}<span class="en">${f.titleEn}</span></div>
-                <div class="fd">${f.director} · ${f.country} · ${f.genre}</div>
+                <div class="ft">${f.title}${f.titleEn ? `<span class="en">${f.titleEn}</span>` : ""}</div>
+                <div class="fd">${[f.director, f.country, f.genre].filter(Boolean).join(" · ")}</div>
               </div>
               <div class="year">${f.year}</div>
             </a>
@@ -245,7 +245,7 @@ function renderFilm() {
       <div class="container">
         <div class="title-block">
           <h1>${film.title}</h1>
-          <div class="en-title">${film.titleEn}</div>
+          ${film.titleEn ? `<div class="en-title">${film.titleEn}</div>` : ""}
         </div>
       </div>
     </section>
@@ -253,10 +253,9 @@ function renderFilm() {
     <div class="container">
       <div class="film-body">
         <div class="meta-table reveal reveal-1">
-          <div class="row"><div class="k">年份</div><div class="v">${film.year}</div></div>
-          <div class="row"><div class="k">导演</div><div class="v">${film.director}</div></div>
-          <div class="row"><div class="k">国别</div><div class="v">${film.country}</div></div>
-          <div class="row"><div class="k">类型</div><div class="v">${film.genre}</div></div>
+          ${[["年份", film.year], ["导演", film.director], ["国别", film.country], ["类型", film.genre]]
+            .filter(([, v]) => v)
+            .map(([k, v]) => `<div class="row"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
         </div>
         <div class="summary-block reveal reveal-2">
           <div class="label">主题摘要 · 本站自撰</div>
