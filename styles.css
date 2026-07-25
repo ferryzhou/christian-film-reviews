@@ -169,11 +169,10 @@ a:hover { color: var(--ink); }
 /* ========= 作者卡片 ========= */
 .authors-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin: 3rem 0 5rem;
 }
-@media (max-width: 900px) { .authors-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px) { .authors-grid { grid-template-columns: 1fr; } }
 
 .author-card {
@@ -250,6 +249,72 @@ a:hover { color: var(--ink); }
   letter-spacing: 0.1em;
 }
 
+/* 电影搜索与筛选 */
+.film-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.film-search {
+  flex: 1 1 240px;
+  max-width: 340px;
+  font-family: "Noto Serif SC", serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0.2rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.film-search::placeholder { color: var(--muted); }
+.film-search:focus { border-color: var(--gold); }
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.filter-chips .chip {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+.filter-chips .chip:hover { color: var(--gold); border-color: var(--gold-dim); }
+.filter-chips .chip.active {
+  color: var(--bg);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.film-sort {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.25s, border-color 0.25s;
+}
+.film-sort:hover, .film-sort:focus { color: var(--gold); border-color: var(--gold-dim); }
+.no-results {
+  padding: 3rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .featured-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -266,9 +331,6 @@ a:hover { color: var(--ink); }
 .film-card:hover {
   transform: translateY(-4px);
   border-color: var(--gold-dim);
-}
-.film-card .poster {
-  display: none;
 }
 .film-card .info { padding: 1.2rem 1.2rem 1.5rem; }
 .film-card .info .title {
@@ -292,6 +354,12 @@ a:hover { color: var(--ink); }
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.film-card .info .reviewers {
+  margin-top: 0.7rem;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.03em;
 }
 
 /* ========= 版权声明带 ========= */
@@ -455,9 +523,6 @@ footer .mono {
   position: relative;
   margin-bottom: 3rem;
 }
-.film-hero .poster-full {
-  display: none;
-}
 .film-hero .title-block {
   position: relative;
   z-index: 2;
@@ -476,10 +541,6 @@ footer .mono {
   color: var(--gold);
   margin-bottom: 1.5rem;
 }
-@media (max-width: 700px) {
-  .film-hero .title-block { margin-top: -4rem; }
-}
-
 .film-body {
   display: grid;
   grid-template-columns: 1fr 2.2fr;

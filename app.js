@@ -15,6 +15,15 @@ function getFilm(id) {
 function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
+function setMetaDescription(text) {
+  let m = document.querySelector('meta[name="description"]');
+  if (!m) {
+    m = document.createElement("meta");
+    m.setAttribute("name", "description");
+    document.head.appendChild(m);
+  }
+  m.setAttribute("content", text);
+}
 
 // 通用页头/页脚注入
 function injectChrome(activePage) {
@@ -51,7 +60,7 @@ function renderHome() {
   const authorsGrid = $("#authors-grid");
   if (authorsGrid) {
     authorsGrid.innerHTML = AUTHORS.map((a, i) => `
-      <a class="author-card reveal reveal-${i + 1}" href="author.html?id=${a.id}">
+      <a class="author-card reveal reveal-${Math.min(i + 1, 4)}" href="author.html?id=${a.id}">
         <div class="initial">${a.name[0]}</div>
         <div class="name">${a.name}</div>
         ${a.penName ? `<div class="pen">笔名 · ${a.penName}</div>` : `<div class="pen">&nbsp;</div>`}
@@ -61,26 +70,89 @@ function renderHome() {
     `).join("");
   }
 
-  // 精选电影
+  // 电影索引：搜索 + 按作者筛选
   const featuredRow = $("#featured-row");
-  if (featuredRow) {
-    featuredRow.innerHTML = FILMS.map((f, i) => `
+  const searchInput = $("#film-search");
+  const chipsWrap = $("#filter-chips");
+  const filmsCount = $("#films-count");
+  const sortSelect = $("#film-sort");
+  const state = { q: "", authorId: "", sort: "default" };
+
+  function matchingFilms() {
+    const q = state.q.trim().toLowerCase();
+    const films = FILMS.filter(f => {
+      if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
+      if (!q) return true;
+      return [f.title, f.titleEn, f.director, String(f.year), f.country, f.genre]
+        .some(v => v && v.toLowerCase().includes(q));
+    });
+    if (state.sort === "year-desc") films.sort((a, b) => b.year - a.year);
+    else if (state.sort === "year-asc") films.sort((a, b) => a.year - b.year);
+    return films;
+  }
+
+  function reviewerNames(f) {
+    return [...new Set(f.reviews.map(r => getAuthor(r.authorId)?.name).filter(Boolean))];
+  }
+
+  function renderFilms() {
+    const films = matchingFilms();
+    if (filmsCount) {
+      filmsCount.textContent = films.length === FILMS.length
+        ? `共 ${FILMS.length} 部 · 点击查看导读与出处`
+        : `${films.length} / ${FILMS.length} 部`;
+    }
+    if (!films.length) {
+      featuredRow.innerHTML = `<p class="no-results">没有匹配的电影。换个关键词，或清除筛选试试。</p>`;
+      return;
+    }
+    featuredRow.innerHTML = films.map((f, i) => `
       <a class="film-card reveal reveal-${(i % 4) + 1}" href="film.html?id=${f.id}">
-        <div class="poster"></div>
         <div class="info">
           <div class="title">${f.title}</div>
           <div class="meta">${f.year} · ${f.director}</div>
           <div class="blurb">${f.summary}</div>
+          <div class="reviewers">评 · ${reviewerNames(f).join(" / ")}</div>
         </div>
       </a>
     `).join("");
   }
 
+  if (featuredRow) {
+    if (chipsWrap) {
+      chipsWrap.innerHTML = [{ id: "", name: "全部" }, ...AUTHORS].map(a => `
+        <button type="button" class="chip${a.id === state.authorId ? " active" : ""}" data-author="${a.id}">${a.name}</button>
+      `).join("");
+      chipsWrap.addEventListener("click", e => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        state.authorId = chip.dataset.author;
+        $$(".chip", chipsWrap).forEach(c => c.classList.toggle("active", c === chip));
+        renderFilms();
+      });
+    }
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        state.q = searchInput.value;
+        renderFilms();
+      });
+    }
+    if (sortSelect) {
+      sortSelect.addEventListener("change", () => {
+        state.sort = sortSelect.value;
+        renderFilms();
+      });
+    }
+    renderFilms();
+  }
+
   // 统计数字
   const statAuthors = $("#stat-authors");
   const statFilms = $("#stat-films");
+  const authorsCount = $("#authors-count");
   if (statAuthors) statAuthors.textContent = AUTHORS.length;
   if (statFilms) statFilms.textContent = FILMS.length;
+  if (authorsCount) authorsCount.textContent = `共 ${AUTHORS.length} 位 · 点击进入作者页`;
 }
 
 // ========= 作者页渲染 =========
@@ -95,6 +167,7 @@ function renderAuthor() {
   document.title = `${author.name} — 光影与信仰`;
 
   const films = filmsByAuthor(id);
+  setMetaDescription(`${author.name}（${author.title}）的影评导读：共评过 ${films.length} 部电影。研究领域：${author.field}。`);
   const content = $("#author-content");
   content.innerHTML = `
     <div class="container">
@@ -159,6 +232,7 @@ function renderFilm() {
     return;
   }
   document.title = `${film.title} — 光影与信仰`;
+  setMetaDescription(`${film.title}（${film.titleEn}，${film.year}）影评导读。${film.summary.slice(0, 120)}…`);
 
   const content = $("#film-content");
   const authorById = id_ => AUTHORS.find(a => a.id === id_);
@@ -168,7 +242,6 @@ function renderFilm() {
     </div>
 
     <section class="film-hero reveal">
-      <div class="poster-full"></div>
       <div class="container">
         <div class="title-block">
           <h1>${film.title}</h1>
