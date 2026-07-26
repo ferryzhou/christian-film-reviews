@@ -307,8 +307,8 @@ a:hover { color: var(--ink); }
   border-color: var(--gold-dim);
 }
 .film-card .card-poster {
-  flex: 0 0 82px;
-  width: 82px;
+  flex: 0 0 100px;
+  width: 100px;
   object-fit: cover;
   border-right: 1px solid var(--line-soft);
 }
