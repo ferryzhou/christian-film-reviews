@@ -106,8 +106,12 @@ function renderHome() {
       featuredRow.innerHTML = `<p class="no-results">没有匹配的电影。换个关键词，或清除筛选试试。</p>`;
       return;
     }
+    const hasPosters = typeof POSTERS !== "undefined";
     featuredRow.innerHTML = films.map((f, i) => `
       <a class="film-card reveal reveal-${(i % 4) + 1}" href="film.html?id=${f.id}">
+        ${hasPosters && POSTERS[f.id]
+          ? `<img class="card-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
+          : `<div class="card-poster card-poster-empty">✦</div>`}
         <div class="info">
           <div class="title">${f.title}</div>
           <div class="meta">${[f.year, f.director].filter(Boolean).join(" · ")}</div>

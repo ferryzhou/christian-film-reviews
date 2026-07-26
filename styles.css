@@ -294,7 +294,8 @@ a:hover { color: var(--ink); }
   gap: 1.5rem;
 }
 .film-card {
-  display: block;
+  display: flex;
+  align-items: stretch;
   background: var(--bg-soft);
   border: 1px solid var(--line-soft);
   border-radius: 2px;
@@ -305,7 +306,21 @@ a:hover { color: var(--ink); }
   transform: translateY(-4px);
   border-color: var(--gold-dim);
 }
-.film-card .info { padding: 1.2rem 1.2rem 1.5rem; }
+.film-card .card-poster {
+  flex: 0 0 82px;
+  width: 82px;
+  object-fit: cover;
+  border-right: 1px solid var(--line-soft);
+}
+.film-card .card-poster-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-dim);
+  font-size: 1.4rem;
+  background: #ece3cd;
+}
+.film-card .info { flex: 1; min-width: 0; padding: 1.1rem 1.2rem 1.3rem; }
 .film-card .info .title {
   font-size: 1.15rem;
   font-weight: 400;
