@@ -81,7 +81,7 @@ function renderHome() {
   const chipsWrap = $("#filter-chips");
   const filmsCount = $("#films-count");
   const sortSelect = $("#film-sort");
-  const state = { q: "", authorId: "", sort: "default" };
+  const state = { q: "", authorId: "", sort: "year-desc" };
   const WEB_FILMS = FILMS.filter(hasWebText);
 
   function matchingFilms() {
