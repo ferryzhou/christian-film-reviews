@@ -252,10 +252,15 @@ function renderFilm() {
 
     <div class="container">
       <div class="film-body">
-        <div class="meta-table reveal reveal-1">
+        <div class="reveal reveal-1">
+          ${typeof POSTERS !== "undefined" && POSTERS[film.id]
+            ? `<img class="poster-thumb" src="posters/${POSTERS[film.id]}" alt="《${film.title}》海报（低分辨率，仅作影片标识）" loading="lazy" />`
+            : ""}
+          <div class="meta-table">
           ${[["年份", film.year], ["导演", film.director], ["国别", film.country], ["类型", film.genre]]
             .filter(([, v]) => v)
             .map(([k, v]) => `<div class="row"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
+          </div>
         </div>
         <div class="summary-block reveal reveal-2">
           <div class="label">主题摘要 · 本站自撰</div>
@@ -280,7 +285,7 @@ function renderFilm() {
           `;
         }).join("")}
         <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--muted);line-height:1.7">
-          本站为导读索引，不搬运原文。带摘录的条目来自作者公开网络文章，引用范围符合合理使用原则，点击"前往原文"阅读完整文章；其余条目为作者影评文集中的章节，点击"查看书籍"跳转豆瓣图书条目。
+          本站为导读索引，不搬运原文。带摘录的条目来自作者公开网络文章，引用范围符合合理使用原则，点击"前往原文"阅读完整文章；其余条目为作者影评文集中的章节，点击"查看书籍"跳转豆瓣图书条目。页面中的电影海报为低分辨率缩略图，仅用于标识所评影片，版权归属各制片方；如权利方提出异议，本站将及时移除。
         </p>
       </section>
     </div>
