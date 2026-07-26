@@ -33,8 +33,8 @@ function injectChrome(activePage) {
         <a href="index.html" class="brand"><span class="mark">✦</span>光影与信仰</a>
         <nav class="nav-links">
           <a href="index.html" class="${activePage === 'home' ? 'active' : ''}">首页</a>
-          <a href="index.html#authors" class="${activePage === 'authors' ? 'active' : ''}">作者</a>
           <a href="index.html#featured" class="${activePage === 'films' ? 'active' : ''}">电影</a>
+          <a href="index.html#authors" class="${activePage === 'authors' ? 'active' : ''}">作者</a>
           <a href="index.html#disclaimer" class="${activePage === 'about' ? 'active' : ''}">关于</a>
         </nav>
       </div>
