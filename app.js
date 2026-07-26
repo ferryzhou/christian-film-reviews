@@ -15,6 +15,10 @@ function getFilm(id) {
 function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
+// 至少有一条评论带全文摘录（即存在公开网络原文）
+function hasWebText(f) {
+  return f.reviews.some(r => r.excerpt);
+}
 function setMetaDescription(text) {
   let m = document.querySelector('meta[name="description"]');
   if (!m) {
@@ -35,6 +39,7 @@ function injectChrome(activePage) {
           <a href="index.html" class="${activePage === 'home' ? 'active' : ''}">首页</a>
           <a href="index.html#featured" class="${activePage === 'films' ? 'active' : ''}">电影</a>
           <a href="index.html#authors" class="${activePage === 'authors' ? 'active' : ''}">作者</a>
+          <a href="books.html" class="${activePage === 'books' ? 'active' : ''}">文集</a>
           <a href="index.html#disclaimer" class="${activePage === 'about' ? 'active' : ''}">关于</a>
         </nav>
       </div>
@@ -77,10 +82,11 @@ function renderHome() {
   const filmsCount = $("#films-count");
   const sortSelect = $("#film-sort");
   const state = { q: "", authorId: "", sort: "default" };
+  const WEB_FILMS = FILMS.filter(hasWebText);
 
   function matchingFilms() {
     const q = state.q.trim().toLowerCase();
-    const films = FILMS.filter(f => {
+    const films = WEB_FILMS.filter(f => {
       if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
       if (!q) return true;
       return [f.title, f.titleEn, f.director, String(f.year), f.country, f.genre]
@@ -98,9 +104,9 @@ function renderHome() {
   function renderFilms() {
     const films = matchingFilms();
     if (filmsCount) {
-      filmsCount.textContent = films.length === FILMS.length
-        ? `共 ${FILMS.length} 部 · 点击查看导读与出处`
-        : `${films.length} / ${FILMS.length} 部`;
+      filmsCount.textContent = films.length === WEB_FILMS.length
+        ? `共 ${WEB_FILMS.length} 部 · 点击查看导读与出处`
+        : `${films.length} / ${WEB_FILMS.length} 部`;
     }
     if (!films.length) {
       featuredRow.innerHTML = `<p class="no-results">没有匹配的电影。换个关键词，或清除筛选试试。</p>`;
@@ -155,8 +161,49 @@ function renderHome() {
   const statFilms = $("#stat-films");
   const authorsCount = $("#authors-count");
   if (statAuthors) statAuthors.textContent = AUTHORS.length;
-  if (statFilms) statFilms.textContent = FILMS.length;
+  if (statFilms) statFilms.textContent = WEB_FILMS.length;
   if (authorsCount) authorsCount.textContent = `共 ${AUTHORS.length} 位 · 点击进入作者页`;
+
+  const booksLink = $("#books-link");
+  const bookOnly = FILMS.length - WEB_FILMS.length;
+  if (booksLink && bookOnly > 0) {
+    booksLink.innerHTML = `另有 ${bookOnly} 部影片的评论仅见于纸质文集（暂无网络全文）→ <a href="books.html">文集篇目</a>`;
+  }
+}
+
+// ========= 文集篇目页渲染 =========
+function renderBooks() {
+  injectChrome("books");
+  const films = FILMS.filter(f => !hasWebText(f));
+  const hasPosters = typeof POSTERS !== "undefined";
+  const authorById = id_ => AUTHORS.find(a => a.id === id_);
+  $("#books-content").innerHTML = `
+    <div class="container">
+      <a href="index.html#featured" class="back-link">← 电影索引</a>
+      <div class="section-head">
+        <h2>文集篇目</h2>
+        <span class="count">共 ${films.length} 部</span>
+      </div>
+      <p style="margin-bottom:2rem;font-size:0.9rem;color:var(--ink-dim);line-height:1.8">
+        以下影片的评论仅收录于作者的纸质影评文集，暂无公开网络全文。点击卡片查看本站自撰导读与书籍出处（豆瓣图书页）。
+      </p>
+      <div class="featured-row">
+        ${films.map((f, i) => `
+          <a class="film-card reveal reveal-${(i % 4) + 1}" href="film.html?id=${f.id}">
+            ${hasPosters && POSTERS[f.id]
+              ? `<img class="card-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
+              : `<div class="card-poster card-poster-empty">✦</div>`}
+            <div class="info">
+              <div class="title">${f.title}</div>
+              <div class="meta">${[f.year, f.director].filter(Boolean).join(" · ")}</div>
+              <div class="blurb">${f.summary}</div>
+              <div class="reviewers">评 · ${[...new Set(f.reviews.map(r => authorById(r.authorId)?.name).filter(Boolean))].join(" / ")} · 见文集</div>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    </div>
+  `;
 }
 
 // ========= 作者页渲染 =========
@@ -301,3 +348,4 @@ const page = document.body.dataset.page;
 if (page === "home") renderHome();
 else if (page === "author") renderAuthor();
 else if (page === "film") renderFilm();
+else if (page === "books") renderBooks();
