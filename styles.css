@@ -104,40 +104,33 @@ a:hover { color: var(--ink); }
 
 /* ========= 首页 Hero ========= */
 .hero {
-  padding: clamp(5rem, 12vh, 9rem) 0 clamp(3rem, 6vh, 5rem);
-  position: relative;
+  padding: clamp(1.5rem, 4vh, 2.5rem) 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0.5rem;
 }
 .hero-title {
   font-family: "Noto Serif SC", serif;
   font-weight: 300;
-  font-size: clamp(3rem, 9vw, 7rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
 }
 .hero-title .em {
   font-style: italic;
   color: var(--gold);
   font-weight: 400;
 }
-.hero-title .divider {
-  display: inline-block;
-  width: 0.5em;
-  height: 0.08em;
-  background: var(--crimson);
-  vertical-align: middle;
-  margin: 0 0.3em;
-}
 .hero-sub {
-  max-width: 32ch;
-  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  font-size: clamp(0.92rem, 1.1vw, 1rem);
   color: var(--ink-dim);
   font-weight: 300;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
 }
 .hero-meta {
   display: flex;
-  gap: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
   font-family: "JetBrains Mono", monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
@@ -145,26 +138,6 @@ a:hover { color: var(--ink); }
   color: var(--muted);
 }
 .hero-meta span strong { color: var(--gold); font-weight: 400; }
-
-/* 胶片孔装饰条 */
-.filmstrip {
-  display: flex;
-  gap: 6px;
-  padding: 8px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  overflow: hidden;
-  margin: 3rem 0;
-}
-.filmstrip .hole {
-  flex: 1;
-  height: 14px;
-  background: var(--bg-soft);
-  border: 1px solid var(--muted);
-  border-radius: 2px;
-  min-width: 18px;
-  max-width: 28px;
-}
 
 /* ========= 作者卡片 ========= */
 .authors-grid {
@@ -228,7 +201,7 @@ a:hover { color: var(--ink); }
 .author-card:hover .arrow { opacity: 1; transform: translateX(4px); }
 
 /* ========= 精选电影横向滚动 ========= */
-.featured-section { padding: 4rem 0; }
+.featured-section { padding: 1.5rem 0 3rem; }
 .section-head {
   display: flex;
   justify-content: space-between;
