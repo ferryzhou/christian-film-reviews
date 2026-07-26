@@ -287,9 +287,11 @@ function renderFilm() {
 
   const content = $("#film-content");
   const authorById = id_ => AUTHORS.find(a => a.id === id_);
+  // 有全文摘录的评论（公开网络原文）排在书籍引用之前
+  const reviews = [...film.reviews].sort((a, b) => (b.excerpt ? 1 : 0) - (a.excerpt ? 1 : 0));
   content.innerHTML = `
     <div class="container">
-      <a href="${film.reviews[0] ? "author.html?id=" + film.reviews[0].authorId : "index.html#featured"}" class="back-link">← 返回</a>
+      <a href="${reviews[0] ? "author.html?id=" + reviews[0].authorId : "index.html#featured"}" class="back-link">← 返回</a>
     </div>
 
     <section class="film-hero reveal">
@@ -321,7 +323,7 @@ function renderFilm() {
 
       <section class="reviews-block reveal reveal-3">
         <h2>评论出处</h2>
-        ${film.reviews.map(r => {
+        ${reviews.map(r => {
           const a = authorById(r.authorId);
           const isArticle = !!r.excerpt;
           return `
