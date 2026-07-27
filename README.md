@@ -1,6 +1,6 @@
-# 光影与信仰 · Christian Film Reviews
+# 影路标 · 光影与信仰 (yinglubiao.com)
 
-**在线访问：<https://ferryzhou.github.io/christian-film-reviews/>**
+**在线访问：<https://ferryzhou.github.io/christian-film-reviews/>**（正式域名 `yinglubiao.com` 配置中，见下方"部署"）
 
 华人基督徒影评导读索引站。收录齐宏伟、石衡潭、王书亚、刘小枫及基督时报"福音影评"专栏作者的电影评论线索：谁评过哪部电影，从什么角度切入，原文在哪里。
 
@@ -8,7 +8,7 @@
 
 ## 网站结构
 
-纯静态站点，无构建步骤，无外部依赖（仅 Google Fonts）。
+纯静态站点，无构建步骤，无任何外部依赖。字体使用系统字体栈（宋体系 + Georgia + 等宽），不加载 Google Fonts —— fonts.googleapis.com 在中国大陆被墙，外链字体会让大陆访客首屏卡顿甚至超时。
 
 | 文件 | 作用 |
 | --- | --- |
@@ -60,6 +60,20 @@ python3 -m http.server 8000
 
 - **GitHub Pages**：<https://ferryzhou.github.io/christian-film-reviews/>，由 `main` 分支自动发布。
 - **surge.sh**：另有一份通过本地 `deploy-films.py` 脚本手动部署的副本（脚本与凭据不入库，见 `.gitignore`），合并到 `main` 不会自动更新该副本。
+
+### 正式域名：yinglubiao.com（面向大陆访客）
+
+目标：大陆访客可直接访问。`*.github.io` / `*.surge.sh` 等平台共享域名在大陆被墙或不稳定，自有域名是第一前提。
+
+上线步骤（按顺序）：
+
+1. **购买域名**：在 Porkbun（或 Cloudflare Registrar）注册 `yinglubiao.com`，开启免费 WHOIS 隐私保护。
+2. **选择托管**（二选一）：
+   - **阿里云 OSS 或腾讯云 COS 香港区**（推荐）：静态网站模式 + 绑定自定义域名 + 开启 HTTPS。香港节点对大陆延迟低、IP 段较少被墙，且境外托管无需 ICP 备案。
+   - **GitHub Pages + 自定义域名**（零成本过渡方案）：仓库 Settings → Pages 填入 `yinglubiao.com`，DNS 加 CNAME 记录指向 `ferryzhou.github.io`，勾选 Enforce HTTPS。注意：`CNAME` 文件须在域名 DNS 生效后再提交，否则现有 github.io 地址会指向尚未生效的域名。
+3. **验证大陆可达性**：用 17ce.com 或 boce.com 从多省份测试；此后定期复测。
+
+注意：不考虑大陆境内托管 —— 需要 ICP 备案，且宗教类内容还需《互联网宗教信息服务许可证》，个人与境外主体实际无法取得。境外托管 + 自有域名是合规且现实的方案。
 
 ## 版权说明
 

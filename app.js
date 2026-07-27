@@ -34,7 +34,7 @@ function injectChrome(activePage) {
   const topbar = `
     <header class="topbar">
       <div class="container">
-        <a href="index.html" class="brand"><span class="mark">✦</span>光影与信仰</a>
+        <a href="index.html" class="brand"><span class="mark">✦</span>影路标</a>
         <nav class="nav-links">
           <a href="index.html" class="${activePage === 'home' ? 'active' : ''}">首页</a>
           <a href="index.html#featured" class="${activePage === 'films' ? 'active' : ''}">电影</a>
@@ -48,7 +48,7 @@ function injectChrome(activePage) {
   const footer = `
     <footer>
       <div class="container">
-        <span class="mono">光影与信仰 · 导读索引站</span>
+        <span class="mono">影路标 yinglubiao.com · 光影与信仰导读索引站</span>
         <span class="mono">不搬运原文 · 仅作路标</span>
       </div>
     </footer>
@@ -215,7 +215,7 @@ function renderAuthor() {
     $("#author-content").innerHTML = `<div class="container" style="padding:4rem 0"><p>未找到该作者。<a href="index.html">返回首页</a></p></div>`;
     return;
   }
-  document.title = `${author.name} — 光影与信仰`;
+  document.title = `${author.name} — 影路标`;
 
   const films = filmsByAuthor(id);
   setMetaDescription(`${author.name}（${author.title}）的影评导读：共评过 ${films.length} 部电影。研究领域：${author.field}。`);
@@ -282,7 +282,7 @@ function renderFilm() {
     $("#film-content").innerHTML = `<div class="container" style="padding:4rem 0"><p>未找到该电影。<a href="index.html">返回首页</a></p></div>`;
     return;
   }
-  document.title = `${film.title} — 光影与信仰`;
+  document.title = `${film.title} — 影路标`;
   setMetaDescription(`${film.title}（${film.titleEn}，${film.year}）影评导读。${film.summary.slice(0, 120)}…`);
 
   const content = $("#film-content");

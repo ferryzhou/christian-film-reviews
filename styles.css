@@ -19,7 +19,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, Georgia, serif;
   -webkit-font-smoothing: antialiased;
   line-height: 1.7;
   overflow-x: hidden;
@@ -39,8 +39,8 @@ body::before {
 a { color: var(--gold); text-decoration: none; transition: color 0.25s; }
 a:hover { color: var(--ink); }
 
-.mono { font-family: "JetBrains Mono", "Courier New", monospace; }
-.serif-en { font-family: "Cormorant Garamond", Georgia, serif; }
+.mono { font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, "Courier New", monospace; }
+.serif-en { font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; }
 
 .container {
   max-width: 1280px;
@@ -65,7 +65,7 @@ a:hover { color: var(--ink); }
   padding-bottom: 1rem;
 }
 .brand {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   font-size: 1.25rem;
   font-style: italic;
   letter-spacing: 0.02em;
@@ -74,7 +74,7 @@ a:hover { color: var(--ink); }
 .brand .mark { color: var(--gold); margin-right: 0.3em; }
 .nav-links { display: flex; gap: 2rem; }
 .nav-links a {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -85,7 +85,7 @@ a:hover { color: var(--ink); }
 
 /* 章节编号 */
 .kicker {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -109,7 +109,7 @@ a:hover { color: var(--ink); }
   margin-bottom: 0.5rem;
 }
 .hero-title {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-weight: 300;
   font-size: clamp(1.9rem, 4vw, 2.8rem);
   line-height: 1.15;
@@ -131,7 +131,7 @@ a:hover { color: var(--ink); }
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 2.5rem;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -164,7 +164,7 @@ a:hover { color: var(--ink); }
   background: #e8dfc8;
 }
 .author-card .initial {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   font-size: 4rem;
   font-style: italic;
   color: var(--gold);
@@ -178,7 +178,7 @@ a:hover { color: var(--ink); }
   margin-bottom: 0.3rem;
 }
 .author-card .pen {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--muted);
@@ -211,12 +211,12 @@ a:hover { color: var(--ink); }
   padding-bottom: 1rem;
 }
 .section-head h2 {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-weight: 400;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
 }
 .section-head .count {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   color: var(--muted);
   letter-spacing: 0.1em;
@@ -233,7 +233,7 @@ a:hover { color: var(--ink); }
 .film-search {
   flex: 1 1 240px;
   max-width: 340px;
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-size: 0.9rem;
   color: var(--ink);
   background: transparent;
@@ -251,7 +251,7 @@ a:hover { color: var(--ink); }
   gap: 0.5rem;
 }
 .filter-chips .chip {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   color: var(--ink-dim);
@@ -269,7 +269,7 @@ a:hover { color: var(--ink); }
   border-color: var(--gold);
 }
 .film-sort {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   color: var(--ink-dim);
@@ -328,7 +328,7 @@ a:hover { color: var(--ink); }
   line-height: 1.3;
 }
 .film-card .info .meta {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.68rem;
   color: var(--muted);
   letter-spacing: 0.05em;
@@ -359,7 +359,7 @@ a:hover { color: var(--ink); }
   border-radius: 2px;
 }
 .disclaimer .label {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -406,21 +406,21 @@ footer .mono {
   align-items: end;
 }
 .author-hero .glyph {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   font-size: clamp(6rem, 14vw, 11rem);
   font-style: italic;
   color: var(--gold);
   line-height: 0.9;
 }
 .author-hero h1 {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-weight: 300;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   line-height: 1.1;
   margin-bottom: 0.5rem;
 }
 .author-hero .penname {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   color: var(--muted);
@@ -456,7 +456,7 @@ footer .mono {
   margin-bottom: 1rem;
 }
 .author-works h3 {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -469,7 +469,7 @@ footer .mono {
 }
 .work-item .wt { font-size: 1.05rem; color: var(--ink); margin-bottom: 0.2rem; }
 .work-item .wm {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   color: var(--muted);
   letter-spacing: 0.05em;
@@ -488,16 +488,16 @@ footer .mono {
 }
 .film-list .row:hover { background: var(--bg-soft); padding-left: 1rem; padding-right: 1rem; }
 .film-list .num {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   font-style: italic;
   font-size: 1.6rem;
   color: var(--gold-dim);
 }
 .film-list .ft { font-size: 1.15rem; color: var(--ink); }
-.film-list .ft .en { font-family: "Cormorant Garamond", serif; font-style: italic; color: var(--muted); font-size: 0.9rem; margin-left: 0.5rem; }
+.film-list .ft .en { font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: italic; color: var(--muted); font-size: 0.9rem; margin-left: 0.5rem; }
 .film-list .fd { font-size: 0.78rem; color: var(--ink-dim); margin-top: 0.2rem; }
 .film-list .year {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.75rem;
   color: var(--muted);
 }
@@ -516,14 +516,14 @@ footer .mono {
   z-index: 2;
 }
 .film-hero h1 {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-weight: 300;
   font-size: clamp(2.4rem, 6vw, 4.2rem);
   line-height: 1.05;
   margin-bottom: 0.5rem;
 }
 .film-hero .en-title {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   font-style: italic;
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   color: var(--gold);
@@ -558,7 +558,7 @@ footer .mono {
   border-bottom: 1px solid var(--line-soft);
 }
 .meta-table .k {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -572,7 +572,7 @@ footer .mono {
   padding-left: 2.5rem;
 }
 .summary-block .label {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -592,7 +592,7 @@ footer .mono {
 /* 评论出处 */
 .reviews-block { margin: 3rem 0; }
 .reviews-block h2 {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, serif;
   font-weight: 400;
   font-size: 1.4rem;
   margin-bottom: 1.5rem;
@@ -618,14 +618,14 @@ footer .mono {
 }
 .review-item .who .section {
   display: block;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   color: var(--muted);
   margin-top: 0.2rem;
   letter-spacing: 0.05em;
 }
 .review-item .go {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -670,7 +670,7 @@ footer .mono {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
