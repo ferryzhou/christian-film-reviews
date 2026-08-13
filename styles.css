@@ -695,3 +695,111 @@ footer .mono {
   .reveal, .author-card, .film-card { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ========= 本站自撰影评 ========= */
+
+/* 首页卡片徽标 */
+.orig-flag { color: var(--gold); }
+
+/* 电影页"本站影评"板块 */
+.original-block { margin: 3rem 0 0; }
+.original-block h2 {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.orig-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  background: var(--bg-soft);
+  border-radius: 2px;
+  transition: box-shadow 0.3s;
+}
+.orig-card:hover { box-shadow: 0 4px 18px rgba(42, 36, 24, 0.1); }
+.orig-card .orig-kicker {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+.orig-card .orig-title {
+  font-size: 1.15rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.orig-card .orig-kicker + .orig-title { grid-column: 1; }
+.orig-card > .go {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  transition: background 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+.orig-card:hover > .go { background: var(--gold); color: var(--bg); }
+@media (max-width: 640px) {
+  .orig-card { grid-template-columns: 1fr; }
+  .orig-card > .go { justify-self: start; }
+}
+
+/* 影评阅读页 */
+.review-article {
+  max-width: 44rem;
+  margin: 0 auto 4rem;
+  padding: 0 0 2rem;
+}
+.review-article .review-meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0.5rem 0 2.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+.review-article p {
+  font-size: 1.02rem;
+  line-height: 2.1;
+  color: var(--ink);
+  margin-bottom: 1.6rem;
+  text-align: justify;
+}
+.review-article h2 {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin: 2.4rem 0 1.2rem;
+}
+.review-article blockquote {
+  margin: 0 0 1.6rem;
+  padding: 0.2rem 0 0.2rem 1.4rem;
+  border-left: 2px solid var(--gold-dim);
+  color: var(--ink-dim);
+  line-height: 2;
+  font-size: 0.98rem;
+}
+.review-article .review-footnote {
+  margin-top: 3rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.9;
+}
+.review-article .review-footnote a {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--gold);
+}

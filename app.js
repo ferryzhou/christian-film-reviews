@@ -19,6 +19,10 @@ function getParam(name) {
 function hasWebText(f) {
   return f.reviews.some(r => r.excerpt);
 }
+// 本站自撰影评（originals.js 注册表）
+function getOriginal(filmId) {
+  return typeof ORIGINALS !== "undefined" ? ORIGINALS[filmId] : undefined;
+}
 function setMetaDescription(text) {
   let m = document.querySelector('meta[name="description"]');
   if (!m) {
@@ -82,7 +86,8 @@ function renderHome() {
   const filmsCount = $("#films-count");
   const sortSelect = $("#film-sort");
   const state = { q: "", authorId: "", sort: "year-desc" };
-  const WEB_FILMS = FILMS.filter(hasWebText);
+  // 首页索引：有公开网络原文，或有本站自撰影评
+  const WEB_FILMS = FILMS.filter(f => hasWebText(f) || getOriginal(f.id));
 
   function matchingFilms() {
     const q = state.q.trim().toLowerCase();
@@ -122,7 +127,7 @@ function renderHome() {
           <div class="title">${f.title}</div>
           <div class="meta">${[f.year, f.director].filter(Boolean).join(" · ")}</div>
           <div class="blurb">${f.summary}</div>
-          <div class="reviewers">评 · ${reviewerNames(f).join(" / ")}</div>
+          <div class="reviewers">评 · ${[...reviewerNames(f), ...(getOriginal(f.id) ? ['<span class="orig-flag">✦ 本站影评</span>'] : [])].join(" / ")}</div>
         </div>
       </a>
     `).join("");
@@ -321,6 +326,16 @@ function renderFilm() {
         </div>
       </div>
 
+      ${getOriginal(film.id) ? `
+      <section class="original-block reveal reveal-3">
+        <h2>本站影评</h2>
+        <a class="orig-card" href="review.html?id=${film.id}">
+          <div class="orig-kicker">原创 · ${getOriginal(film.id).style}</div>
+          <div class="orig-title">${getOriginal(film.id).title}</div>
+          <span class="go">阅读全文 →</span>
+        </a>
+      </section>` : ""}
+
       <section class="reviews-block reveal reveal-3">
         <h2>评论出处</h2>
         ${reviews.map(r => {
@@ -345,9 +360,93 @@ function renderFilm() {
   `;
 }
 
+// ========= 本站影评阅读页渲染 =========
+// original-reviews/<id>.md 是正文唯一来源：YAML front matter + Markdown。
+// 这里只实现影评实际用到的 Markdown 子集（段落 / 二级标题 / 引用 / 粗斜体），保持零依赖。
+function parseFrontMatter(text) {
+  if (text.startsWith("---")) {
+    const end = text.indexOf("\n---", 3);
+    if (end !== -1) {
+      const fm = {};
+      text.slice(3, end).split("\n").forEach(line => {
+        const i = line.indexOf(":");
+        if (i > 0) fm[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+      });
+      return { fm, body: text.slice(end + 4) };
+    }
+  }
+  return { fm: {}, body: text };
+}
+function mdEscape(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function mdInline(s) {
+  return s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+}
+function mdToHtml(md) {
+  return md.split(/\n{2,}/).map(b => b.trim()).filter(Boolean).map(b => {
+    if (b.startsWith("# ")) return ""; // 一级标题由页头渲染，不重复
+    if (b.startsWith("## ")) return `<h2>${mdInline(mdEscape(b.slice(3)))}</h2>`;
+    if (b.startsWith(">")) return `<blockquote>${mdInline(mdEscape(b.replace(/^> ?/gm, "")))}</blockquote>`;
+    return `<p>${mdInline(mdEscape(b))}</p>`;
+  }).join("\n");
+}
+
+function renderReview() {
+  injectChrome("films");
+  const content = $("#review-content");
+  const id = (getParam("id") || "").replace(/[^a-z0-9-]/g, "");
+  const film = getFilm(id);
+  const orig = getOriginal(id);
+  const notFound = msg => {
+    content.innerHTML = `<div class="container" style="padding:4rem 0"><p>${msg}<a href="index.html">返回首页</a></p></div>`;
+  };
+  if (!film || !orig) return notFound("未找到该影评。");
+
+  fetch(`original-reviews/${id}.md`)
+    .then(res => { if (!res.ok) throw new Error(res.status); return res.text(); })
+    .then(text => {
+      const { fm, body } = parseFrontMatter(text);
+      const title = orig.title || fm.film;
+      document.title = `${title} — 光影与信仰`;
+      const firstPara = body.split(/\n{2,}/).map(b => b.trim()).find(b => b && !b.startsWith("#")) || "";
+      setMetaDescription(`《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
+      content.innerHTML = `
+        <div class="container">
+          <a href="film.html?id=${id}" class="back-link">← 《${film.title}》</a>
+        </div>
+
+        <section class="film-hero reveal">
+          <div class="container">
+            <div class="title-block">
+              <h1>${title}</h1>
+              <div class="en-title">《${film.title}》${film.titleEn ? " · " + film.titleEn : ""}</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="container">
+          <article class="review-article reveal reveal-1">
+            <div class="review-meta mono">
+              ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 本站原创
+            </div>
+            ${mdToHtml(body)}
+            <div class="review-footnote">
+              本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
+              欢迎链接分享；转载请注明出处。
+              <a href="film.html?id=${id}">← 返回《${film.title}》影片页</a>
+            </div>
+          </article>
+        </div>
+      `;
+    })
+    .catch(() => notFound("影评加载失败。"));
+}
+
 // 路由
 const page = document.body.dataset.page;
 if (page === "home") renderHome();
 else if (page === "author") renderAuthor();
 else if (page === "film") renderFilm();
 else if (page === "books") renderBooks();
+else if (page === "review") renderReview();
