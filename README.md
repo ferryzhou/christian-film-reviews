@@ -20,6 +20,8 @@
 | `styles.css` | 共享样式（米色纸质底 + 金色点缀的版式风格） |
 | `find-articles.skill.md` | 找文章的方法论手册：来源、URL 模式、验证与收录规范 |
 | `find_articles.py` | 辅助脚本：按手册批量查找 / 验证文章链接 |
+| `.claude/skills/write-film-review/` | 自撰影评 skill：以基督信仰视角为电影写原创影评（引经文、指向救赎、挖细节、全角色群像，四种可选文风） |
+| `original-reviews/` | 本站自撰的原创影评（Markdown，由上述 skill 生成） |
 
 ## 本地预览
 
