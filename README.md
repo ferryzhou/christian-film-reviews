@@ -14,12 +14,16 @@
 | --- | --- |
 | `index.html` | 首页：作者卡片 + 电影索引（搜索 / 按作者筛选 / 按年份排序） |
 | `author.html` | 作者页（`?id=<authorId>`）：简介、文集、评过的电影 |
-| `film.html` | 电影页（`?id=<filmId>`）：元信息、主题摘要、评论出处 |
+| `film.html` | 电影页（`?id=<filmId>`）：元信息、主题摘要、本站影评入口、评论出处 |
+| `review.html` | 本站影评阅读页（`?id=<filmId>`）：运行时 fetch 并渲染 `original-reviews/<filmId>.md` |
 | `data.js` | 全部数据：`AUTHORS` 与 `FILMS` 两个数组 |
 | `app.js` | 渲染逻辑：按 `<body data-page>` 路由到对应页面的渲染函数 |
 | `styles.css` | 共享样式（米色纸质底 + 金色点缀的版式风格） |
 | `find-articles.skill.md` | 找文章的方法论手册：来源、URL 模式、验证与收录规范 |
 | `find_articles.py` | 辅助脚本：按手册批量查找 / 验证文章链接 |
+| `.claude/skills/write-film-review/` | 自撰影评 skill：以基督信仰视角为电影写原创影评（引经文、指向救赎、挖细节、全角色群像，四种可选文风） |
+| `original-reviews/` | 本站自撰的原创影评（Markdown，由上述 skill 生成，`review.html` 直接渲染） |
+| `originals.js` | 自撰影评注册表（filmId → 标题/风格/日期），供首页徽标与电影页入口同步渲染 |
 
 ## 本地预览
 
