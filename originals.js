@@ -8,6 +8,11 @@ const ORIGINALS = {
     title: "我们都爱自己，胜过爱爱情",
     style: "文学随笔式",
     date: "2026-08-13"
+  },
+  "xiaoshenke-de-jiushu": {
+    title: "得救之道，就在其中",
+    style: "文学随笔式",
+    date: "2026-08-19"
   }
 };
 
