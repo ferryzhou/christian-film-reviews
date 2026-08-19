@@ -408,7 +408,7 @@ function renderReview() {
     .then(text => {
       const { fm, body } = parseFrontMatter(text);
       const title = orig.title || fm.film;
-      document.title = `${title} — 光影与信仰`;
+      document.title = `${title} — 道影`;
       const firstPara = body.split(/\n{2,}/).map(b => b.trim()).find(b => b && !b.startsWith("#")) || "";
       setMetaDescription(`《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
       content.innerHTML = `
@@ -432,7 +432,7 @@ function renderReview() {
             </div>
             ${mdToHtml(body)}
             <div class="review-footnote">
-              本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
+              本文为"道影"（daoying.org）原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
               欢迎链接分享；转载请注明出处。
               <a href="film.html?id=${id}">← 返回《${film.title}》影片页</a>
             </div>
