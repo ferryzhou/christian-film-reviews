@@ -24,6 +24,7 @@
 | `.claude/skills/write-film-review/` | 自撰影评 skill：以基督信仰视角为电影写原创影评（引经文、指向救赎、挖细节、全角色群像，四种可选文风） |
 | `original-reviews/` | 本站自撰的原创影评（Markdown，由上述 skill 生成，`review.html` 直接渲染） |
 | `originals.js` | 自撰影评注册表（filmId → 标题/风格/日期），供首页徽标与电影页入口同步渲染 |
+| `stills/` | 自撰影评配图（低分辨率剧照 / 自由授权取景地照片，按 filmId 分目录，版权归属见文内图注） |
 
 ## 本地预览
 
