@@ -434,6 +434,9 @@ function renderReview() {
 
         <div class="container">
           <article class="review-article reveal reveal-1">
+            ${typeof POSTERS !== "undefined" && POSTERS[id]
+              ? `<img class="review-poster" src="posters/${POSTERS[id]}" alt="《${film.title}》海报（低分辨率，仅作影片标识）" />`
+              : ""}
             <div class="review-meta mono">
               ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 本站原创
             </div>
