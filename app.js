@@ -388,6 +388,12 @@ function mdToHtml(md) {
     if (b.startsWith("# ")) return ""; // 一级标题由页头渲染，不重复
     if (b.startsWith("## ")) return `<h2>${mdInline(mdEscape(b.slice(3)))}</h2>`;
     if (b.startsWith(">")) return `<blockquote>${mdInline(mdEscape(b.replace(/^> ?/gm, "")))}</blockquote>`;
+    // 图片块：![图注](相对路径或 https 链接)，独占一段
+    const img = b.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
+    if (img && !/^(javascript|data):/i.test(img[2])) {
+      const cap = mdInline(mdEscape(img[1]));
+      return `<figure><img src="${mdEscape(img[2])}" alt="${mdEscape(img[1])}" loading="lazy" />${img[1] ? `<figcaption>${cap}</figcaption>` : ""}</figure>`;
+    }
     return `<p>${mdInline(mdEscape(b))}</p>`;
   }).join("\n");
 }
@@ -409,7 +415,8 @@ function renderReview() {
       const { fm, body } = parseFrontMatter(text);
       const title = orig.title || fm.film;
       document.title = `${title} — 光影与信仰`;
-      const firstPara = body.split(/\n{2,}/).map(b => b.trim()).find(b => b && !b.startsWith("#")) || "";
+      const firstPara = body.split(/\n{2,}/).map(b => b.trim()).find(b => b && !b.startsWith("#") && !b.startsWith("![")) || "";
+      const bodyHtml = mdToHtml(body);
       setMetaDescription(`《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
       content.innerHTML = `
         <div class="container">
@@ -430,9 +437,10 @@ function renderReview() {
             <div class="review-meta mono">
               ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 本站原创
             </div>
-            ${mdToHtml(body)}
+            ${bodyHtml}
             <div class="review-footnote">
               本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
+              ${bodyHtml.includes("<figure>") ? "文中配图为低分辨率剧照或取景地照片，仅作评论配图（合理使用），版权归属见各图注；如权利方提出异议，本站将及时移除。" : ""}
               欢迎链接分享；转载请注明出处。
               <a href="film.html?id=${id}">← 返回《${film.title}》影片页</a>
             </div>

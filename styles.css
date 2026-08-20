@@ -803,3 +803,22 @@ footer .mono {
   margin-top: 0.8rem;
   color: var(--gold);
 }
+
+/* 影评配图 */
+.review-article figure {
+  margin: 2.2rem 0;
+}
+.review-article figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 2px;
+  border: 1px solid var(--line-soft);
+}
+.review-article figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.7;
+  text-align: center;
+}
