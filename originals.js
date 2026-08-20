@@ -13,6 +13,11 @@ const ORIGINALS = {
     title: "得救之道，就在其中",
     style: "文学随笔式",
     date: "2026-08-19"
+  },
+  "miyang": {
+    title: "你看见了吗",
+    style: "文学随笔式",
+    date: "2026-08-20"
   }
 };
 
