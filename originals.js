@@ -28,6 +28,11 @@ const ORIGINALS = {
     title: "慢慢地动怒",
     style: "文学随笔式",
     date: "2026-08-21"
+  },
+  "xunmeng-huanyouji": {
+    title: "请记得我",
+    style: "文学随笔式",
+    date: "2026-08-21"
   }
 };
 
