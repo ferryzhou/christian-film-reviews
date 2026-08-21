@@ -13,6 +13,26 @@ const ORIGINALS = {
     title: "得救之道，就在其中",
     style: "文学随笔式",
     date: "2026-08-19"
+  },
+  "miyang": {
+    title: "你看见了吗",
+    style: "文学随笔式",
+    date: "2026-08-20"
+  },
+  "agan-zhengzhuan": {
+    title: "他和上帝讲和了",
+    style: "文学随笔式",
+    date: "2026-08-21"
+  },
+  "twelve-angry-men": {
+    title: "慢慢地动怒",
+    style: "文学随笔式",
+    date: "2026-08-21"
+  },
+  "xunmeng-huanyouji": {
+    title: "请记得我",
+    style: "文学随笔式",
+    date: "2026-08-21"
   }
 };
 
