@@ -23,6 +23,11 @@ const ORIGINALS = {
     title: "他和上帝讲和了",
     style: "文学随笔式",
     date: "2026-08-21"
+  },
+  "twelve-angry-men": {
+    title: "慢慢地动怒",
+    style: "文学随笔式",
+    date: "2026-08-21"
   }
 };
 
