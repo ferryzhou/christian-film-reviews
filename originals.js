@@ -48,6 +48,11 @@ const ORIGINALS = {
     title: "这就是海洋",
     style: "文学随笔式",
     date: "2026-08-22"
+  },
+  "qianli-zou-danqi": {
+    title: "面具下的脸",
+    style: "文学随笔式",
+    date: "2026-08-22"
   }
 };
 
