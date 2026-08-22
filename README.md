@@ -25,6 +25,7 @@
 | `original-reviews/` | 本站自撰的原创影评（Markdown，由上述 skill 生成，`review.html` 直接渲染） |
 | `originals.js` | 自撰影评注册表（filmId → 标题/风格/日期），供首页徽标与电影页入口同步渲染 |
 | `stills/` | 自撰影评配图（低分辨率剧照 / 自由授权取景地照片，按 filmId 分目录，版权归属见文内图注） |
+| `publish_wordpress.py` | 自撰影评同步到 WordPress.com：`WP_SITE=站点 WP_TOKEN=令牌 python3 publish_wordpress.py`（`--dry-run` 本地预览；`wp-sync.json` 记录文章映射，更新旧文不重复发布） |
 
 ## 本地预览
 
