@@ -38,6 +38,11 @@ const ORIGINALS = {
     title: "这是给我的",
     style: "文学随笔式",
     date: "2026-08-21"
+  },
+  "diqi-fengyin": {
+    title: "我要知识，不是信仰",
+    style: "文学随笔式",
+    date: "2026-08-22"
   }
 };
 
