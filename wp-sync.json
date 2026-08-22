@@ -48,7 +48,13 @@
     "stills/xinling-qilv/sl-seminar.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sl-seminar.jpg",
     "stills/xinling-qilv/sl-barber.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sl-barber.jpg",
     "stills/xinling-qilv/sl-gig.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sl-gig.jpg",
-    "stills/xinling-qilv/sl-zone.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sl-zone.jpg"
+    "stills/xinling-qilv/sl-zone.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sl-zone.jpg",
+    "posters/qianli-zou-danqi.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/qianli-zou-danqi.jpg",
+    "stills/qianli-zou-danqi/ql-sea.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-sea.jpg",
+    "stills/qianli-zou-danqi/ql-lijiang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-lijiang.jpg",
+    "stills/qianli-zou-danqi/ql-cave.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-cave.jpg",
+    "stills/qianli-zou-danqi/ql-yangyang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-yangyang.jpg",
+    "stills/qianli-zou-danqi/ql-mask.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-mask.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -58,5 +64,6 @@
   "xunmeng-huanyouji": 8944,
   "jianyuzhe": 8951,
   "diqi-fengyin": 8958,
-  "xinling-qilv": 8965
+  "xinling-qilv": 8965,
+  "qianli-zou-danqi": 8972
 }
