@@ -43,6 +43,11 @@ const ORIGINALS = {
     title: "我要知识，不是信仰",
     style: "文学随笔式",
     date: "2026-08-22"
+  },
+  "xinling-qilv": {
+    title: "这就是海洋",
+    style: "文学随笔式",
+    date: "2026-08-22"
   }
 };
 
