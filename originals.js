@@ -33,6 +33,11 @@ const ORIGINALS = {
     title: "请记得我",
     style: "文学随笔式",
     date: "2026-08-21"
+  },
+  "jianyuzhe": {
+    title: "这是给我的",
+    style: "文学随笔式",
+    date: "2026-08-21"
   }
 };
 
