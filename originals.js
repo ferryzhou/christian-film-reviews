@@ -53,6 +53,11 @@ const ORIGINALS = {
     title: "面具下的脸",
     style: "文学随笔式",
     date: "2026-08-22"
+  },
+  "shaonian-pi": {
+    title: "你更喜欢哪个故事？",
+    style: "文学随笔式",
+    date: "2026-08-23"
   }
 };
 
