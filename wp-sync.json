@@ -54,7 +54,13 @@
     "stills/qianli-zou-danqi/ql-lijiang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-lijiang.jpg",
     "stills/qianli-zou-danqi/ql-cave.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-cave.jpg",
     "stills/qianli-zou-danqi/ql-yangyang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-yangyang.jpg",
-    "stills/qianli-zou-danqi/ql-mask.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-mask.jpg"
+    "stills/qianli-zou-danqi/ql-mask.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/ql-mask.jpg",
+    "posters/shaonian-pi.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/shaonian-pi.jpg",
+    "stills/shaonian-pi/pi-sinking.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-sinking.jpg",
+    "stills/shaonian-pi/pi-standoff.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-standoff.jpg",
+    "stills/shaonian-pi/pi-whale.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-whale.jpg",
+    "stills/shaonian-pi/pi-island.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-island.jpg",
+    "stills/shaonian-pi/pi-goodbye.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-goodbye.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -65,5 +71,6 @@
   "jianyuzhe": 8951,
   "diqi-fengyin": 8958,
   "xinling-qilv": 8965,
-  "qianli-zou-danqi": 8972
+  "qianli-zou-danqi": 8972,
+  "shaonian-pi": 8979
 }
