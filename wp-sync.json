@@ -60,7 +60,13 @@
     "stills/shaonian-pi/pi-standoff.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-standoff.jpg",
     "stills/shaonian-pi/pi-whale.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-whale.jpg",
     "stills/shaonian-pi/pi-island.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-island.jpg",
-    "stills/shaonian-pi/pi-goodbye.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-goodbye.jpg"
+    "stills/shaonian-pi/pi-goodbye.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/pi-goodbye.jpg",
+    "posters/xindele-de-mingdan.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/xindele-de-mingdan.jpg",
+    "stills/xindele-de-mingdan/sc-schindler.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-schindler.jpg",
+    "stills/xindele-de-mingdan/sc-goeth.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-goeth.jpg",
+    "stills/xindele-de-mingdan/sc-redcoat.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-redcoat.jpg",
+    "stills/xindele-de-mingdan/sc-list.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-list.jpg",
+    "stills/xindele-de-mingdan/sc-farewell.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-farewell.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -72,5 +78,6 @@
   "diqi-fengyin": 8958,
   "xinling-qilv": 8965,
   "qianli-zou-danqi": 8972,
-  "shaonian-pi": 8979
+  "shaonian-pi": 8979,
+  "xindele-de-mingdan": 8987
 }
