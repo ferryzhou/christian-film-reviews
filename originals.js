@@ -58,6 +58,11 @@ const ORIGINALS = {
     title: "你更喜欢哪个故事？",
     style: "文学随笔式",
     date: "2026-08-23"
+  },
+  "xindele-de-mingdan": {
+    title: "名单就是生命",
+    style: "文学随笔式",
+    date: "2026-08-23"
   }
 };
 
