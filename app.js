@@ -179,7 +179,8 @@ function renderHome() {
 // ========= 文集篇目页渲染 =========
 function renderBooks() {
   injectChrome("books");
-  const films = FILMS.filter(f => !hasWebText(f));
+  // 仅见于纸质文集：既无公开网络原文，也无本站自撰影评
+  const films = FILMS.filter(f => !hasWebText(f) && !getOriginal(f.id));
   const hasPosters = typeof POSTERS !== "undefined";
   const authorById = id_ => AUTHORS.find(a => a.id === id_);
   $("#books-content").innerHTML = `

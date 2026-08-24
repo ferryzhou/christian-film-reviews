@@ -399,6 +399,17 @@ const FILMS = [
     ]
   },
   {
+    id: "xindele-de-mingdan",
+    title: "辛德勒的名单",
+    titleEn: "Schindler's List",
+    year: 1993,
+    director: "史蒂文·斯皮尔伯格",
+    country: "美国",
+    genre: "剧情 / 历史 / 传记",
+    summary: "纳粹党员商人辛德勒用一份工人名单，从大屠杀中买回一千一百条命。本站影评读\"名单就是生命\"——从打字机上的名字到生命册上的名字，义人数的从来不是功劳，是没救成的人。",
+    reviews: []
+  },
+  {
     id: "chepiao",
     title: "车票",
     titleEn: "Ticket",
