@@ -66,7 +66,13 @@
     "stills/xindele-de-mingdan/sc-goeth.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-goeth.jpg",
     "stills/xindele-de-mingdan/sc-redcoat.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-redcoat.jpg",
     "stills/xindele-de-mingdan/sc-list.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-list.jpg",
-    "stills/xindele-de-mingdan/sc-farewell.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-farewell.jpg"
+    "stills/xindele-de-mingdan/sc-farewell.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/sc-farewell.jpg",
+    "posters/haishang-piano.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/haishang-piano.jpg",
+    "stills/haishang-piano/hp-baby.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-baby.jpg",
+    "stills/haishang-piano/hp-duel.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-duel.jpg",
+    "stills/haishang-piano/hp-girl.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-girl.jpg",
+    "stills/haishang-piano/hp-gangway.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-gangway.jpg",
+    "stills/haishang-piano/hp-hold.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-hold.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -79,5 +85,6 @@
   "xinling-qilv": 8965,
   "qianli-zou-danqi": 8972,
   "shaonian-pi": 8979,
-  "xindele-de-mingdan": 8987
+  "xindele-de-mingdan": 8987,
+  "haishang-piano": 8994
 }
