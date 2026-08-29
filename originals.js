@@ -63,6 +63,11 @@ const ORIGINALS = {
     title: "名单就是生命",
     style: "文学随笔式",
     date: "2026-08-23"
+  },
+  "haishang-piano": {
+    title: "上帝的键盘",
+    style: "文学随笔式",
+    date: "2026-08-24"
   }
 };
 
