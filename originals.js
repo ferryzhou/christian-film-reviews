@@ -68,6 +68,11 @@ const ORIGINALS = {
     title: "上帝的键盘",
     style: "文学随笔式",
     date: "2026-08-24"
+  },
+  "lvpishu": {
+    title: "那我到底是谁",
+    style: "文学随笔式",
+    date: "2026-08-24"
   }
 };
 
