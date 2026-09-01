@@ -72,7 +72,13 @@
     "stills/haishang-piano/hp-duel.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-duel.jpg",
     "stills/haishang-piano/hp-girl.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-girl.jpg",
     "stills/haishang-piano/hp-gangway.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-gangway.jpg",
-    "stills/haishang-piano/hp-hold.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-hold.jpg"
+    "stills/haishang-piano/hp-hold.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/08/hp-hold.jpg",
+    "posters/lvpishu.png": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvpishu.png",
+    "stills/lvpishu/gb-throne.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-throne.jpg",
+    "stills/lvpishu/gb-car.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-car.jpg",
+    "stills/lvpishu/gb-stage.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-stage.jpg",
+    "stills/lvpishu/gb-orangebird.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-orangebird.jpg",
+    "stills/lvpishu/gb-snow.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-snow.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -86,5 +92,6 @@
   "qianli-zou-danqi": 8972,
   "shaonian-pi": 8979,
   "xindele-de-mingdan": 8987,
-  "haishang-piano": 8994
+  "haishang-piano": 8994,
+  "lvpishu": 9003
 }
