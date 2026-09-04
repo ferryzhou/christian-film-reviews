@@ -73,6 +73,11 @@ const ORIGINALS = {
     title: "那我到底是谁",
     style: "文学随笔式",
     date: "2026-08-24"
+  },
+  "wobushi-yaoshen": {
+    title: "他有什么罪",
+    style: "文学随笔式",
+    date: "2026-08-25"
   }
 };
 
