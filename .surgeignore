@@ -1,3 +1,4 @@
+.git/
 wp-preview/
 wp-sync.json
 publish_wordpress.py
