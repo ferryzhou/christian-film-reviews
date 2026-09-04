@@ -78,7 +78,13 @@
     "stills/lvpishu/gb-car.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-car.jpg",
     "stills/lvpishu/gb-stage.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-stage.jpg",
     "stills/lvpishu/gb-orangebird.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-orangebird.jpg",
-    "stills/lvpishu/gb-snow.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-snow.jpg"
+    "stills/lvpishu/gb-snow.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/gb-snow.jpg",
+    "posters/wobushi-yaoshen.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/wobushi-yaoshen.jpg",
+    "stills/wobushi-yaoshen/ys-lv.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-lv.jpg",
+    "stills/wobushi-yaoshen/ys-pastor.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-pastor.jpg",
+    "stills/wobushi-yaoshen/ys-zhang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-zhang.jpg",
+    "stills/wobushi-yaoshen/ys-huangmao.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-huangmao.jpg",
+    "stills/wobushi-yaoshen/ys-granny.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-granny.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -93,5 +99,6 @@
   "shaonian-pi": 8979,
   "xindele-de-mingdan": 8987,
   "haishang-piano": 8994,
-  "lvpishu": 9003
+  "lvpishu": 9003,
+  "wobushi-yaoshen": 9010
 }
