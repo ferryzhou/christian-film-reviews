@@ -78,6 +78,11 @@ const ORIGINALS = {
     title: "他有什么罪",
     style: "文学随笔式",
     date: "2026-08-25"
+  },
+  "wuwen-xidong": {
+    title: "给你托底的人",
+    style: "文学随笔式",
+    date: "2026-09-05"
   }
 };
 
