@@ -84,7 +84,13 @@
     "stills/wobushi-yaoshen/ys-pastor.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-pastor.jpg",
     "stills/wobushi-yaoshen/ys-zhang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-zhang.jpg",
     "stills/wobushi-yaoshen/ys-huangmao.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-huangmao.jpg",
-    "stills/wobushi-yaoshen/ys-granny.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-granny.jpg"
+    "stills/wobushi-yaoshen/ys-granny.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ys-granny.jpg",
+    "posters/wuwen-xidong.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/wuwen-xidong.jpg",
+    "stills/wuwen-xidong/ww-classroom.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-classroom.jpg",
+    "stills/wuwen-xidong/ww-pilot.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-pilot.jpg",
+    "stills/wuwen-xidong/ww-minjia.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-minjia.jpg",
+    "stills/wuwen-xidong/ww-snow.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-snow.jpg",
+    "stills/wuwen-xidong/ww-guoguo.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-guoguo.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -100,5 +106,6 @@
   "xindele-de-mingdan": 8987,
   "haishang-piano": 8994,
   "lvpishu": 9003,
-  "wobushi-yaoshen": 9010
+  "wobushi-yaoshen": 9010,
+  "wuwen-xidong": 9017
 }
