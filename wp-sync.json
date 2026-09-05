@@ -90,7 +90,13 @@
     "stills/wuwen-xidong/ww-pilot.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-pilot.jpg",
     "stills/wuwen-xidong/ww-minjia.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-minjia.jpg",
     "stills/wuwen-xidong/ww-snow.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-snow.jpg",
-    "stills/wuwen-xidong/ww-guoguo.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-guoguo.jpg"
+    "stills/wuwen-xidong/ww-guoguo.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/ww-guoguo.jpg",
+    "posters/chumen-de-shijie.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/chumen-de-shijie.jpg",
+    "stills/chumen-de-shijie/tm-lamp.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-lamp.jpg",
+    "stills/chumen-de-shijie/tm-sylvia.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-sylvia.jpg",
+    "stills/chumen-de-shijie/tm-rain.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-rain.jpg",
+    "stills/chumen-de-shijie/tm-christof.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-christof.jpg",
+    "stills/chumen-de-shijie/tm-stairs.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-stairs.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -107,5 +113,6 @@
   "haishang-piano": 8994,
   "lvpishu": 9003,
   "wobushi-yaoshen": 9010,
-  "wuwen-xidong": 9017
+  "wuwen-xidong": 9017,
+  "chumen-de-shijie": 9025
 }
