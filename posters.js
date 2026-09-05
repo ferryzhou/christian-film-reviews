@@ -30,6 +30,7 @@ const POSTERS = {
 "chaoti": "chaoti.jpg",
 "chenmo": "chenmo.png",
 "chibi": "chibi.jpg",
+"chumen-de-shijie": "chumen-de-shijie.jpg",
 "chuzou-de-juexin": "chuzou-de-juexin.jpg",
 "dafo-pulasi": "dafo-pulasi.jpg",
 "daneimitan-linglingfa": "daneimitan-linglingfa.jpg",

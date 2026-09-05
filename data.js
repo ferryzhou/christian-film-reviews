@@ -399,6 +399,17 @@ const FILMS = [
     ]
   },
   {
+    id: "chumen-de-shijie",
+    title: "楚门的世界",
+    titleEn: "The Truman Show",
+    year: 1998,
+    director: "彼得·威尔",
+    country: "美国",
+    genre: "剧情 / 科幻",
+    summary: "楚门三十年活在一档全球直播的真人秀里而不自知，造出穹顶的\"导演\"名叫 Christof。本站影评读\"门的神学\"——假神把门伪装成天空，真神把自己做成了门。",
+    reviews: []
+  },
+  {
     id: "xindele-de-mingdan",
     title: "辛德勒的名单",
     titleEn: "Schindler's List",

@@ -83,6 +83,11 @@ const ORIGINALS = {
     title: "给你托底的人",
     style: "文学随笔式",
     date: "2026-09-05"
+  },
+  "chumen-de-shijie": {
+    title: "祝你早安，午安，晚安",
+    style: "文学随笔式",
+    date: "2026-09-05"
   }
 };
 
