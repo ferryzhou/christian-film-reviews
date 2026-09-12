@@ -88,6 +88,11 @@ const ORIGINALS = {
     title: "祝你早安，午安，晚安",
     style: "文学随笔式",
     date: "2026-09-05"
+  },
+  "shiziwang": {
+    title: "记住你是谁",
+    style: "文学随笔式",
+    date: "2026-09-12"
   }
 };
 
