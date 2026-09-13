@@ -96,7 +96,13 @@
     "stills/chumen-de-shijie/tm-sylvia.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-sylvia.jpg",
     "stills/chumen-de-shijie/tm-rain.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-rain.jpg",
     "stills/chumen-de-shijie/tm-christof.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-christof.jpg",
-    "stills/chumen-de-shijie/tm-stairs.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-stairs.jpg"
+    "stills/chumen-de-shijie/tm-stairs.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/tm-stairs.jpg",
+    "posters/shiziwang.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/shiziwang.jpg",
+    "stills/shiziwang/lk-cub.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-cub.jpg",
+    "stills/shiziwang/lk-scar.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-scar.jpg",
+    "stills/shiziwang/lk-hakuna.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-hakuna.jpg",
+    "stills/shiziwang/lk-rafiki.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-rafiki.jpg",
+    "stills/shiziwang/lk-return.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-return.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -114,5 +120,6 @@
   "lvpishu": 9003,
   "wobushi-yaoshen": 9010,
   "wuwen-xidong": 9017,
-  "chumen-de-shijie": 9025
+  "chumen-de-shijie": 9025,
+  "shiziwang": 9037
 }
