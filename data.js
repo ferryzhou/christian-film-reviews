@@ -410,6 +410,17 @@ const FILMS = [
     reviews: []
   },
   {
+    id: "fangniuban-de-chuntian",
+    title: "放牛班的春天",
+    titleEn: "Les Choristes",
+    year: 2004,
+    director: "克里斯托夫·巴拉蒂",
+    country: "法国",
+    genre: "剧情 / 音乐",
+    summary: "1949年，失业音乐家马修来到外号\"池塘之底\"的问题少年寄宿学校任学监，用一支合唱团对抗校长\"行动—反应\"的高压体制，把一群被放弃的孩子一个个找回来。",
+    reviews: []
+  },
+  {
     id: "xindele-de-mingdan",
     title: "辛德勒的名单",
     titleEn: "Schindler's List",
