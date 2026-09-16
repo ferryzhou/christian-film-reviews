@@ -102,7 +102,13 @@
     "stills/shiziwang/lk-scar.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-scar.jpg",
     "stills/shiziwang/lk-hakuna.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-hakuna.jpg",
     "stills/shiziwang/lk-rafiki.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-rafiki.jpg",
-    "stills/shiziwang/lk-return.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-return.jpg"
+    "stills/shiziwang/lk-return.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lk-return.jpg",
+    "posters/fangniuban-de-chuntian.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fangniuban-de-chuntian.jpg",
+    "stills/fangniuban-de-chuntian/fnb-pepinot-gate.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-pepinot-gate.jpg",
+    "stills/fangniuban-de-chuntian/fnb-choir.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-choir.jpg",
+    "stills/fangniuban-de-chuntian/fnb-morhange.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-morhange.jpg",
+    "stills/fangniuban-de-chuntian/fnb-planes.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-planes.jpg",
+    "stills/fangniuban-de-chuntian/fnb-bus.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-bus.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -121,5 +127,6 @@
   "wobushi-yaoshen": 9010,
   "wuwen-xidong": 9017,
   "chumen-de-shijie": 9025,
-  "shiziwang": 9037
+  "shiziwang": 9037,
+  "fangniuban-de-chuntian": 9044
 }
