@@ -93,6 +93,11 @@ const ORIGINALS = {
     title: "记住你是谁",
     style: "文学随笔式",
     date: "2026-09-12"
+  },
+  "fangniuban-de-chuntian": {
+    title: "池塘之底",
+    style: "文学随笔式",
+    date: "2026-09-16"
   }
 };
 

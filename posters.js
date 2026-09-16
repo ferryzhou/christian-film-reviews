@@ -47,6 +47,7 @@ const POSTERS = {
 "erdi": "erdi.jpg",
 "eryier": "eryier.jpg",
 "fanghua": "fanghua.jpg",
+"fangniuban-de-chuntian": "fangniuban-de-chuntian.jpg",
 "fanlao-huantong": "fanlao-huantong.png",
 "fantan-fengbao2": "fantan-fengbao2.jpg",
 "feicheng-wurao": "feicheng-wurao.jpg",
