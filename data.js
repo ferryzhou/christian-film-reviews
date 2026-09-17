@@ -421,6 +421,17 @@ const FILMS = [
     reviews: []
   },
   {
+    id: "meili-rensheng",
+    title: "美丽人生",
+    titleEn: "La vita è bella",
+    year: 1997,
+    director: "罗伯托·贝尼尼",
+    country: "意大利",
+    genre: "剧情 / 喜剧 / 战争",
+    summary: "1939年的意大利，犹太青年圭多以近乎魔术的乐观赢得爱情；纳粹占领后一家人被送入集中营，他把地狱向儿子解释成一场积分赢坦克的游戏，用生命护住了孩子的性命与童心。",
+    reviews: []
+  },
+  {
     id: "xindele-de-mingdan",
     title: "辛德勒的名单",
     titleEn: "Schindler's List",

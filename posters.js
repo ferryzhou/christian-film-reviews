@@ -114,6 +114,7 @@ const POSTERS = {
 "maomao-de-qihuan-piaoliu": "maomao-de-qihuan-piaoliu.jpg",
 "meiguo-duizhang3": "meiguo-duizhang3.jpg",
 "meilanfang": "meilanfang.jpg",
+"meili-rensheng": "meili-rensheng.jpg",
 "miansha": "miansha.jpg",
 "miaoshou-qingzhen": "miaoshou-qingzhen.jpg",
 "mingri-bianyuan": "mingri-bianyuan.jpg",

@@ -98,6 +98,11 @@ const ORIGINALS = {
     title: "池塘之底",
     style: "文学随笔式",
     date: "2026-09-16"
+  },
+  "meili-rensheng": {
+    title: "早安，公主",
+    style: "文学随笔式",
+    date: "2026-09-17"
   }
 };
 
