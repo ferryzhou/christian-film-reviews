@@ -108,7 +108,13 @@
     "stills/fangniuban-de-chuntian/fnb-choir.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-choir.jpg",
     "stills/fangniuban-de-chuntian/fnb-morhange.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-morhange.jpg",
     "stills/fangniuban-de-chuntian/fnb-planes.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-planes.jpg",
-    "stills/fangniuban-de-chuntian/fnb-bus.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-bus.jpg"
+    "stills/fangniuban-de-chuntian/fnb-bus.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/fnb-bus.jpg",
+    "posters/meili-rensheng.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/meili-rensheng.jpg",
+    "stills/meili-rensheng/lvb-haystack.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-haystack.jpg",
+    "stills/meili-rensheng/lvb-sign.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-sign.jpg",
+    "stills/meili-rensheng/lvb-dora.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-dora.jpg",
+    "stills/meili-rensheng/lvb-translate.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-translate.jpg",
+    "stills/meili-rensheng/lvb-box.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-box.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -128,5 +134,6 @@
   "wuwen-xidong": 9017,
   "chumen-de-shijie": 9025,
   "shiziwang": 9037,
-  "fangniuban-de-chuntian": 9044
+  "fangniuban-de-chuntian": 9044,
+  "meili-rensheng": 9052
 }
