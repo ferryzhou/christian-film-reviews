@@ -103,6 +103,11 @@ const ORIGINALS = {
     title: "早安，公主",
     style: "文学随笔式",
     date: "2026-09-17"
+  },
+  "xuezhan-gangyaoling": {
+    title: "让我再救一个",
+    style: "文学随笔式",
+    date: "2026-09-18"
   }
 };
 
