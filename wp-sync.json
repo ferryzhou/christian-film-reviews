@@ -114,7 +114,13 @@
     "stills/meili-rensheng/lvb-sign.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-sign.jpg",
     "stills/meili-rensheng/lvb-dora.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-dora.jpg",
     "stills/meili-rensheng/lvb-translate.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-translate.jpg",
-    "stills/meili-rensheng/lvb-box.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-box.jpg"
+    "stills/meili-rensheng/lvb-box.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/lvb-box.jpg",
+    "posters/xuezhan-gangyaoling.png": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/xuezhan-gangyaoling.png",
+    "stills/xuezhan-gangyaoling/hr-father.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/hr-father.jpg",
+    "stills/xuezhan-gangyaoling/hr-bible.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/hr-bible.jpg",
+    "stills/xuezhan-gangyaoling/hr-barracks.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/hr-barracks.jpg",
+    "stills/xuezhan-gangyaoling/hr-onemore.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/hr-onemore.jpg",
+    "stills/xuezhan-gangyaoling/hr-sky.jpg": "https://ferryzhou.wordpress.com/wp-content/uploads/2026/09/hr-sky.jpg"
   },
   "zhiqingchun": 8914,
   "xiaoshenke-de-jiushu": 8921,
@@ -135,5 +141,6 @@
   "chumen-de-shijie": 9025,
   "shiziwang": 9037,
   "fangniuban-de-chuntian": 9044,
-  "meili-rensheng": 9052
+  "meili-rensheng": 9052,
+  "xuezhan-gangyaoling": 9059
 }
