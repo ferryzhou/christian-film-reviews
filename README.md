@@ -66,7 +66,7 @@ python3 -m http.server 8000
 ## 部署
 
 - **GitHub Pages**：<https://ferryzhou.github.io/christian-film-reviews/>，由 `main` 分支自动发布。
-- **surge.sh**：另有一份手动部署的副本 <https://daoying.surge.sh>，合并到 `main` 不会自动更新。同步命令：`SURGE_LOGIN=<邮箱> SURGE_TOKEN=<令牌> npx -y surge ./ daoying.surge.sh`（凭据不入库；`.surgeignore` 排除非站点文件；surge 生成的 `CNAME` 已 gitignore，勿提交——会破坏 GitHub Pages）。
+- **surge.sh**：另有一份手动部署的副本 <https://daoying.surge.sh>，合并到 `main` 不会自动更新。同步流程：先 `SITE_URL=https://daoying.surge.sh python3 build_review_pages.py` 重生成静态影评页（og:image/og:url 指向 surge 域，GitHub Pages 在中国大陆被屏蔽，分享用 surge 链接）；再 `SURGE_LOGIN=<邮箱> SURGE_TOKEN=<令牌> npx -y surge ./ daoying.surge.sh`；最后 `python3 build_review_pages.py` 恢复 GitHub 域版本再提交（凭据不入库；`.surgeignore` 排除非站点文件；surge 生成的 `CNAME` 已 gitignore，勿提交——会破坏 GitHub Pages）。
 
 ## 版权说明
 
