@@ -1,0 +1,58 @@
+=== Kindle eBook Details（复制到 KDP 表单）===
+
+Language: Chinese (Traditional)
+Book Title: 光影與信仰
+Subtitle: 二十一部電影裡的救贖
+Author: 光影與信仰
+
+Description:
+《肖申克的救贖》裡安迪為什麼要把那本聖經留給典獄長？《密陽》裡那個仰著臉問“你看見了嗎”的母親，究竟在向誰發問？《尋夢環遊記》唱的“請記得我”，和《獅子王》裡那句“記住你是誰”，為什麼聽起來像同一個聲音？
+
+本書收錄二十一篇原創電影隨筆，以基督信仰的眼光重讀二十一部華語與世界影史名作：從伯格曼的《第七封印》到李滄東的《密陽》，從《辛德勒的名單》《美麗人生》到《我不是藥神》《無問西東》，從皮克斯的《心靈奇旅》到李安的《少年派的奇幻漂流》。每一篇都從一句臺詞、一個道具、一個前後呼應的鏡頭出發，為影片裡的每個角色畫一張肖像，誠實地呈現人心的困境，再一路走向福音——不停在道德勸勉，而要走到十字架。
+
+全書按主題分為五輯：苦難中的追問、自由與救贖、犧牲與公義、記憶與歸家、青春與教育。書末附影片索引與經文索引。不假定讀者是基督徒：愛電影的人，會在這裡看見從前沒有留意的細節；在信仰門口徘徊的人，或許會發現這些故事早已替他說出了一些不容易直接說出的話。
+
+Keywords（7 组，每组一格）:
+  1. 基督教 影評
+  2. 電影與信仰
+  3. 福音 電影隨筆
+  4. 基督徒 看電影
+  5. 肖申克的救贖 密陽 影評
+  6. 聖經 與 電影
+  7. 華語 文學隨筆
+
+Categories（选 3 个）:
+  - Religion & Spirituality > Christian Books & Bibles > Christian Living
+  - Arts & Photography > Performing Arts > Film & Video > History & Criticism
+  - Literature & Fiction > Essays & Correspondence > Essays
+
+Publishing Rights: I own the copyright and I hold the necessary publishing rights
+Primary Audience: Not sexually explicit; Reading age: 不填
+
+=== 章节一览 ===
+第一輯　沉默的天空　苦難中的追問
+   1. 你看見了嗎　《密陽》 Secret Sunshine (2007)
+   2. 我要知識，不是信仰　《第七封印》 The Seventh Seal (1957)
+   3. 你更喜歡哪個故事？　《少年派的奇幻漂流》 Life of Pi (2012)
+   4. 他和上帝講和了　《阿甘正傳》 Forrest Gump (1994)
+第二輯　牆內牆外　自由與救贖
+   5. 得救之道，就在其中　《肖申克的救贖》 The Shawshank Redemption (1994)
+   6. 這是給我的　《竊聽風暴》 The Lives of Others (2006)
+   7. 祝你早安，午安，晚安　《楚門的世界》 The Truman Show (1998)
+   8. 那我到底是誰　《綠皮書》 Green Book (2018)
+   9. 上帝的鍵盤　《海上鋼琴師》 The Legend of 1900 (1998)
+第三輯　捨己的人　犧牲與公義
+  10. 名單就是生命　《辛德勒的名單》 Schindler's List (1993)
+  11. 早安，公主　《美麗人生》 La vita è bella (1997)
+  12. 讓我再救一個　《血戰鋼鋸嶺》 Hacksaw Ridge (2016)
+  13. 他有什麼罪　《我不是藥神》 Dying to Survive (2018)
+  14. 慢慢地動怒　《12怒漢》 12 Angry Men (1957)
+第四輯　記住你是誰　記憶、身份與歸家
+  15. 請記得我　《尋夢環遊記》 Coco (2017)
+  16. 記住你是誰　《獅子王》 The Lion King (2019)
+  17. 這就是海洋　《心靈奇旅》 Soul (2020)
+  18. 面具下的臉　《千里走單騎》 Riding Alone for Thousands of Miles (2005)
+第五輯　託底的人　青春與教育
+  19. 我們都愛自己，勝過愛愛情　《致我們終將逝去的青春》 So Young (2013)
+  20. 池塘之底　《放牛班的春天》 Les Choristes (2004)
+  21. 給你託底的人　《無問西東》 Forever Young (2018)
