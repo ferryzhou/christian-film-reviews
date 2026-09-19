@@ -4,3 +4,4 @@ wp-preview/
 CNAME
 __pycache__/
 book/dist/illustrated/
+book/dist/print/illustrated/

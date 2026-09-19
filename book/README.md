@@ -1,4 +1,4 @@
-# 把本站影评出版为 Amazon Kindle 电子书
+# 把本站影评出版为电子书与纸质书（Amazon KDP · Lulu · IngramSpark）
 
 `book/` 目录把 `original-reviews/` 下的自撰影评编成一本书——《光影与信仰：二十一部电影里的救赎》——并生成可直接上传 Amazon KDP（Kindle Direct Publishing）的文件、封面与上架文案。
 
@@ -84,7 +84,40 @@ KDP 不收简体书，简体版可走：
 
 - **Send to Kindle**（自用 / 送读者）：把 `光影与信仰-简体.epub` 发到 Kindle 邮箱，中文显示正常。
 - **Google Play Books Partner Center**、**Apple Books**（需 Mac 或 aggregator）、**Kobo Writing Life**、**Draft2Digital**：都接受 EPUB 与简体中文，把 `简体.epub` + `cover-sc.jpg` + `kdp-listing-sc.txt` 的文案上传即可。
-- 纸质书：KDP 不支持任何中文纸书；可用 Lulu 或 IngramSpark（接受 PDF，简繁均可，全球按需印刷）。本脚本暂不产出印刷 PDF，需要时可基于 EPUB 的 HTML 用 Chromium 打印。
+- 纸质书：见下一节"印刷与销售纸质书"。
+
+## 印刷与销售纸质书
+
+KDP 不接受任何中文纸质书，所以纸书走按需印刷（Print on Demand）平台。`build_print.py` 产出两个平台通用的文件：
+
+```bash
+pip install weasyprint python-barcode
+python3 book/build_print.py              # → book/dist/print/：简繁各一套内文 PDF + 全包封面 PDF + 封面预览图
+python3 book/build_print.py --spine 0.31 # 用平台封面计算器给出的书脊宽度重做封面
+```
+
+| 产出 | 说明 |
+| --- | --- |
+| `光影与信仰-繁體-内文.pdf` / `-简体-内文.pdf` | 5.5×8.5 in（Digest）开本，约 113 页，Noto Serif CJK 字体全部内嵌；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
+| `光影与信仰-繁體-封面.pdf` / `-简体-封面.pdf` | 封底 + 书脊 + 封面一页全包，含 0.125 in 出血；书脊按页数估算（cream 纸 0.0025 in/页 + Lulu 0.06 in 补偿），**上传前用平台的封面计算器核对**，不一致就用 `--spine` 重做 |
+| `cover-preview-*.png` | 封面预览 |
+
+开本、纸张、出血、ISBN、定价、英文书名都在 `book.json` 的 `print` 段。填入 `isbn` 后封底右下角自动生成 EAN-13 条码，版权页也会印 ISBN。
+
+**两条销售渠道，按"想不想上 Amazon"选：**
+
+1. **Lulu 书店直销**（最快，不需要 ISBN，中文封面与书名无限制）。<https://www.lulu.com> 注册 → Create → Print Book → 上传内文与封面 PDF → 选 5.5×8.5 in、黑白、cream 纸、平装 → 定价 → 只勾 "Lulu Bookstore"（或再开 Lulu Direct 挂到自己网站）。读者下单后 Lulu 印刷并全球直邮，你拿版税。自己也可以按成本价批量订购送人。
+   - **不要勾 Lulu 的 Global Distribution**：它要求书名、副标题、封面文字只能用拉丁字母（[Mandatory Print Book Distribution Requirements](https://help.lulu.com/en/support/solutions/articles/64000255462-mandatory-print-book-distribution-requirements)），中文书过不了。
+2. **IngramSpark**（上 Amazon、Barnes & Noble 及全球书店/图书馆订购系统，需要自己的 ISBN）。<https://www.ingramspark.com> 注册 → 买 ISBN（美国 Bowker 单个约 $125，10 个 $295；台湾可向国家图书馆免费申请，香港向公共图书馆申请）→ 建标题时 Language 选 Chinese，书名可填中文并在英文字段填 `Light, Shadow and Faith`（Ingram 建议非英文书同时提供英文元数据）→ 上传内文与封面（Ingram 用自己的封面模板核对书脊，按其计算器 `--spine` 重做后再传）→ 定价与折扣（Amazon 上架一般给 40%–55% 批发折扣，允许退货选 "No"）。上架后 Amazon 会自动出现该书的纸质版页面，通常 2–4 周。
+   - 也可以两条一起：Lulu 直销 + IngramSpark 铺渠道；同一 ISBN 不能在两家都做分销，Lulu 那边只做书店直销即可。
+
+**印刷前检查：**
+
+- [ ] 页数 ≥ 100 才印书脊文字（Lulu 规定；脚本已按页数自动处理）。
+- [ ] 书脊宽度用平台计算器核对；封面 PDF 的总尺寸 = 2×5.5 + 书脊 + 2×0.125 in 宽、8.5 + 0.25 in 高。
+- [ ] 平台预览器里翻一遍：目录页码、附录页码、右页页眉篇名、辑扉页是否在右页。
+- [ ] 想要带图的印刷版可用 `--with-images`（输出到 `dist/print/illustrated/`），但站内剧照只有 ≤720 px，达不到印刷要求的 300 ppi，且商业销售的版权风险同前文，仅建议自印留念。
+- [ ] 订一本样书（proof copy）再开售。
 
 ## 维护
 

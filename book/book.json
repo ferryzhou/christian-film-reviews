@@ -22,16 +22,57 @@
     "Literature & Fiction > Essays & Correspondence > Essays"
   ],
   "parts": [
-    { "title": "沉默的天空", "theme": "苦难中的追问",
-      "films": ["miyang", "diqi-fengyin", "shaonian-pi", "agan-zhengzhuan"] },
-    { "title": "墙内墙外", "theme": "自由与救赎",
-      "films": ["xiaoshenke-de-jiushu", "jianyuzhe", "chumen-de-shijie", "lvpishu", "haishang-piano"] },
-    { "title": "舍己的人", "theme": "牺牲与公义",
-      "films": ["xindele-de-mingdan", "meili-rensheng", "xuezhan-gangyaoling", "wobushi-yaoshen", "twelve-angry-men"] },
-    { "title": "记住你是谁", "theme": "记忆、身份与归家",
-      "films": ["xunmeng-huanyouji", "shiziwang", "xinling-qilv", "qianli-zou-danqi"] },
-    { "title": "托底的人", "theme": "青春与教育",
-      "films": ["zhiqingchun", "fangniuban-de-chuntian", "wuwen-xidong"] }
+    {
+      "title": "沉默的天空",
+      "theme": "苦难中的追问",
+      "films": [
+        "miyang",
+        "diqi-fengyin",
+        "shaonian-pi",
+        "agan-zhengzhuan"
+      ]
+    },
+    {
+      "title": "墙内墙外",
+      "theme": "自由与救赎",
+      "films": [
+        "xiaoshenke-de-jiushu",
+        "jianyuzhe",
+        "chumen-de-shijie",
+        "lvpishu",
+        "haishang-piano"
+      ]
+    },
+    {
+      "title": "舍己的人",
+      "theme": "牺牲与公义",
+      "films": [
+        "xindele-de-mingdan",
+        "meili-rensheng",
+        "xuezhan-gangyaoling",
+        "wobushi-yaoshen",
+        "twelve-angry-men"
+      ]
+    },
+    {
+      "title": "记住你是谁",
+      "theme": "记忆、身份与归家",
+      "films": [
+        "xunmeng-huanyouji",
+        "shiziwang",
+        "xinling-qilv",
+        "qianli-zou-danqi"
+      ]
+    },
+    {
+      "title": "托底的人",
+      "theme": "青春与教育",
+      "films": [
+        "zhiqingchun",
+        "fangniuban-de-chuntian",
+        "wuwen-xidong"
+      ]
+    }
   ],
   "titleTW": {
     "xiaoshenke-de-jiushu": "刺激1995",
@@ -43,5 +84,19 @@
     "twelve-angry-men": "十二怒漢",
     "jianyuzhe": "竊聽風暴"
   },
-  "authorBio": "“光影与信仰”是一个华人基督徒的电影评论站点（见上方网址），一面为齐宏伟、石衡潭、王书亚等作者的影评做路标式的索引，一面撰写以基督信仰为眼光的原创影评。本书收录的二十一篇文章均首发于该站，网络版可免费阅读。若有指正与回响，欢迎通过站点联系我们。"
+  "authorBio": "“光影与信仰”是一个华人基督徒的电影评论站点（见上方网址），一面为齐宏伟、石衡潭、王书亚等作者的影评做路标式的索引，一面撰写以基督信仰为眼光的原创影评。本书收录的二十一篇文章均首发于该站，网络版可免费阅读。若有指正与回响，欢迎通过站点联系我们。",
+  "print": {
+    "trim": [
+      5.5,
+      8.5
+    ],
+    "bleed": 0.125,
+    "paper": "cream",
+    "platform": "lulu",
+    "isbn": "",
+    "price": "",
+    "titleEn": "Light, Shadow and Faith",
+    "subtitleEn": "Redemption in Twenty-One Films",
+    "font_pt": 10.5
+  }
 }
