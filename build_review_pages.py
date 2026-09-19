@@ -15,7 +15,9 @@ import html, os, re
 from publish_wordpress import load_registry, load_posters, parse_front_matter
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SITE_URL = "https://ferryzhou.github.io/christian-film-reviews"
+# 生成到别的部署域（如 surge 镜像）时用环境变量覆盖：
+#   SITE_URL=https://daoying.surge.sh python3 build_review_pages.py
+SITE_URL = os.environ.get("SITE_URL", "https://ferryzhou.github.io/christian-film-reviews")
 OUT_DIR = os.path.join(ROOT, "review")
 
 
