@@ -151,7 +151,7 @@ def main():
         parts.append(f"<p><em>{html.escape(sub)}</em></p>")
         parts.append(md_to_html(body, img_url))
         parts.append(f'<hr /><p><em>本文为"光影与信仰"原创影评，'
-                     f'原载于 <a href="{SITE_URL}/review.html?id={fid}">光影与信仰 · 本站影评</a>。'
+                     f'原载于 <a href="{SITE_URL}/review/{fid}.html">光影与信仰 · 本站影评</a>。'
                      f"所引圣经经文采用和合本；文中配图为低分辨率剧照，仅作评论配图，版权归属见图注。</em></p>")
         content = "\n".join(parts)
 

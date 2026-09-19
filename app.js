@@ -330,7 +330,7 @@ function renderFilm() {
       ${getOriginal(film.id) ? `
       <section class="original-block reveal reveal-3">
         <h2>本站影评</h2>
-        <a class="orig-card" href="review.html?id=${film.id}">
+        <a class="orig-card" href="review/${film.id}.html">
           <div class="orig-kicker">原创 · ${getOriginal(film.id).style}</div>
           <div class="orig-title">${getOriginal(film.id).title}</div>
           <span class="go">阅读全文 →</span>
@@ -410,6 +410,12 @@ function renderReview() {
   };
   if (!film || !orig) return notFound("未找到该影评。");
 
+  // 优先跳转到预渲染静态页（build_review_pages.py 生成，分享卡片/SEO 友好）；缺失时回退运行时渲染
+  fetch(`review/${id}.html`, { method: "HEAD" })
+    .then(res => { if (res.ok) { location.replace(`review/${id}.html`); } else { renderFromMd(); } })
+    .catch(renderFromMd);
+
+  function renderFromMd() {
   fetch(`original-reviews/${id}.md`)
     .then(res => { if (!res.ok) throw new Error(res.status); return res.text(); })
     .then(text => {
@@ -453,6 +459,7 @@ function renderReview() {
       `;
     })
     .catch(() => notFound("影评加载失败。"));
+  }
 }
 
 // 路由

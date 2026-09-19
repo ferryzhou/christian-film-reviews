@@ -16,6 +16,7 @@
 | `author.html` | 作者页（`?id=<authorId>`）：简介、文集、评过的电影 |
 | `film.html` | 电影页（`?id=<filmId>`）：元信息、主题摘要、本站影评入口、评论出处 |
 | `review.html` | 本站影评阅读页（`?id=<filmId>`）：运行时 fetch 并渲染 `original-reviews/<filmId>.md` |
+| `review/<filmId>.html` | 预渲染的静态影评页（`build_review_pages.py` 生成）：自带 og meta，供微信等分享爬虫抓取标题/描述/海报；站内入口指向此处，`review.html?id=` 旧链接仍可用 |
 | `data.js` | 全部数据：`AUTHORS` 与 `FILMS` 两个数组 |
 | `app.js` | 渲染逻辑：按 `<body data-page>` 路由到对应页面的渲染函数 |
 | `styles.css` | 共享样式（米色纸质底 + 金色点缀的版式风格） |

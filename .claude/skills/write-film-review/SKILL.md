@@ -99,7 +99,8 @@ date: 2026-08-13
    "<film-id>": { title: "影评标题（与 md 内一级标题一致）", style: "文学随笔式", date: "YYYY-MM-DD" }
    ```
    登记后：首页该片卡片自动出现"✦ 本站影评"徽标（即使该片没有外部全文摘录也会进入首页索引），电影页自动出现"本站影评"入口，`review.html?id=<film-id>` 即为阅读页。
-2. **确认该片在 `data.js` 中有条目**（`film.html`/`review.html` 都依赖它取片名与元信息）。若无，先按 `find-articles.skill.md` 的收录规范新增电影条目（`reviews` 可为空数组）。
+2. **生成静态分享页**：运行 `python3 build_review_pages.py`（生成/刷新 `review/<film-id>.html`，自带 og:title/og:description/og:image——微信等分享爬虫不执行 JS，只有静态页能出卡片图文；站内入口链接即指向静态页）。
+3. **确认该片在 `data.js` 中有条目**（`film.html`/`review.html` 都依赖它取片名与元信息）。若无，先按 `find-articles.skill.md` 的收录规范新增电影条目（`reviews` 可为空数组）。
 
 注意 `review.html` 的渲染器只支持 Markdown 子集：段落、`##` 二级标题、`>` 引用、`**粗体**`/`*斜体*`、独占一段的图片 `![图注](路径)`。不要使用表格、列表等其他语法。
 
