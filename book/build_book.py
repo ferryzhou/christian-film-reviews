@@ -532,7 +532,7 @@ def build_epub(parts, lang, with_images, cover_path):
                 elif b[0] == "img" and with_images:
                     fname = img_item(b[2])
                     if fname:
-                        body += f'<figure><img src="{fname}" alt="{esc(T(b[1]))}"/><figcaption>{inline(T(b[1]))}</figcaption></figure>'
+                        body += f'<figure><img src="{fname}" alt="{H.escape(T(b[1]), quote=True)}"/><figcaption>{inline(T(b[1]))}</figcaption></figure>'
             cc = page(ch["anchor"], f"{ch['anchor']}.xhtml", T(ch["title"]), body)
             spine.append(cc); sub.append(cc)
         toc.append((epub.Section(ptitle, href=pc.file_name), sub))
