@@ -86,38 +86,53 @@ KDP 不收简体书，简体版可走：
 - **Google Play Books Partner Center**、**Apple Books**（需 Mac 或 aggregator）、**Kobo Writing Life**、**Draft2Digital**：都接受 EPUB 与简体中文，把 `简体.epub` + `cover-sc.jpg` + `kdp-listing-sc.txt` 的文案上传即可。
 - 纸质书：见下一节"印刷与销售纸质书"。
 
-## 印刷与销售纸质书
+## 印刷与销售纸质书（Lulu 直销 + IngramSpark 分销，两条线并行）
 
-KDP 不接受任何中文纸质书，所以纸书走按需印刷（Print on Demand）平台。`build_print.py` 产出两个平台通用的文件：
+KDP 不接受任何中文纸质书，所以纸书走按需印刷（Print on Demand）。`build_print.py` 一次产出两个平台各自的文件：
 
 ```bash
-pip install weasyprint python-barcode
-python3 book/build_print.py              # → book/dist/print/：简繁各一套内文 PDF + 全包封面 PDF + 封面预览图
-python3 book/build_print.py --spine 0.31 # 用平台封面计算器给出的书脊宽度重做封面
+pip install weasyprint python-barcode      # 另需 Ghostscript（apt install ghostscript）把 Ingram 封面转 CMYK
+python3 book/build_print.py                 # → book/dist/print/
+python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给出的书脊与估算不同时，重做该平台封面
 ```
 
-| 产出 | 说明 |
+| 产出（简繁各一套） | 说明 |
 | --- | --- |
-| `光影与信仰-繁體-内文.pdf` / `-简体-内文.pdf` | 5.5×8.5 in（Digest）开本，约 113 页，Noto Serif CJK 字体全部内嵌；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
-| `光影与信仰-繁體-封面.pdf` / `-简体-封面.pdf` | 封底 + 书脊 + 封面一页全包，含 0.125 in 出血；书脊按页数估算（cream 纸 0.0025 in/页 + Lulu 0.06 in 补偿），**上传前用平台的封面计算器核对**，不一致就用 `--spine` 重做 |
+| `光影与信仰-*-内文.pdf` | 5.5×8.5 in（Digest）开本，113 页；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
+| `光影与信仰-*-封面-lulu.pdf` | Lulu 全包封面：书脊按 Lulu 官方公式 pages/444 + 0.06 in（113 页 → 0.317 in），RGB |
+| `光影与信仰-*-封面-ingram.pdf` | IngramSpark 全包封面：书脊 = 页数 × 0.0025 in（cream 50# 纸，→ 0.285 in），Ghostscript 转 CMYK；条码区白底 2×1.2 in（Ingram 要求 ≥1.75×1 in） |
+| `print-listing-*.txt` | 两个平台的上架文案：书名/英文书名、规格、书脊、Lulu 分类与关键词、Ingram 的 BISAC 三个类目、英文短简介、折扣与退货建议 |
 | `cover-preview-*.png` | 封面预览 |
 
-开本、纸张、出血、ISBN、定价、英文书名都在 `book.json` 的 `print` 段。填入 `isbn` 后封底右下角自动生成 EAN-13 条码，版权页也会印 ISBN。
+开本、纸张、出血、ISBN、定价、英文书名都在 `book.json` 的 `print` 段。**填入 `isbn` 后重跑**：封底右下角自动生成 EAN-13 条码，版权页与文案同步印上 ISBN。
 
-**两条销售渠道，按"想不想上 Amazon"选：**
+### 两条线怎么并行
 
-1. **Lulu 书店直销**（最快，不需要 ISBN，中文封面与书名无限制）。<https://www.lulu.com> 注册 → Create → Print Book → 上传内文与封面 PDF → 选 5.5×8.5 in、黑白、cream 纸、平装 → 定价 → 只勾 "Lulu Bookstore"（或再开 Lulu Direct 挂到自己网站）。读者下单后 Lulu 印刷并全球直邮，你拿版税。自己也可以按成本价批量订购送人。
-   - **不要勾 Lulu 的 Global Distribution**：它要求书名、副标题、封面文字只能用拉丁字母（[Mandatory Print Book Distribution Requirements](https://help.lulu.com/en/support/solutions/articles/64000255462-mandatory-print-book-distribution-requirements)），中文书过不了。
-2. **IngramSpark**（上 Amazon、Barnes & Noble 及全球书店/图书馆订购系统，需要自己的 ISBN）。<https://www.ingramspark.com> 注册 → 买 ISBN（美国 Bowker 单个约 $125，10 个 $295；台湾可向国家图书馆免费申请，香港向公共图书馆申请）→ 建标题时 Language 选 Chinese，书名可填中文并在英文字段填 `Light, Shadow and Faith`（Ingram 建议非英文书同时提供英文元数据）→ 上传内文与封面（Ingram 用自己的封面模板核对书脊，按其计算器 `--spine` 重做后再传）→ 定价与折扣（Amazon 上架一般给 40%–55% 批发折扣，允许退货选 "No"）。上架后 Amazon 会自动出现该书的纸质版页面，通常 2–4 周。
-   - 也可以两条一起：Lulu 直销 + IngramSpark 铺渠道；同一 ISBN 不能在两家都做分销，Lulu 那边只做书店直销即可。
+| | Lulu 书店直销 | IngramSpark 分销 |
+| --- | --- | --- |
+| 作用 | 最快开卖：自己的网站/朋友圈/教会直接卖，自己批量进书送人 | 上 Amazon、Barnes & Noble、全球书店与图书馆订购系统 |
+| ISBN | 不需要（Lulu 书店内部销售） | **必须自有**：美国 Bowker 单个 $125 / 10 个 $295；台湾向国家图书馆 ISBN 中心免费申请；香港向公共图书馆申请 |
+| 中文限制 | 书名、封面、元数据都可以中文 | 书名可中文，Ingram 建议同时给英文书名与英文简介（文案文件已备好）；书脊文字须拉丁字母时用英文书名 |
+| 不要做 | 不勾 Lulu Global Distribution（要求书名与封面文字只能是拉丁字母，中文过不了） | 同一 ISBN 不要再在 Lulu 开分销，只在 Ingram 分销 |
+| 收入 | Lulu 书店卖出：**80%** 的（定价 − 印刷成本）归你 | （定价 × (1 − 批发折扣)）− 印刷成本 |
+| 印刷成本（估） | 113 页黑白 Digest，Lulu 计算器约 $4 上下 | Ingram 2026 小开本黑白约 $1.33 + $0.0146/页 ≈ $3 |
+| 定价建议 | US$12.99：Lulu 净收约 $7 | US$12.99、55% 折扣：净收约 $2.8；40% 折扣：约 $4.8，但书店不进货，只剩 Amazon |
+
+**本周可以做的（不需要 ISBN）：**
+
+1. Lulu 注册（<https://www.lulu.com>）→ Create → Print Book → 上传 `内文.pdf` 与 `封面-lulu.pdf` → Digest 5.5×8.5 in、黑白、cream 纸、平装（Perfect Bound）、光面或哑面封面 → 在线预览翻一遍（目录页码、右页页眉、辑扉页在右页）→ 定价 → 只勾 "Lulu Bookstore" → 先**订一本样书**，到手确认后再公开。
+2. 买 ISBN（Bowker 或所在地免费申请），填进 `book.json` 的 `print.isbn`，重跑 `build_print.py`。
+3. IngramSpark 注册（<https://www.ingramspark.com>）→ Add a Title → 按 `print-listing-*.txt` 填：Language = Chinese，Title/Subtitle 中文，Contributor，Imprint，三个 BISAC，英文短简介 + 中文全简介，Keywords → 上传 `内文.pdf` 与 `封面-ingram.pdf`（先用 Ingram 的 Cover Template Generator 拿到该 ISBN/页数的书脊，与 0.285 不同就 `--spine` 重做）→ 定价：US/UK/EU/AU 各币种，Wholesale discount 55%，Returns = No → 提交。审核通过后 Amazon 通常 2–4 周自动出现纸质版页面。
+4. 简体版与繁体版是两本书，各需自己的 ISBN；先只上一种也可以（简体版 Lulu 直销、繁体版走 Ingram 上 Amazon，与电子书的繁体版呼应，是一种省钱的组合）。
 
 **印刷前检查：**
 
-- [ ] 页数 ≥ 100 才印书脊文字（Lulu 规定；脚本已按页数自动处理）。
-- [ ] 书脊宽度用平台计算器核对；封面 PDF 的总尺寸 = 2×5.5 + 书脊 + 2×0.125 in 宽、8.5 + 0.25 in 高。
+- [ ] 页数 ≥ 100 才印书脊文字（Lulu 规定；脚本按页数自动处理）。
+- [ ] 书脊宽度用平台的模板/计算器核对；封面 PDF 总尺寸 = 2×5.5 + 书脊 + 2×0.125 in 宽、8.5 + 0.25 in 高。
+- [ ] Ingram 封面必须有 ISBN 条码：填 `isbn` 重跑后确认封底右下角条码已出现。
 - [ ] 平台预览器里翻一遍：目录页码、附录页码、右页页眉篇名、辑扉页是否在右页。
 - [ ] 想要带图的印刷版可用 `--with-images`（输出到 `dist/print/illustrated/`），但站内剧照只有 ≤720 px，达不到印刷要求的 300 ppi，且商业销售的版权风险同前文，仅建议自印留念。
-- [ ] 订一本样书（proof copy）再开售。
+- [ ] 每个平台各订一本样书（proof）再开售。
 
 ## 维护
 

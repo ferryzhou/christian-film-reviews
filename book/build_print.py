@@ -5,12 +5,13 @@
   python3 book/build_print.py                 # 简体 + 繁体，纯文字 → book/dist/print/
   python3 book/build_print.py --with-images   # 内嵌剧照版 → book/dist/print/illustrated/（剧照仅 ≤720px，达不到 300ppi）
   python3 book/build_print.py --lang tw       # 只做一种语言
-  python3 book/build_print.py --spine 0.31    # 用平台封面计算器给出的书脊宽度（英寸）覆盖估算值
+  python3 book/build_print.py --spine 0.31 --platform ingram   # 用平台封面计算器给出的书脊宽度重做该平台封面
 
 产出（每种语言）：
   <书名>-<语言>-内文.pdf   内文，开本/边距见 book.json 的 print 段，字体全部内嵌，页码与页眉齐全
-  <书名>-<语言>-封面.pdf   封底 + 书脊 + 封面全包一页，含出血；书脊宽按页数估算（见终端输出）
-  cover-preview-<语言>.png 封面预览图
+  <书名>-<语言>-封面-lulu.pdf     Lulu 用全包封面（封底+书脊+封面，含出血，Lulu 书脊公式，RGB）
+  <书名>-<语言>-封面-ingram.pdf   IngramSpark 用全包封面（Ingram 书脊公式，Ghostscript 转 CMYK）
+  cover-preview-<语言>-<平台>.png 封面预览图；print-listing-<语言>.txt 两个平台的上架文案
 
 排版引擎：WeasyPrint（pip install weasyprint）。条码：pip install python-barcode（填了 ISBN 才需要）。
 """
@@ -29,13 +30,18 @@ import build_book as B  # noqa: E402
 
 CONFIG = B.CONFIG
 PRINT = {
-    "trim": [5.5, 8.5], "bleed": 0.125, "paper": "cream", "platform": "lulu",
+    "trim": [5.5, 8.5], "bleed": 0.125, "paper": "cream",
     "isbn": "", "price": "", "titleEn": "", "subtitleEn": "", "font_pt": 10.5,
 }
 PRINT.update(CONFIG.get("print", {}))
-# 每页纸厚（英寸）与平台封面板补偿；最终以平台的封面计算器为准
-PAPER_THICKNESS = {"cream": 0.0025, "white": 0.002252}
-PLATFORM_ALLOWANCE = {"lulu": 0.06, "ingram": 0.03, "none": 0.0}
+# 各平台书脊公式（英寸）；最终以平台自己的封面模板/计算器为准，不一致用 --spine 覆盖
+PAPER_THICKNESS = {"cream": 0.0025, "white": 0.002252}   # IngramSpark 50# 纸每页厚度
+PLATFORMS = {
+    # Lulu 官方：spine = pages / 444 + 0.06（help.api.lulu.com "How is spine width calculated?"）
+    "lulu": {"label": "Lulu", "spine": lambda pages: pages / 444 + 0.06, "cmyk": False},
+    # IngramSpark：pages × 纸厚；封面要求 CMYK、300ppi、条码区 ≥1.75×1 in 白底
+    "ingram": {"label": "IngramSpark", "spine": lambda pages: pages * PAPER_THICKNESS.get(PRINT["paper"], 0.0025), "cmyk": True},
+}
 
 
 def esc(s):
@@ -66,15 +72,15 @@ def interior_css(lang):
     fs = PRINT["font_pt"]
     return f"""
 @page {{ size: {w}in {h}in; margin: 0.75in 0.55in 0.7in 0.55in;
-  @bottom-center {{ content: counter(page); font-family: {font_family(lang)}; font-size: 8.5pt; color: #444; }} }}
+  @bottom-center {{ content: counter(page); font-family: {font_family(lang)}; font-size: 8.5pt; color: #000; }} }}
 @page :left {{ margin-left: 0.55in; margin-right: 0.8in;
-  @top-left {{ content: string(booktitle); font-family: {font_family(lang)}; font-size: 7.5pt; letter-spacing: 0.2em; color: #666; }} }}
+  @top-left {{ content: string(booktitle); font-family: {font_family(lang)}; font-size: 7.5pt; letter-spacing: 0.2em; color: #000; }} }}
 @page :right {{ margin-left: 0.8in; margin-right: 0.55in;
-  @top-right {{ content: string(chaptitle); font-family: {font_family(lang)}; font-size: 7.5pt; letter-spacing: 0.1em; color: #666; }} }}
+  @top-right {{ content: string(chaptitle); font-family: {font_family(lang)}; font-size: 7.5pt; letter-spacing: 0.1em; color: #000; }} }}
 @page :blank {{ @top-left {{ content: none }} @top-right {{ content: none }} @bottom-center {{ content: none }} }}
 @page plain {{ @top-left {{ content: none }} @top-right {{ content: none }} @bottom-center {{ content: none }} }}
 
-html {{ font-family: {font_family(lang)}; font-size: {fs}pt; line-height: 1.72; color: #111; }}
+html {{ font-family: {font_family(lang)}; font-size: {fs}pt; line-height: 1.72; color: #000; }}
 body {{ margin: 0; }}
 p {{ margin: 0; text-indent: 2em; text-align: justify; orphans: 2; widows: 2; hyphens: none; }}
 p.noindent {{ text-indent: 0; }}
@@ -87,40 +93,40 @@ strong {{ font-weight: 700; }}
 .halftitle {{ text-align: center; padding-top: 2.6in; font-size: 16pt; letter-spacing: 0.3em; }}
 .titlepage {{ text-align: center; padding-top: 2in; }}
 .titlepage .title {{ font-size: 30pt; font-weight: 700; letter-spacing: 0.15em; text-indent: 0; line-height: 1.3; }}
-.titlepage .subtitle {{ font-size: 13pt; letter-spacing: 0.15em; color: #444; margin-top: 0.4in; text-indent: 0; }}
-.titlepage .en {{ font-size: 8.5pt; letter-spacing: 0.06em; color: #666; margin-top: 0.15in; text-indent: 0; }}
+.titlepage .subtitle {{ font-size: 13pt; letter-spacing: 0.15em; color: #000; margin-top: 0.4in; text-indent: 0; }}
+.titlepage .en {{ font-size: 8.5pt; letter-spacing: 0.06em; color: #000; margin-top: 0.15in; text-indent: 0; }}
 .titlepage .author {{ font-size: 12pt; letter-spacing: 0.3em; margin-top: 1.6in; text-indent: 0; }}
-.titlepage .publisher {{ font-size: 9pt; letter-spacing: 0.2em; color: #666; margin-top: 0.15in; text-indent: 0; }}
-.copyright {{ padding-top: 4.2in; font-size: 8pt; line-height: 1.6; color: #333; }}
+.titlepage .publisher {{ font-size: 9pt; letter-spacing: 0.2em; color: #000; margin-top: 0.15in; text-indent: 0; }}
+.copyright {{ padding-top: 4.2in; font-size: 8pt; line-height: 1.6; color: #000; }}
 .copyright p {{ text-indent: 0; margin-bottom: 0.35em; }}
 
 h1.section {{ font-size: 17pt; font-weight: 700; letter-spacing: 0.15em; margin: 0.4in 0 0.35in; text-align: left; string-set: chaptitle content(); }}
 .toc p {{ text-indent: 0; margin: 0.12em 0; text-align: left; }}
 .toc p.part {{ margin-top: 0.9em; font-weight: 700; }}
 .toc p.ch {{ margin-left: 1.4em; }}
-.toc p.ch .film {{ color: #555; font-size: 0.9em; }}
+.toc p.ch .film {{ color: #000; font-size: 0.9em; }}
 .toc a {{ text-decoration: none; color: inherit; }}
-.toc a::after {{ content: leader(".") target-counter(attr(href), page); font-weight: 400; color: #444; }}
+.toc a::after {{ content: leader(".") target-counter(attr(href), page); font-weight: 400; color: #000; }}
 
 .partpage {{ text-align: center; padding-top: 2.8in; }}
-.partpage .num {{ font-size: 10pt; letter-spacing: 0.4em; color: #666; text-indent: 0; }}
+.partpage .num {{ font-size: 10pt; letter-spacing: 0.4em; color: #000; text-indent: 0; }}
 .partpage .name {{ font-size: 26pt; font-weight: 700; letter-spacing: 0.25em; margin-top: 0.2in; text-indent: 0; }}
-.partpage .theme {{ font-size: 11pt; letter-spacing: 0.2em; color: #444; margin-top: 0.35in; text-indent: 0; }}
+.partpage .theme {{ font-size: 11pt; letter-spacing: 0.2em; color: #000; margin-top: 0.35in; text-indent: 0; }}
 
 .chapter h2 {{ font-size: 19pt; font-weight: 700; line-height: 1.35; margin: 0.9in 0 0.12in; text-align: left; string-set: chaptitle content(); }}
-.chapter h3.film {{ font-size: 8.5pt; font-weight: 400; color: #555; letter-spacing: 0.05em; margin: 0 0 0.45in; text-align: left; }}
+.chapter h3.film {{ font-size: 8.5pt; font-weight: 400; color: #000; letter-spacing: 0.05em; margin: 0 0 0.45in; text-align: left; }}
 .chapter h3 {{ font-size: 11.5pt; font-weight: 700; margin: 1.2em 0 0.4em; }}
 figure {{ margin: 0.9em 0 1.1em; text-align: center; break-inside: avoid; }}
 figure img {{ max-width: 100%; max-height: 3.4in; }}
-figcaption {{ font-size: 8pt; line-height: 1.5; color: #444; margin-top: 0.3em; text-align: center; }}
+figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; text-align: center; }}
 
 .appendix table {{ border-collapse: collapse; width: 100%; font-size: 8.5pt; line-height: 1.45; margin-top: 0.2in; }}
 .appendix th, .appendix td {{ border-bottom: 0.5pt solid #bbb; padding: 0.35em 0.25em; text-align: left; vertical-align: top; }}
 .appendix th {{ font-weight: 700; border-bottom: 1pt solid #111; }}
 .scripture p {{ text-indent: 0; margin-bottom: 0.45em; font-size: 9pt; line-height: 1.6; }}
 .scripture strong {{ letter-spacing: 0.05em; }}
-.lead {{ text-indent: 0; font-size: 9pt; color: #444; margin-bottom: 0.25in; }}
-.about p.site {{ text-indent: 0; margin-top: 0.3in; font-size: 9pt; color: #444; }}
+.lead {{ text-indent: 0; font-size: 9pt; color: #000; margin-bottom: 0.25in; }}
+.about p.site {{ text-indent: 0; margin-top: 0.3in; font-size: 9pt; color: #000; }}
 """
 
 
@@ -217,10 +223,25 @@ def build_interior(parts, lang, with_images, outdir):
 
 # ---------------------------------------------------------------- 全包封面
 
-def spine_width(pages, override=None):
+def spine_width(pages, platform, override=None):
     if override:
         return float(override)
-    return round(pages * PAPER_THICKNESS.get(PRINT["paper"], 0.0025) + PLATFORM_ALLOWANCE.get(PRINT["platform"], 0.0), 3)
+    pages += pages % 2  # 按需印刷按偶数页装订
+    return round(PLATFORMS[platform]["spine"](pages), 3)
+
+
+def to_cmyk(pdf_path):
+    """用 Ghostscript 把封面 PDF 转成 CMYK（IngramSpark 要求）；没有 gs 就原样保留并提示。"""
+    import shutil, subprocess
+    if not shutil.which("gs"):
+        print("!! 未找到 Ghostscript，封面保持 RGB；IngramSpark 会自行转换，色彩可能略有偏差")
+        return False
+    tmp = pdf_path + ".cmyk.pdf"
+    subprocess.run(["gs", "-q", "-o", tmp, "-sDEVICE=pdfwrite", "-dPDFSETTINGS=/prepress",
+                    "-sColorConversionStrategy=CMYK", "-dProcessColorModel=/DeviceCMYK",
+                    "-dEmbedAllFonts=true", "-dSubsetFonts=true", pdf_path], check=True)
+    os.replace(tmp, pdf_path)
+    return True
 
 
 def barcode_data_uri(isbn):
@@ -313,32 +334,89 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 </body></html>"""
 
 
-def build_cover(lang, pages, outdir, spine_override=None):
+def build_cover(lang, pages, outdir, platform, spine_override=None):
     from weasyprint import HTML
     import pymupdf
-    spine = spine_width(pages, spine_override)
-    out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-封面.pdf")
+    spine = spine_width(pages, platform, spine_override)
+    out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-封面-{platform}.pdf")
     HTML(string=cover_html(lang, pages, spine)).write_pdf(out)
-    prev = os.path.join(outdir, f"cover-preview-{lang.code}.png")
+    if PLATFORMS[platform]["cmyk"]:
+        to_cmyk(out)
+    prev = os.path.join(outdir, f"cover-preview-{lang.code}-{platform}.png")
     pymupdf.open(out)[0].get_pixmap(dpi=72).save(prev)
     return out, spine
 
 
-def build_all(parts, langs, with_images, outdir, spine_override=None):
+EN_DESCRIPTION = (
+    "Light, Shadow and Faith: Redemption in Twenty-One Films is a collection of twenty-one original essays, written in Chinese, "
+    "that reread landmark films through the eyes of Christian faith: from Bergman's The Seventh Seal and Lee Chang-dong's Secret Sunshine "
+    "to Schindler's List, Life Is Beautiful, Dying to Survive and Pixar's Soul. Each essay starts from a line of dialogue, a prop or an "
+    "echoing shot, sketches a portrait of every character, faces the human predicament the film exposes, and walks toward the gospel. "
+    "Arranged in five parts (Questions in Suffering; Freedom and Redemption; Sacrifice and Justice; Memory, Identity and Homecoming; "
+    "Youth and Education), with an index of films and an index of Scripture references. For film lovers, and for anyone lingering at the door of faith."
+)
+BISAC = [
+    "REL012000  RELIGION / Christian Living / General",
+    "PER004030  PERFORMING ARTS / Film / History & Criticism",
+    "LCO010000  LITERARY COLLECTIONS / Essays",
+]
+
+
+def write_print_listing(lang, pages, spines, outdir):
+    T = lang.T
+    c = CONFIG
+    w, h = PRINT["trim"]
+    variant = "Traditional Chinese" if lang.code == "tw" else "Simplified Chinese"
+    en_title = PRINT.get("titleEn", ""); en_sub = PRINT.get("subtitleEn", "")
+    lines = [
+        f"=== 纸质书上架文案（{lang.label}）===", "",
+        f"书名：{T(c['title'])}    副标题：{T(c['subtitle'])}    作者：{T(c['author'])}",
+        f"English title: {en_title}: {en_sub}    ({variant} edition)",
+        f"规格：{w} × {h} in · 平装 · 黑白内文 · {PRINT['paper']} 纸 · {pages} 页（装订按 {pages + pages % 2} 页）",
+        f"ISBN：{PRINT.get('isbn') or '（未填，book.json print.isbn）'}    定价：{PRINT.get('price') or '（未填，book.json print.price）'}", "",
+        "--- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---",
+        f"Spine width: {spines['lulu']:.3f} in（pages/444 + 0.06）",
+        "Category: Religion & Spirituality > Christianity   |   Keywords: " + "、".join(T(k) for k in c["keywords"][:5]),
+        "Description:", T(c["description"]), "",
+        "--- IngramSpark（Add a Title；需自有 ISBN）---",
+        f"Spine width: {spines['ingram']:.3f} in（pages × {PAPER_THICKNESS.get(PRINT['paper'])}，最终以 Cover Template Generator 为准）",
+        f"Language: Chinese    Title: {T(c['title'])}    Subtitle: {T(c['subtitle'])}",
+        f"Contributor: {T(c['author'])} (Author)    Imprint: {T(c['publisher'])}",
+        "BISAC subjects（下拉框按名称选，最多 3 个）:", *[f"  {b}" for b in BISAC],
+        "Keywords: Christian film criticism; Chinese essays; faith and cinema; " + "; ".join(T(k) for k in c["keywords"][:4]),
+        "Short description (English, for retailers):", EN_DESCRIPTION, "",
+        "Full description (Chinese):", T(c["description"]), "",
+        "Wholesale discount: 55%（Amazon/书店标准；40% 利润更高但书店不进货）    Returns: No    Print on demand: Yes",
+        "Markets: US / UK / EU / AU / Global Connect 全选    Publication date: 上传后 2–4 周", "",
+        "=== 章节一览 ===",
+    ]
+    for part in B.load_book():
+        ptitle, theme = B.part_heading(part, lang)
+        lines.append(f"{ptitle}　{theme}")
+        for ch in part["chapters"]:
+            lines.append(f"  {ch['no']:>2}. {T(ch['title'])}　《{T(ch['film'])}》 {ch['filmEn']} ({ch['year']})")
+    out = os.path.join(outdir, f"print-listing-{lang.code}.txt")
+    open(out, "w", encoding="utf-8").write("\n".join(lines) + "\n")
+    return out
+
+
+def build_all(parts, langs, with_images, outdir, platforms, spine_override=None):
     os.makedirs(outdir, exist_ok=True)
     w, h = PRINT["trim"]
-    results = []
     for lang in langs:
         interior, pages = build_interior(parts, lang, with_images, outdir)
-        cover, spine = build_cover(lang, pages, outdir, spine_override)
-        print(f"印刷版 {lang.label}：{pages} 页 · 开本 {w}×{h} in · 书脊 {spine:.3f} in（{PRINT['paper']} 纸，{PRINT['platform']} 补偿"
-              f"{'，命令行覆盖' if spine_override else '，估算值，最终以平台封面计算器为准'}）")
+        print(f"印刷版 {lang.label}：{pages} 页 · 开本 {w}×{h} in")
         print("  内文 ->", interior)
-        print("  封面 ->", cover, "" if pages >= 100 else "（不足 100 页，书脊未印文字）")
-        results.append((interior, cover))
+        spines = {}
+        for platform in platforms:
+            cover, spine = build_cover(lang, pages, outdir, platform, spine_override)
+            spines[platform] = spine
+            print(f"  封面（{PLATFORMS[platform]['label']}，书脊 {spine:.3f} in{'，命令行覆盖' if spine_override else ''}） ->", cover,
+                  "" if pages >= 100 else "（不足 100 页，书脊未印文字）")
+        if len(platforms) == 2:
+            print("  上架文案 ->", write_print_listing(lang, pages, spines, outdir))
     if with_images:
         print("!! 剧照为 ≤720px 低清图，印刷会偏软；按需印刷平台要求图片 300ppi，仅供自印留念。")
-    return results
 
 
 def main():
@@ -346,11 +424,13 @@ def main():
     ap.add_argument("--with-images", action="store_true")
     ap.add_argument("--lang", choices=["sc", "tw"])
     ap.add_argument("--spine", type=float, help="书脊宽度（英寸），覆盖估算")
+    ap.add_argument("--platform", choices=["lulu", "ingram", "all"], default="all", help="只出某个平台的封面")
     args = ap.parse_args()
     parts = B.load_book()
     langs = [B.Lang(args.lang)] if args.lang else [B.Lang("tw"), B.Lang("sc")]
+    platforms = ["lulu", "ingram"] if args.platform == "all" else [args.platform]
     outdir = os.path.join(B.DIST, "print", "illustrated") if args.with_images else os.path.join(B.DIST, "print")
-    build_all(parts, langs, args.with_images, outdir, args.spine)
+    build_all(parts, langs, args.with_images, outdir, platforms, args.spine)
 
 
 if __name__ == "__main__":
