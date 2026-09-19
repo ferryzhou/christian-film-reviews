@@ -4,3 +4,4 @@ wp-sync.json
 publish_wordpress.py
 find_articles.py
 .gitignore
+__pycache__/
