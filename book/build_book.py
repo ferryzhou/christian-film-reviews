@@ -192,8 +192,9 @@ def copyright_lines(lang):
         "本书文字均为原创评论。所评影片及其片名、台词、剧照之版权归各出品方与发行方所有，本书引用仅为评论与研究目的。",
         "圣经引文出自《圣经》和合本。",
         c.get("aiDisclosure", ""),
+        f"出版：{c['publisher']}",
         f"文章网络版：{c['site']}",
-        "封面设计：" + c["publisher"],
+        "封面设计：" + c.get("designer", c["publisher"]),
     ] if x]
 
 

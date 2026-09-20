@@ -18,13 +18,13 @@ Description:
 --- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---
 Title: Man Man De Dong Nu (Slow to Anger)
 Subtitle: Redemption in Twenty-One Films (Simplified Chinese Edition)
-Author: Zhou, Jin    Language: Chinese    Format: Paperback    Pages: 170
+Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 170
 Description: 用下方 IngramSpark 的英文短简介
 
 --- IngramSpark（Add a Title；需自有 ISBN）---
 Spine width: 0.425 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 慢慢地动怒    Subtitle: 二十一部电影里的救赎
-Contributor: 周津 (Author)    Imprint: 光影与信仰
+Contributor: 周津 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）
 BISAC subjects（下拉框按名称选，最多 3 个）:
   REL012000  RELIGION / Christian Living / General
   PER004030  PERFORMING ARTS / Film / History & Criticism

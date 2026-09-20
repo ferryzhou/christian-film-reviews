@@ -72,7 +72,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
 - **印刷分辨率**：剧照原图 ≤720px，按 4.2 in 宽排版约 170ppi，低于平台建议的 300ppi，印出来会略软；平台一般只警告不拒收，样书到手确认。
 - **海报**不进书；封面为原创设计，无第三方素材。
 - **台词引用**属于评论范畴；**经文**和合本 1919 年出版，已进入公有领域。
-- **书名**：《慢慢地动怒》取自雅各书 1:19，题记页印全句；"光影与信仰"作为出版方/品牌名保留。书名与副标题在 `book.json` 改。
+- **书名**：《慢慢地动怒》取自雅各书 1:19，题记页印全句；出版方为 "光影与信仰 · Light and Faith Press"（Bowker 登记的 Publisher 是 Light and Faith Press，IngramSpark 的 Imprint 须与之一致）。书名与副标题在 `book.json` 改。
 
 ## 出版前检查清单
 
