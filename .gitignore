@@ -3,5 +3,6 @@ node_modules/
 wp-preview/
 CNAME
 __pycache__/
-book/dist/illustrated/
-book/dist/print/illustrated/
+book/dist/text-only/
+book/dist/print/.cache/
+book/dist/print/text-only/

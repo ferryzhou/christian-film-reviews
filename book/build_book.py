@@ -2,8 +2,8 @@
 """把 original-reviews/*.md 编成一本可上架 Amazon KDP 的电子书。
 
 用法（在仓库任意位置运行）：
-  python3 book/build_book.py                 # 生成 book/dist/ 下全部纯文字版本 + 封面
-  python3 book/build_book.py --with-images   # 另外生成内嵌剧照的版本到 book/dist/illustrated/（版权风险见 book/README.md）
+  python3 book/build_book.py                 # 生成 book/dist/ 下全部文件（含剧照，压缩到 ≤640px）+ 封面
+  python3 book/build_book.py --no-images     # 纯文字版 → book/dist/text-only/
   python3 book/build_book.py --only docx-tw  # 只生成某一种：docx-tw | docx-sc | epub-tw | epub-sc | cover
 
 产出：
@@ -14,11 +14,12 @@
   dist/cover-tw.jpg / cover-sc.jpg   1600×2560 电子书封面（原创排版，不含任何影片素材）
   dist/kdp-listing-tw.txt / -sc.txt  上架页面用的书名/简介/关键词，直接复制粘贴
 
-依赖：pip install python-docx ebooklib opencc-python-reimplemented
-封面另需 node + playwright（本仓库配套 render_cover.js）；缺失时跳过封面并提示。
+依赖：pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf
+封面与印刷版共用 build_print.py 里的设计（WeasyPrint 渲染）。
 """
 
 import argparse
+import io
 import json
 import os
 import re
@@ -207,6 +208,20 @@ def preface_blocks():
     return title, parse_blocks(md)
 
 
+def ebook_image(rel):
+    """剧照压到 ≤640px 宽、JPEG q72 再进电子书（Kindle 70% 版税档按文件大小收传输费）。找不到文件返回 None。"""
+    from PIL import Image
+    fp = os.path.join(ROOT, rel)
+    if not os.path.exists(fp):
+        return None
+    im = Image.open(fp).convert("RGB")
+    if im.width > 640:
+        im = im.resize((640, round(im.height * 640 / im.width)), Image.LANCZOS)
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=72, optimize=True)
+    return buf.getvalue()
+
+
 def out_name(lang, ext):
     return os.path.join(DIST, f"{CONFIG['title']}-{lang.file_tag}.{ext}")
 
@@ -369,12 +384,12 @@ def build_docx(parts, lang, with_images):
                 elif b[0] == "h":
                     para(T(b[1]), style="Heading 3")
                 elif b[0] == "img" and with_images:
-                    fp = os.path.join(ROOT, b[2])
-                    if os.path.exists(fp):
+                    data = ebook_image(b[2])
+                    if data:
                         pic = doc.add_paragraph()
                         pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
                         pic.paragraph_format.first_line_indent = Pt(0)
-                        pic.add_run().add_picture(fp, width=Inches(4.2))
+                        pic.add_run().add_picture(io.BytesIO(data), width=Inches(4.2))
                         para(T(b[1]), align="center", indent=False, size=9, italic=True, color="5A5040")
             page_break()
 
@@ -526,13 +541,11 @@ def build_epub(parts, lang, with_images, cover_path):
     def img_item(rel):
         if rel in img_items:
             return img_items[rel]
-        fp = os.path.join(ROOT, rel)
-        if not os.path.exists(fp):
+        data = ebook_image(rel)
+        if not data:
             return None
-        ext = os.path.splitext(rel)[1].lower().lstrip(".")
-        fname = "images/" + rel.replace("/", "_")
-        it = epub.EpubItem(uid=f"img{len(img_items)}", file_name=fname,
-                           media_type="image/png" if ext == "png" else "image/jpeg", content=open(fp, "rb").read())
+        fname = "images/" + os.path.splitext(rel.replace("/", "_"))[0] + ".jpg"
+        it = epub.EpubItem(uid=f"img{len(img_items)}", file_name=fname, media_type="image/jpeg", content=data)
         book.add_item(it)
         img_items[rel] = fname
         return fname
@@ -595,23 +608,15 @@ def build_epub(parts, lang, with_images, cover_path):
 # ---------------------------------------------------------------- 封面与上架文案
 
 def build_cover(lang):
+    """电子书封面：与印刷封面同一设计（build_print.cover_html 正面），渲染成 1600×2560 JPEG。"""
+    from weasyprint import HTML
+    import pymupdf
+    import build_print
     out = os.path.join(DIST, f"cover-{lang.code}.jpg")
-    env = dict(os.environ)
-    try:
-        node_root = subprocess.check_output(["npm", "root", "-g"], text=True).strip()
-        env["NODE_PATH"] = node_root + (os.pathsep + env["NODE_PATH"] if env.get("NODE_PATH") else "")
-    except Exception:
-        pass
-    payload = json.dumps({
-        "title": lang.T(CONFIG["title"]), "subtitle": lang.T(CONFIG["subtitle"]),
-        "author": author_line(lang), "lang": lang.code, "tagline": lang.T("二十一篇以基督信仰为眼光的电影随笔"),
-        "out": out,
-    }, ensure_ascii=False)
-    try:
-        subprocess.run(["node", os.path.join(HERE, "render_cover.js"), payload], check=True, env=env)
-    except (subprocess.CalledProcessError, FileNotFoundError) as e:
-        print(f"!! 封面未生成（需要 node + playwright + Chromium）：{e}")
-        return None
+    pdf = HTML(string=build_print.cover_html(lang, 0, 0.0, front_only=True, trim=(5.5, 8.8))).write_pdf()
+    page = pymupdf.open("pdf", pdf)[0]
+    zoom = 1600 / page.rect.width
+    page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom)).save(out, jpg_quality=92)
     return out
 
 
@@ -645,37 +650,31 @@ def write_listing(lang):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--with-images", action="store_true", help="另生成内嵌剧照版到 dist/illustrated/")
+    ap.add_argument("--no-images", action="store_true", help="不嵌剧照，输出到 dist/text-only/")
     ap.add_argument("--only", choices=["docx-tw", "docx-sc", "epub-tw", "epub-sc", "cover"], help="只生成某一项")
     args = ap.parse_args()
     global DIST
 
-    base = DIST
-    os.makedirs(base, exist_ok=True)
+    with_images = not args.no_images
+    if not with_images:
+        DIST = os.path.join(DIST, "text-only")
+    os.makedirs(DIST, exist_ok=True)
     parts = load_book()
     n_ch = sum(len(p["chapters"]) for p in parts)
-    print(f"共 {len(parts)} 辑 {n_ch} 篇，{sum(len(c['refs']) for p in parts for c in p['chapters'])} 处经文引用")
+    n_img = sum(1 for p in parts for c in p["chapters"] for b in c["blocks"] if b[0] == "img")
+    print(f"共 {len(parts)} 辑 {n_ch} 篇，{sum(len(c['refs']) for p in parts for c in p['chapters'])} 处经文引用，"
+          f"{n_img if with_images else 0} 张剧照")
 
     langs = [Lang("tw"), Lang("sc")]
-    covers = {}
+    covers = {l.code: os.path.join(DIST, f"cover-{l.code}.jpg") for l in langs}
     if args.only in (None, "cover"):
         for lang in langs:
-            covers[lang.code] = build_cover(lang)
-            if covers[lang.code]:
-                print("封面  ->", covers[lang.code])
-    else:
-        covers = {l.code: os.path.join(base, f"cover-{l.code}.jpg") for l in langs}
-
-    variants = [(False, base)] + ([(True, os.path.join(base, "illustrated"))] if args.with_images else [])
-    for with_images, outdir in variants:
-        DIST = outdir
-        os.makedirs(DIST, exist_ok=True)
-        for lang in langs:
-            if args.only in (None, f"docx-{lang.code}"):
-                print("DOCX  ->", build_docx(parts, lang, with_images))
-            if args.only in (None, f"epub-{lang.code}"):
-                print("EPUB  ->", build_epub(parts, lang, with_images, covers.get(lang.code)))
-    DIST = base
+            print("封面  ->", build_cover(lang))
+    for lang in langs:
+        if args.only in (None, f"docx-{lang.code}"):
+            print("DOCX  ->", build_docx(parts, lang, with_images))
+        if args.only in (None, f"epub-{lang.code}"):
+            print("EPUB  ->", build_epub(parts, lang, with_images, covers.get(lang.code)))
     if args.only is None:
         for lang in langs:
             print("上架文案 ->", write_listing(lang))

@@ -2,8 +2,8 @@
 """印刷版：生成按需印刷（Lulu / IngramSpark）所需的内文 PDF 与全包封面 PDF。
 
 用法：
-  python3 book/build_print.py                 # 简体 + 繁体，纯文字 → book/dist/print/
-  python3 book/build_print.py --with-images   # 内嵌剧照版 → book/dist/print/illustrated/（剧照仅 ≤720px，达不到 300ppi）
+  python3 book/build_print.py                 # 简体 + 繁体，含灰度剧照 → book/dist/print/
+  python3 book/build_print.py --no-images     # 纯文字版 → book/dist/print/text-only/
   python3 book/build_print.py --lang tw       # 只做一种语言
   python3 book/build_print.py --spine 0.31 --platform ingram   # 用平台封面计算器给出的书脊宽度重做该平台封面
 
@@ -66,6 +66,22 @@ def font_family(lang):
 
 
 # ---------------------------------------------------------------- 内文
+
+def print_image(rel, outdir):
+    """印刷内文用灰度剧照（黑白内页；IngramSpark 要求黑白书的图片为灰度）。缓存在 outdir/.cache/。"""
+    from PIL import Image, ImageEnhance
+    fp = os.path.join(B.ROOT, rel)
+    if not os.path.exists(fp):
+        return None
+    cache = os.path.join(outdir, ".cache")
+    os.makedirs(cache, exist_ok=True)
+    out = os.path.join(cache, os.path.splitext(rel.replace("/", "_"))[0] + ".jpg")
+    if not os.path.exists(out) or os.path.getmtime(out) < os.path.getmtime(fp):
+        im = Image.open(fp).convert("L")
+        im = ImageEnhance.Contrast(im).enhance(1.08)
+        im.save(out, "JPEG", quality=90, optimize=True)
+    return out
+
 
 def interior_css(lang):
     w, h = PRINT["trim"]
@@ -132,7 +148,7 @@ figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; 
 """
 
 
-def interior_html(parts, lang, with_images):
+def interior_html(parts, lang, with_images, outdir):
     T = lang.T
     c = CONFIG
     title, subtitle = T(c["title"]), T(c["subtitle"])
@@ -189,8 +205,8 @@ def interior_html(parts, lang, with_images):
                 elif b[0] == "h":
                     out.append(f"<h3>{inline(T(b[1]))}</h3>")
                 elif b[0] == "img" and with_images:
-                    fp = os.path.join(B.ROOT, b[2])
-                    if os.path.exists(fp):
+                    fp = print_image(b[2], outdir)
+                    if fp:
                         out.append(f'<figure><img src="file://{esc(fp)}" alt="{esc(T(b[1]))}"><figcaption>{inline(T(b[1]))}</figcaption></figure>')
             out.append("</div>")
 
@@ -223,7 +239,7 @@ def interior_html(parts, lang, with_images):
 def build_interior(parts, lang, with_images, outdir):
     from weasyprint import HTML
     out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-内文.pdf")
-    doc = HTML(string=interior_html(parts, lang, with_images), base_url=B.ROOT).render()
+    doc = HTML(string=interior_html(parts, lang, with_images, outdir), base_url=B.ROOT).render()
     doc.write_pdf(out)
     return out, len(doc.pages)
 
@@ -265,80 +281,109 @@ def barcode_data_uri(isbn):
     return "data:image/svg+xml;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def cover_html(lang, pages, spine):
+def _dust(seed, n, x0, y0, x1, y1):
+    """确定性的“光束里的尘埃”：在给定矩形内撒 n 个小圆点（英寸坐标）。"""
+    import random
+    rnd = random.Random(seed)
+    out = []
+    for _ in range(n):
+        x, y = x0 + rnd.random() * (x1 - x0), y0 + rnd.random() * (y1 - y0)
+        # 只保留落在光束（从左上光源向右下展开的锥形）里的点
+        t = (y - y0) / max(0.01, (y1 - y0))
+        left = x0 + 0.9 * (1 - t) + 0.2 * t
+        if x < left:
+            continue
+        r = 0.006 + rnd.random() * 0.02
+        out.append(f'<circle cx="{x:.3f}in" cy="{y:.3f}in" r="{r:.3f}in" fill="#f6e3b4" opacity="{0.25 + rnd.random() * 0.5:.2f}"/>')
+    return "".join(out)
+
+
+def _front_html(lang, x, y, w, h, bleed_right):
+    """封面正面（一块 w×h 英寸的区域，左上角在 (x, y)）：深色底 + 放映机光束 + 书名。"""
     T = lang.T
     c = CONFIG
-    w, h = PRINT["trim"]
-    bleed = PRINT["bleed"]
-    W, Hh = 2 * w + spine + 2 * bleed, h + 2 * bleed
     title, subtitle = T(c["title"]), T(c["subtitle"])
-    author = B.author_line(lang)
+    n = len(title)
+    lines = [title] if n <= 4 else [title[: (n + 1) // 2], title[(n + 1) // 2:]]
+    en_title = " · ".join(v for v in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if v)
+    ref = T(c.get("epigraph", {}).get("ref", ""))
     kicker = T("电影随笔集")
-    tagline = T("二十一篇以基督信仰为眼光的电影随笔")
-    en_title = " · ".join(x for x in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if x)
-    blurb_paras = [p for p in T(c["description"]).split("\n") if p.strip()]
-    bc = barcode_data_uri(PRINT["isbn"]) if PRINT.get("isbn") else None
-    show_spine_text = pages >= 100  # Lulu：不足 100 页不得印书脊文字；Ingram 下限 48 页
+    # 光源与光束（SVG，Chromium 与 WeasyPrint 都能画）
+    sx, sy = x + 0.55, y + 0.75
+    bx1 = x + w + bleed_right
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w + bleed_right}in" height="{h}in" viewBox="0 0 {w + bleed_right} {h}"
+  style="position:absolute; left:{x}in; top:{y}in" preserveAspectRatio="none">
+  <defs>
+    <radialGradient id="glow" cx="{(sx - x) / (w + bleed_right):.4f}" cy="{(sy - y) / h:.4f}" r="0.55">
+      <stop offset="0" stop-color="#ffe9b8" stop-opacity="0.95"/><stop offset="0.12" stop-color="#f0cf85" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#8a6a2a" stop-opacity="0.12"/><stop offset="1" stop-color="#0b0c10" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="{sx - x:.3f}" y1="{sy - y:.3f}" x2="{w * 0.85:.3f}" y2="{h:.3f}" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6dc9c" stop-opacity="0.62"/><stop offset="0.35" stop-color="#e2c27a" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#e2c27a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="{w + bleed_right}" height="{h}" fill="#0b0c10"/>
+  <polygon points="{sx - x:.3f},{sy - y:.3f} {w + bleed_right:.3f},{h * 0.30:.3f} {w + bleed_right:.3f},{h:.3f} {w * 0.05:.3f},{h:.3f}" fill="url(#beam)" opacity="0.35"/>
+  <polygon points="{sx - x:.3f},{sy - y:.3f} {w + bleed_right:.3f},{h * 0.38:.3f} {w + bleed_right:.3f},{h:.3f} {w * 0.22:.3f},{h:.3f}" fill="url(#beam)" opacity="0.55"/>
+  <polygon points="{sx - x:.3f},{sy - y:.3f} {w + bleed_right:.3f},{h * 0.46:.3f} {w + bleed_right:.3f},{h:.3f} {w * 0.40:.3f},{h:.3f}" fill="url(#beam)"/>
+  <rect x="0" y="0" width="{w + bleed_right}" height="{h}" fill="url(#glow)"/>
+  <g transform="translate({-x},{-y})">{_dust(7, 260, x + 0.3, y + 0.9, x + w + bleed_right, y + h)}</g>
+</svg>'''
+    # 左缘一条隐约的胶片齿孔
+    holes = "".join(f'<div style="position:absolute; left:{x + 0.09:.3f}in; top:{y + 0.12 + i * 0.30:.3f}in; width:0.09in; height:0.15in; border:0.6pt solid #2a2b32; border-radius:0.015in"></div>'
+                    for i in range(int((h - 0.2) / 0.30)))
+    title_pt = min(64, 250 / max(3, len(lines[0])))
+    title_html = "".join(f'<div style="line-height:1.12">{esc(l)}</div>' for l in lines)
+    return f'''{svg}{holes}
+<div class="abs" style="left:{x}in; width:{w}in; top:{y + 0.62}in; text-align:center; font-size:8pt; letter-spacing:0.38em; color:#c9a35e">✦ {esc(kicker)} ✦</div>
+<div class="abs" style="left:{x}in; width:{w}in; top:{y + 1.25}in; text-align:center; font-size:{title_pt:.0f}pt; font-weight:700; letter-spacing:0.10em; color:#f5ead3">{title_html}</div>
+<div class="abs" style="left:{x + w / 2 - 0.35}in; width:0.7in; top:{y + 1.25 + 1.12 * len(lines) * title_pt / 72 + 0.28:.3f}in; height:1pt; background:#c9a35e"></div>
+<div class="abs" style="left:{x}in; width:{w}in; top:{y + 1.25 + 1.12 * len(lines) * title_pt / 72 + 0.40:.3f}in; text-align:center; font-size:8.5pt; letter-spacing:0.25em; color:#c9a35e">{esc(ref)}</div>
+<div class="abs" style="left:{x}in; width:{w}in; top:{y + h * 0.66}in; text-align:center; font-size:15pt; letter-spacing:0.22em; color:#e9dcc0">{esc(subtitle)}</div>
+{f'<div class="abs" style="left:{x}in; width:{w}in; top:{y + h * 0.66 + 0.36}in; text-align:center; font-size:7pt; letter-spacing:0.14em; color:#a89f8c">{esc(en_title)}</div>' if en_title else ''}
+<div class="abs" style="left:{x}in; width:{w}in; top:{y + h - 0.95}in; text-align:center; font-size:12.5pt; letter-spacing:0.35em; color:#f5ead3">{esc(B.author_line(lang))}</div>
+'''
+
+
+def cover_html(lang, pages, spine, front_only=False, trim=None):
+    """全包封面（封底 | 书脊 | 封面）或仅封面（电子书）。深色底、放映机光束，呼应书名《光照在黑暗里》。"""
+    T = lang.T
+    c = CONFIG
+    w, h = trim or PRINT["trim"]
+    bleed = 0 if front_only else PRINT["bleed"]
+    W, Hh = (w, h) if front_only else (2 * w + spine + 2 * bleed, h + 2 * bleed)
     ff = font_family(lang)
-    # 各区域的 x 坐标（英寸）：封底 | 书脊 | 封面
-    back_x, spine_x, front_x = bleed, bleed + w, bleed + w + spine
-    safe = 0.375  # 安全区：距裁切线 ≥ 0.25in，这里留更宽
-    return f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+    back_x, spine_x, front_x = bleed, bleed + w, (0 if front_only else bleed + w + spine)
+    safe = 0.4
+    show_spine_text = pages >= 100
+    title, subtitle, author = T(c["title"]), T(c["subtitle"]), T(c["author"])
+    parts = [f'''<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 @page {{ size: {W}in {Hh}in; margin: 0; }}
 html, body {{ margin: 0; padding: 0; }}
-body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font-family: {ff}; color: #2a2418;
-  background: #f1e7d0; }}
+body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font-family: {ff}; color: #f5ead3; background: #0b0c10; }}
 .abs {{ position: absolute; }}
-.paper {{ left: 0; top: 0; width: {W}in; height: {Hh}in;
-  background-image: radial-gradient(ellipse 5in 4in at {front_x + w / 2}in 22%, rgba(255,248,228,0.95), rgba(241,231,208,0) 70%); }}
-.strip {{ top: 0; height: {Hh}in; width: 0.2in; background: #2a2418; }}
-.hole {{ position: absolute; left: 0.062in; width: 0.076in; height: 0.13in; background: #f1e7d0; border-radius: 0.012in; }}
-.frame {{ border: 1.5pt solid #9a7320; }}
-.frame2 {{ border: 0.5pt solid rgba(154,115,32,0.55); }}
-.spine {{ left: {spine_x}in; top: 0; width: {spine}in; height: {Hh}in; background: #2a2418; }}
-.spine-text {{ left: {spine_x}in; top: 0; width: {spine}in; height: {Hh}in; color: #e9d7a6; }}
-.spine-text .v {{ position: absolute; left: 0; width: {spine}in; text-align: center; writing-mode: vertical-rl; text-orientation: upright;
-  letter-spacing: 0.12em; font-size: {min(13, max(7, spine * 30)):.1f}pt; }}
-.front-kicker {{ left: {front_x}in; width: {w}in; top: {bleed + 0.85}in; text-align: center; font-size: 8pt; letter-spacing: 0.35em; color: #9a7320; }}
-.front-title {{ left: {front_x}in; width: {w}in; top: {bleed + 1.25}in; text-align: center; font-size: {min(52, 270 / max(4, len(title))):.0f}pt; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; }}
-.front-rule {{ left: {front_x + w / 2 - 0.4}in; width: 0.8in; top: {bleed + 3.55}in; height: 1.5pt; background: #9a7320; }}
-.front-sub {{ left: {front_x}in; width: {w}in; top: {bleed + 3.75}in; text-align: center; font-size: 17pt; letter-spacing: 0.18em; color: #5a5040; }}
-.front-en {{ left: {front_x}in; width: {w}in; top: {bleed + 4.2}in; text-align: center; font-size: 7.5pt; letter-spacing: 0.12em; color: #7a6a4a; }}
-.sun {{ left: {front_x + w / 2 - 0.85}in; top: {bleed + 4.75}in; width: 1.7in; height: 1.7in; border-radius: 50%;
-  background: radial-gradient(circle at 50% 45%, #f6d98a 0%, #d9ad4c 55%, #9a7320 100%); }}
-.horizon {{ left: {front_x + safe}in; width: {w - 2 * safe}in; top: {bleed + 5.6}in; height: 1.55in; background: #2a2418; border-top: 2pt solid #c9a35e; }}
-.front-tag {{ left: {front_x + safe}in; width: {w - 2 * safe}in; top: {bleed + 6.25}in; text-align: center; font-size: 9.5pt; letter-spacing: 0.15em; color: #e9d7a6; }}
-.front-author {{ left: {front_x}in; width: {w}in; top: {bleed + h - 0.95}in; text-align: center; font-size: 13pt; letter-spacing: 0.35em; }}
-.back-title {{ left: {back_x + safe}in; width: {w - 2 * safe}in; top: {bleed + 0.7}in; font-size: 14pt; font-weight: 700; letter-spacing: 0.1em; }}
-.back-blurb {{ left: {back_x + safe}in; width: {w - 2 * safe}in; top: {bleed + 1.25}in; font-size: 8.6pt; line-height: 1.75; text-align: justify; }}
+.v {{ position: absolute; left: 0; width: {spine}in; text-align: center; writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.12em; color: #e9dcc0; }}
 .back-blurb p {{ margin: 0 0 0.6em; text-indent: 2em; }}
-.back-site {{ left: {back_x + safe}in; width: {w - 2 * safe - 2.2}in; top: {bleed + h - 1.35}in; font-size: 7.5pt; color: #5a5040; line-height: 1.6; }}
-.barcode {{ left: {back_x + w - safe - 2.0}in; top: {bleed + h - safe - 1.2}in; width: 2.0in; height: 1.2in; background: #fff; }}
-.barcode img {{ width: 2.0in; height: 1.2in; }}
-.barcode .ph {{ font-size: 6.5pt; color: #999; text-align: center; padding-top: 0.5in; }}
-</style></head><body>
-<div class="abs paper"></div>
-<div class="abs strip" style="left:{back_x - bleed}in">{"".join(f'<div class="hole" style="top:{0.15 + i * 0.28}in"></div>' for i in range(int(Hh / 0.28)))}</div>
-<div class="abs strip" style="left:{front_x + w + bleed - 0.2}in">{"".join(f'<div class="hole" style="top:{0.15 + i * 0.28}in"></div>' for i in range(int(Hh / 0.28)))}</div>
-<div class="abs frame" style="left:{front_x + 0.3}in; top:{bleed + 0.3}in; width:{w - 0.6}in; height:{h - 0.6}in"></div>
-<div class="abs frame2" style="left:{front_x + 0.36}in; top:{bleed + 0.36}in; width:{w - 0.72}in; height:{h - 0.72}in"></div>
-<div class="abs frame" style="left:{back_x + 0.3}in; top:{bleed + 0.3}in; width:{w - 0.6}in; height:{h - 0.6}in"></div>
-<div class="abs spine"></div>
-{f'<div class="abs spine-text"><div class="v" style="top:{bleed + 0.6}in">{esc(title)}　{esc(subtitle)}</div><div class="v" style="bottom:{bleed + 0.6}in; top:auto; font-size:7pt; letter-spacing:0.2em">{esc(author)}</div></div>' if show_spine_text else ''}
-<div class="abs front-kicker">✦ {esc(kicker)} ✦</div>
-<div class="abs front-title">{esc(title)}</div>
-<div class="abs front-rule"></div>
-<div class="abs front-sub">{esc(subtitle)}</div>
-{f'<div class="abs front-en">{esc(en_title)}</div>' if en_title else ''}
-<div class="abs sun"></div>
-<div class="abs horizon"></div>
-<div class="abs front-tag">{esc(tagline)}</div>
-<div class="abs front-author">{esc(author)}</div>
-<div class="abs back-title">{esc(title)}　{esc(subtitle)}</div>
-<div class="abs back-blurb">{"".join(f"<p>{esc(p)}</p>" for p in blurb_paras)}</div>
-<div class="abs back-site">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
-<div class="abs barcode">{f'<img src="{bc}">' if bc else f'<div class="ph">{esc(T("ISBN 条码位置（book.json 填入 isbn 后自动生成）"))}</div>'}</div>
-</body></html>"""
+</style></head><body>''']
+    if not front_only:
+        bc = barcode_data_uri(PRINT["isbn"]) if PRINT.get("isbn") else None
+        blurb = [p for p in T(c["description"]).split("\n") if p.strip()]
+        parts.append(f'''
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:#f5ead3">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:#c9a35e">{esc(subtitle)}</span></div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.15}in; height:1pt; background:#c9a35e; opacity:0.7"></div>
+<div class="abs back-blurb" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.4}in; font-size:8.6pt; line-height:1.8; text-align:justify; color:#e9dcc0">{"".join(f"<p>{esc(p)}</p>" for p in blurb)}</div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:#a89f8c">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
+<div class="abs" style="left:{back_x + w - safe - 2.0}in; top:{bleed + h - safe - 1.2}in; width:2.0in; height:1.2in; background:#fff">{f'<img src="{bc}" style="width:2.0in; height:1.2in">' if bc else f'<div style="font-size:6.5pt; color:#999; text-align:center; padding-top:0.5in">{esc(T("ISBN 条码位置（book.json 填入 isbn 后自动生成）"))}</div>'}</div>
+<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:#0b0c10; border-left:0.4pt solid #23242b; border-right:0.4pt solid #23242b"></div>
+''')
+        if show_spine_text:
+            parts.append(f'''<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in">
+<div class="v" style="top:{bleed + 0.6}in; font-size:{min(13, max(7, spine * 30)):.1f}pt">{esc(title)}　{esc(subtitle)}</div>
+<div class="v" style="bottom:{bleed + 0.6}in; top:auto; font-size:7pt; letter-spacing:0.2em; color:#c9a35e">{esc(author)}</div></div>''')
+    parts.append(_front_html(lang, front_x, 0 if front_only else bleed, w, h, 0 if front_only else bleed))
+    parts.append("</body></html>")
+    return "".join(parts)
 
 
 def build_cover(lang, pages, outdir, platform, spine_override=None):
@@ -423,12 +468,12 @@ def build_all(parts, langs, with_images, outdir, platforms, spine_override=None)
         if len(platforms) == 2:
             print("  上架文案 ->", write_print_listing(lang, pages, spines, outdir))
     if with_images:
-        print("!! 剧照为 ≤720px 低清图，印刷会偏软；按需印刷平台要求图片 300ppi，仅供自印留念。")
+        print("!! 剧照原图 ≤720px，按 4.2in 宽排版约 170ppi，低于平台建议的 300ppi，印出来会略软；平台一般只警告不拒收。")
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--with-images", action="store_true")
+    ap.add_argument("--no-images", action="store_true", help="不嵌剧照，输出到 dist/print/text-only/")
     ap.add_argument("--lang", choices=["sc", "tw"])
     ap.add_argument("--spine", type=float, help="书脊宽度（英寸），覆盖估算")
     ap.add_argument("--platform", choices=["lulu", "ingram", "all"], default="all", help="只出某个平台的封面")
@@ -436,8 +481,8 @@ def main():
     parts = B.load_book()
     langs = [B.Lang(args.lang)] if args.lang else [B.Lang("tw"), B.Lang("sc")]
     platforms = ["lulu", "ingram"] if args.platform == "all" else [args.platform]
-    outdir = os.path.join(B.DIST, "print", "illustrated") if args.with_images else os.path.join(B.DIST, "print")
-    build_all(parts, langs, args.with_images, outdir, platforms, args.spine)
+    outdir = os.path.join(B.DIST, "print", "text-only") if args.no_images else os.path.join(B.DIST, "print")
+    build_all(parts, langs, not args.no_images, outdir, platforms, args.spine)
 
 
 if __name__ == "__main__":

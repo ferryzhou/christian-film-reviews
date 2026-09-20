@@ -2,11 +2,11 @@
 
 书名：光照在黑暗里    副标题：二十一部电影里的救赎    作者：周津
 English title: The Light Shines in the Darkness: Redemption in Twenty-One Films    (Simplified Chinese edition)
-规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 115 页（装订按 116 页）
+规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 169 页（装订按 170 页）
 ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
-Spine width: 0.321 in（pages/444 + 0.06）
+Spine width: 0.443 in（pages/444 + 0.06）
 Category: Religion & Spirituality > Christianity   |   Keywords: 基督教 影评、电影与信仰、福音 电影随笔、基督徒 看电影、肖申克的救赎 密阳 影评
 Description:
 《肖申克的救赎》里安迪为什么要把那本圣经留给典狱长？《密阳》里那个仰着脸问“你看见了吗”的母亲，究竟在向谁发问？《寻梦环游记》唱的“请记得我”，和《狮子王》里那句“记住你是谁”，为什么听起来像同一个声音？
@@ -16,7 +16,7 @@ Description:
 全书按主题分为五辑：苦难中的追问、自由与救赎、牺牲与公义、记忆与归家、青春与教育。书末附影片索引与经文索引。不假定读者是基督徒：爱电影的人，会在这里看见从前没有留意的细节；在信仰门口徘徊的人，或许会发现这些故事早已替他说出了一些不容易直接说出的话。
 
 --- IngramSpark（Add a Title；需自有 ISBN）---
-Spine width: 0.290 in（pages × 0.0025，最终以 Cover Template Generator 为准）
+Spine width: 0.425 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 光照在黑暗里    Subtitle: 二十一部电影里的救赎
 Contributor: 周津 (Author)    Imprint: 光影与信仰
 BISAC subjects（下拉框按名称选，最多 3 个）:

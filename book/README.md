@@ -21,15 +21,15 @@
 pip install python-docx ebooklib opencc-python-reimplemented
 python3 book/build_book.py                # 全部产出 → book/dist/
 python3 book/build_book.py --only docx-tw # 只重生成 KDP 用的繁体 DOCX
-python3 book/build_book.py --with-images  # 额外生成内嵌剧照版 → book/dist/illustrated/（见"版权"）
+python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only/（见"版权与配图"）
 ```
 
-封面渲染需要 `node` + `playwright` + Chromium（本仓库 `render_cover.js`），并建议安装 Noto Serif SC/TC 字体；缺失时脚本跳过封面并提示，其余产出不受影响。
+依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（深色底 + 放映机光束，`build_print.py` 里的 `cover_html`），由 WeasyPrint 渲染，不再依赖 Chromium。
 
 | 产出（`book/dist/`） | 用途 |
 | --- | --- |
 | `光照在黑暗里-繁體.docx` | **上传 KDP 的书稿** |
-| `cover-tw.jpg` | KDP 封面，1600×2560（1:1.6），JPEG，原创排版，不含影片素材 |
+| `cover-tw.jpg` | KDP 封面，1600×2560（1:1.6），JPEG，原创设计，不含影片素材 |
 | `kdp-listing-tw.txt` | 上架表单文案：书名、副标题、简介、7 组关键词、3 个分类、章节一览 |
 | `光照在黑暗里-繁體.epub` | Send to Kindle 自用、Apple Books / Google Play / Kobo 等其他平台 |
 | `光照在黑暗里-简体.docx` / `.epub` / `cover-sc.jpg` / `kdp-listing-sc.txt` | 简体版，同上；**不能上传 KDP** |
@@ -62,12 +62,16 @@ python3 book/build_book.py --with-images  # 额外生成内嵌剧照版 → book
    - 定价参考：US$4.99（可享 70% 版税档位 2.99–9.99）；其他市场按汇率自动换算即可。繁体读者主要在台湾/香港/海外华人，实际购买多经 Amazon.com。
 6. **Publish**。审核通常 72 小时内（Beta 语言可能更久）。审核会核对 AI 申报、版权（见下节）与"内容是否在网上免费可得"——后者对版权所有者是允许的，如被问询，回复自己是网站作者并给出站点链接即可。
 
-## 版权与配图：为什么默认纯文字
+## 版权与配图
 
-- **剧照**：站内影评的配图是低分辨率官方剧照，靠"评论目的 + 少量 + 低清 + 承诺下架"的合理使用（fair use）站在网站上。放进**付费出售**的书里，合理使用的四要素中"商业性"与"对市场的影响"都变得不利，而 KDP 的内容审核要求你对每张图片持有权利，被要求出示授权时无法提供。所以默认产出**不含剧照**。`--with-images` 仅供自用/印给朋友，或在你取得片方授权后使用；输出在 `dist/illustrated/`，不入库。
-- **海报**同理不进书，封面为脚本排版的原创图（纸色底、金色胶片孔、隐秘的阳光），无第三方素材。
-- **台词引用**：正文中的短句台词引用属于评论范畴，与出版影评集的行业惯例一致。
-- **经文**：和合本 1919 年出版，已进入公有领域。
+默认版本**含全部 100 张剧照**（电子书压到 ≤640px 宽 JPEG，约 2–3 MB；印刷内文转灰度）。这是作者的决定，风险在此记录一次：
+
+- **剧照**：站内配图是低分辨率官方剧照，靠"评论目的 + 少量 + 低清 + 承诺下架"的合理使用（fair use）站在免费网站上。放进**付费出售**的书里，合理使用四要素中"商业性"与"对市场的影响"变得不利；KDP / Lulu / IngramSpark 的内容审核都要求上传者对每张图片持有权利，被问询时官方剧照拿不出授权文件，可能下架。
+- 如需保守版本：`--no-images` 生成纯文字版（`dist/text-only/`、`dist/print/text-only/`）；或者只保留 Wikimedia Commons 上 CC 协议的取景地照片一类的图。
+- **Kindle 传输费**：70% 版税档按文件大小每 MB 扣约 $0.15；带图版约 2–3 MB，每本扣 $0.3–0.5，定价时算进去。
+- **印刷分辨率**：剧照原图 ≤720px，按 4.2 in 宽排版约 170ppi，低于平台建议的 300ppi，印出来会略软；平台一般只警告不拒收，样书到手确认。
+- **海报**不进书；封面为原创设计，无第三方素材。
+- **台词引用**属于评论范畴；**经文**和合本 1919 年出版，已进入公有领域。
 - **书名**：《光照在黑暗里》取自约翰福音 1:5，题记页印全句；"光影与信仰"作为出版方/品牌名保留。书名与副标题在 `book.json` 改。
 
 ## 出版前检查清单
@@ -98,7 +102,7 @@ python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给�
 
 | 产出（简繁各一套） | 说明 |
 | --- | --- |
-| `光照在黑暗里-*-内文.pdf` | 5.5×8.5 in（Digest）开本，113 页；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
+| `光照在黑暗里-*-内文.pdf` | 5.5×8.5 in（Digest）开本，含灰度剧照；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
 | `光照在黑暗里-*-封面-lulu.pdf` | Lulu 全包封面：书脊按 Lulu 官方公式 pages/444 + 0.06 in（113 页 → 0.317 in），RGB |
 | `光照在黑暗里-*-封面-ingram.pdf` | IngramSpark 全包封面：书脊 = 页数 × 0.0025 in（cream 50# 纸，→ 0.285 in），Ghostscript 转 CMYK；条码区白底 2×1.2 in（Ingram 要求 ≥1.75×1 in） |
 | `print-listing-*.txt` | 两个平台的上架文案：书名/英文书名、规格、书脊、Lulu 分类与关键词、Ingram 的 BISAC 三个类目、英文短简介、折扣与退货建议 |
@@ -131,7 +135,7 @@ python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给�
 - [ ] 书脊宽度用平台的模板/计算器核对；封面 PDF 总尺寸 = 2×5.5 + 书脊 + 2×0.125 in 宽、8.5 + 0.25 in 高。
 - [ ] Ingram 封面必须有 ISBN 条码：填 `isbn` 重跑后确认封底右下角条码已出现。
 - [ ] 平台预览器里翻一遍：目录页码、附录页码、右页页眉篇名、辑扉页是否在右页。
-- [ ] 想要带图的印刷版可用 `--with-images`（输出到 `dist/print/illustrated/`），但站内剧照只有 ≤720 px，达不到印刷要求的 300 ppi，且商业销售的版权风险同前文，仅建议自印留念。
+- [ ] 带图印刷版的剧照约 170ppi，样书到手看图片是否可接受；不接受就用 `--no-images` 的纯文字版。
 - [ ] 每个平台各订一本样书（proof）再开售。
 
 ## 维护
