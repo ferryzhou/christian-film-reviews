@@ -318,6 +318,14 @@ def build_docx(parts, lang, with_images):
         para(line, indent=False, size=9, color="5A5040")
     page_break()
 
+    # 题记
+    if CONFIG.get("epigraph"):
+        for _ in range(9):
+            para()
+        para(T(CONFIG["epigraph"]["text"]), align="center", indent=False, size=12)
+        para("——" + T(CONFIG["epigraph"]["ref"]), align="center", indent=False, size=10, color="5A5040")
+        page_break()
+
     # 目录（Kindle 用书签 "toc" 识别逻辑目录）
     h = doc.add_heading(T("目录"), level=1)
     bookmark(h, "toc")
@@ -435,6 +443,8 @@ p.noindent, p.center, figcaption, .copyright p, .toc p { text-indent: 0; }
 .titlepage .subtitle { font-size: 1.2em; color: #5a5040; margin: 0.6em 0 3em; }
 .titlepage .author { font-size: 1.1em; }
 .copyright p { font-size: 0.85em; color: #5a5040; margin-bottom: 0.5em; }
+.epigraph { margin-top: 40%; font-size: 1.1em; }
+.epigraph .ref { font-size: 0.85em; color: #5a5040; margin-top: 0.8em; }
 .part { text-align: center; margin-top: 35%; }
 .part h1 { text-align: center; }
 .part .theme { color: #5a5040; font-size: 1.1em; text-indent: 0; }
@@ -500,6 +510,11 @@ def build_epub(parts, lang, with_images, cover_path):
 
     cr_html = '<div class="copyright">' + "".join(f"<p>{esc(x)}</p>" for x in copyright_lines(lang)) + "</div>"
     spine.append(page("copyright", "copyright.xhtml", T("版权页"), cr_html))
+
+    if CONFIG.get("epigraph"):
+        ep_html = (f'<div class="epigraph"><p class="noindent center">{esc(T(CONFIG["epigraph"]["text"]))}</p>'
+                   f'<p class="noindent center ref">——{esc(T(CONFIG["epigraph"]["ref"]))}</p></div>')
+        spine.append(page("epigraph", "epigraph.xhtml", T("题记"), ep_html))
 
     pre_title, pre_blocks = preface_blocks()
     pre_html = f"<h1>{esc(T(pre_title))}</h1>" + "".join(f"<p>{inline(T(b[1]))}</p>" for b in pre_blocks if b[0] == "p")
@@ -589,7 +604,7 @@ def build_cover(lang):
         pass
     payload = json.dumps({
         "title": lang.T(CONFIG["title"]), "subtitle": lang.T(CONFIG["subtitle"]),
-        "author": author_line(lang), "tagline": lang.T("二十一篇以基督信仰为眼光的电影随笔"),
+        "author": author_line(lang), "lang": lang.code, "tagline": lang.T("二十一篇以基督信仰为眼光的电影随笔"),
         "out": out,
     }, ensure_ascii=False)
     try:

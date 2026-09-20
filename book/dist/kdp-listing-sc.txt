@@ -1,7 +1,7 @@
 === Kindle eBook Details（复制到 KDP 表单）===
 
 Language: Chinese (Simplified) —— KDP 不支持，此版本不能上传 KDP
-Book Title: 光影与信仰
+Book Title: 光照在黑暗里
 Subtitle: 二十一部电影里的救赎
 Author: 周津
 

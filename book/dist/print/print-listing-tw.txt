@@ -1,12 +1,12 @@
 === 纸质书上架文案（繁體中文）===
 
-书名：光影與信仰    副标题：二十一部電影裡的救贖    作者：周津
-English title: Light, Shadow and Faith: Redemption in Twenty-One Films    (Traditional Chinese edition)
-规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 113 页（装订按 114 页）
+书名：光照在黑暗裡    副标题：二十一部電影裡的救贖    作者：周津
+English title: The Light Shines in the Darkness: Redemption in Twenty-One Films    (Traditional Chinese edition)
+规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 115 页（装订按 116 页）
 ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
-Spine width: 0.317 in（pages/444 + 0.06）
+Spine width: 0.321 in（pages/444 + 0.06）
 Category: Religion & Spirituality > Christianity   |   Keywords: 基督教 影評、電影與信仰、福音 電影隨筆、基督徒 看電影、肖申克的救贖 密陽 影評
 Description:
 《肖申克的救贖》裡安迪為什麼要把那本聖經留給典獄長？《密陽》裡那個仰著臉問“你看見了嗎”的母親，究竟在向誰發問？《尋夢環遊記》唱的“請記得我”，和《獅子王》裡那句“記住你是誰”，為什麼聽起來像同一個聲音？
@@ -16,8 +16,8 @@ Description:
 全書按主題分為五輯：苦難中的追問、自由與救贖、犧牲與公義、記憶與歸家、青春與教育。書末附影片索引與經文索引。不假定讀者是基督徒：愛電影的人，會在這裡看見從前沒有留意的細節；在信仰門口徘徊的人，或許會發現這些故事早已替他說出了一些不容易直接說出的話。
 
 --- IngramSpark（Add a Title；需自有 ISBN）---
-Spine width: 0.285 in（pages × 0.0025，最终以 Cover Template Generator 为准）
-Language: Chinese    Title: 光影與信仰    Subtitle: 二十一部電影裡的救贖
+Spine width: 0.290 in（pages × 0.0025，最终以 Cover Template Generator 为准）
+Language: Chinese    Title: 光照在黑暗裡    Subtitle: 二十一部電影裡的救贖
 Contributor: 周津 (Author)    Imprint: 光影與信仰
 BISAC subjects（下拉框按名称选，最多 3 个）:
   REL012000  RELIGION / Christian Living / General
@@ -25,7 +25,7 @@ BISAC subjects（下拉框按名称选，最多 3 个）:
   LCO010000  LITERARY COLLECTIONS / Essays
 Keywords: Christian film criticism; Chinese essays; faith and cinema; 基督教 影評; 電影與信仰; 福音 電影隨筆; 基督徒 看電影
 Short description (English, for retailers):
-Light, Shadow and Faith: Redemption in Twenty-One Films is a collection of twenty-one original essays, written in Chinese, that reread landmark films through the eyes of Christian faith: from Bergman's The Seventh Seal and Lee Chang-dong's Secret Sunshine to Schindler's List, Life Is Beautiful, Dying to Survive and Pixar's Soul. Each essay starts from a line of dialogue, a prop or an echoing shot, sketches a portrait of every character, faces the human predicament the film exposes, and walks toward the gospel. Arranged in five parts (Questions in Suffering; Freedom and Redemption; Sacrifice and Justice; Memory, Identity and Homecoming; Youth and Education), with an index of films and an index of Scripture references. For film lovers, and for anyone lingering at the door of faith.
+The Light Shines in the Darkness: Redemption in Twenty-One Films is a collection of twenty-one original essays, written in Chinese, that reread landmark films through the eyes of Christian faith: from Bergman's The Seventh Seal and Lee Chang-dong's Secret Sunshine to Schindler's List, Life Is Beautiful, Dying to Survive and Pixar's Soul. Each essay starts from a line of dialogue, a prop or an echoing shot, sketches a portrait of every character, faces the human predicament the film exposes, and walks toward the gospel. Arranged in five parts (Questions in Suffering; Freedom and Redemption; Sacrifice and Justice; Memory, Identity and Homecoming; Youth and Education), with an index of films and an index of Scripture references. For film lovers, and for anyone lingering at the door of faith.
 
 Full description (Chinese):
 《肖申克的救贖》裡安迪為什麼要把那本聖經留給典獄長？《密陽》裡那個仰著臉問“你看見了嗎”的母親，究竟在向誰發問？《尋夢環遊記》唱的“請記得我”，和《獅子王》裡那句“記住你是誰”，為什麼聽起來像同一個聲音？

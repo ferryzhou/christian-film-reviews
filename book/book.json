@@ -1,6 +1,10 @@
 {
-  "title": "光影与信仰",
+  "title": "光照在黑暗里",
   "subtitle": "二十一部电影里的救赎",
+  "epigraph": {
+    "text": "光照在黑暗里，黑暗却不接受光。",
+    "ref": "约翰福音 1:5"
+  },
   "author": "周津",
   "authorSuffix": "著",
   "publisher": "光影与信仰",
@@ -95,7 +99,7 @@
     "paper": "cream",
     "isbn": "",
     "price": "",
-    "titleEn": "Light, Shadow and Faith",
+    "titleEn": "The Light Shines in the Darkness",
     "subtitleEn": "Redemption in Twenty-One Films",
     "font_pt": 10.5
   },

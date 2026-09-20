@@ -99,6 +99,8 @@ strong {{ font-weight: 700; }}
 .titlepage .publisher {{ font-size: 9pt; letter-spacing: 0.2em; color: #000; margin-top: 0.15in; text-indent: 0; }}
 .copyright {{ padding-top: 4.2in; font-size: 8pt; line-height: 1.6; color: #000; }}
 .copyright p {{ text-indent: 0; margin-bottom: 0.35em; }}
+.epigraph {{ text-align: center; padding-top: 3in; font-size: 12pt; letter-spacing: 0.08em; }}
+.epigraph .ref {{ font-size: 9pt; margin-top: 0.25in; }}
 
 h1.section {{ font-size: 17pt; font-weight: 700; letter-spacing: 0.15em; margin: 0.4in 0 0.35in; text-align: left; string-set: chaptitle content(); }}
 .toc p {{ text-indent: 0; margin: 0.12em 0; text-align: left; }}
@@ -149,6 +151,11 @@ def interior_html(parts, lang, with_images):
         cr.insert(3, f"<p>ISBN {esc(PRINT['isbn'])}</p>")
     cr.append(f"<p>{esc(T('印装：按需印刷（Print on Demand）'))}</p>")
     out.append(f'<div class="plain page copyright">{"".join(cr)}</div>')
+
+    # 题记（右页）
+    if c.get("epigraph"):
+        out.append(f'<div class="plain recto epigraph"><p class="noindent">{esc(T(c["epigraph"]["text"]))}</p>'
+                   f'<p class="noindent ref">——{esc(T(c["epigraph"]["ref"]))}</p></div>')
 
     # 目录
     out.append(f'<div class="recto opener toc"><h1 class="section">{esc(T("目录"))}</h1>')
@@ -293,7 +300,7 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 .spine-text .v {{ position: absolute; left: 0; width: {spine}in; text-align: center; writing-mode: vertical-rl; text-orientation: upright;
   letter-spacing: 0.12em; font-size: {min(13, max(7, spine * 30)):.1f}pt; }}
 .front-kicker {{ left: {front_x}in; width: {w}in; top: {bleed + 0.85}in; text-align: center; font-size: 8pt; letter-spacing: 0.35em; color: #9a7320; }}
-.front-title {{ left: {front_x}in; width: {w}in; top: {bleed + 1.25}in; text-align: center; font-size: 52pt; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; }}
+.front-title {{ left: {front_x}in; width: {w}in; top: {bleed + 1.25}in; text-align: center; font-size: {min(52, 270 / max(4, len(title))):.0f}pt; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; }}
 .front-rule {{ left: {front_x + w / 2 - 0.4}in; width: 0.8in; top: {bleed + 3.55}in; height: 1.5pt; background: #9a7320; }}
 .front-sub {{ left: {front_x}in; width: {w}in; top: {bleed + 3.75}in; text-align: center; font-size: 17pt; letter-spacing: 0.18em; color: #5a5040; }}
 .front-en {{ left: {front_x}in; width: {w}in; top: {bleed + 4.2}in; text-align: center; font-size: 7.5pt; letter-spacing: 0.12em; color: #7a6a4a; }}
@@ -348,7 +355,7 @@ def build_cover(lang, pages, outdir, platform, spine_override=None):
 
 
 EN_DESCRIPTION = (
-    "Light, Shadow and Faith: Redemption in Twenty-One Films is a collection of twenty-one original essays, written in Chinese, "
+    f"{PRINT.get('titleEn') or 'This book'}: {PRINT.get('subtitleEn', '')} is a collection of twenty-one original essays, written in Chinese, "
     "that reread landmark films through the eyes of Christian faith: from Bergman's The Seventh Seal and Lee Chang-dong's Secret Sunshine "
     "to Schindler's List, Life Is Beautiful, Dying to Survive and Pixar's Soul. Each essay starts from a line of dialogue, a prop or an "
     "echoing shot, sketches a portrait of every character, faces the human predicament the film exposes, and walks toward the gospel. "
