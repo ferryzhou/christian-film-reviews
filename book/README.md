@@ -24,7 +24,7 @@ python3 book/build_book.py --only docx-tw # 只重生成 KDP 用的繁体 DOCX
 python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only/（见"版权与配图"）
 ```
 
-依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `fuse` 导火线），由 WeasyPrint 渲染，不依赖 Chromium。
+依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `hourglass` 沙漏），由 WeasyPrint 渲染，不依赖 Chromium。
 
 | 产出（`book/dist/`） | 用途 |
 | --- | --- |

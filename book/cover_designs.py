@@ -374,17 +374,30 @@ watermark.palette = {"bg": "#f7f3ea", "fg": "#1b1a17", "accent": "#b8933f", "mut
 def hourglass(lang, x, y, w, h, br, c):
     bg, ink, gold, muted = "#faf6ee", "#1b1a17", "#b8933f", "#8a7f6a"
     W = w + br
-    cx, top, bh = w / 2, h * 0.60, 1.9
-    hw = 0.75
-    # 沙漏轮廓 + 上半沙面（还剩很多）+ 下半一小堆 + 细流
+    cx, y0, bh = w / 2, h * 0.60, 1.9      # 中心 x、顶部 y、总高
+    hw, nw, half = 0.75, 0.055, bh / 2     # 上下口半宽、颈口半宽、半高
+
+    def hwid(d):
+        """离顶（或离底）距离 d 处的内壁半宽（直边沙漏）"""
+        return hw - (hw - nw) * (d / half)
+
+    # 上仓沙：沙面在离顶 0.5in 处（微凹），沿内壁收到颈口——还剩很多
+    d1 = 0.5
+    top_sand = (f"M {cx - hwid(d1):.3f},{y0 + d1:.3f} Q {cx:.3f},{y0 + d1 + 0.12:.3f} {cx + hwid(d1):.3f},{y0 + d1:.3f} "
+                f"L {cx + nw:.3f},{y0 + half:.3f} L {cx - nw:.3f},{y0 + half:.3f} Z")
+    # 下仓沙：底部一小堆
+    yb = y0 + bh
+    mound = f"M {cx - 0.5:.3f},{yb:.3f} Q {cx:.3f},{yb - 0.5:.3f} {cx + 0.5:.3f},{yb:.3f} Z"
+    outline = (f"M {cx - hw:.3f},{y0:.3f} L {cx + hw:.3f},{y0:.3f} L {cx + nw:.3f},{y0 + half:.3f} "
+               f"L {cx + hw:.3f},{yb:.3f} L {cx - hw:.3f},{yb:.3f} L {cx - nw:.3f},{y0 + half:.3f} Z")
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}in" height="{h}in" viewBox="0 0 {W} {h}" style="position:absolute; left:{x}in; top:{y}in">
   <rect width="{W}" height="{h}" fill="{bg}"/>
-  <path d="M {cx - hw},{top} L {cx + hw},{top} L {cx + 0.06},{top + bh / 2} L {cx + hw},{top + bh} L {cx - hw},{top + bh} L {cx - 0.06},{top + bh / 2} Z" fill="none" stroke="{ink}" stroke-width="0.022" stroke-linejoin="round"/>
-  <line x1="{cx - hw - 0.15}" y1="{top}" x2="{cx + hw + 0.15}" y2="{top}" stroke="{ink}" stroke-width="0.035"/>
-  <line x1="{cx - hw - 0.15}" y1="{top + bh}" x2="{cx + hw + 0.15}" y2="{top + bh}" stroke="{ink}" stroke-width="0.035"/>
-  <path d="M {cx - hw + 0.28},{top + 0.55} Q {cx},{top + 0.42} {cx + hw - 0.28},{top + 0.55} L {cx + 0.05},{top + bh / 2 - 0.04} L {cx - 0.05},{top + bh / 2 - 0.04} Z" fill="{gold}" opacity="0.85"/>
-  <line x1="{cx}" y1="{top + bh / 2}" x2="{cx}" y2="{top + bh - 0.22}" stroke="{gold}" stroke-width="0.02" stroke-dasharray="0.03 0.04"/>
-  <path d="M {cx - 0.3},{top + bh - 0.02} Q {cx},{top + bh - 0.32} {cx + 0.3},{top + bh - 0.02} Z" fill="{gold}" opacity="0.85"/>
+  <path d="{top_sand}" fill="{gold}" opacity="0.9"/>
+  <path d="{mound}" fill="{gold}" opacity="0.9"/>
+  <line x1="{cx:.3f}" y1="{y0 + half:.3f}" x2="{cx:.3f}" y2="{yb - 0.26:.3f}" stroke="{gold}" stroke-width="0.022" stroke-dasharray="0.035 0.045"/>
+  <path d="{outline}" fill="none" stroke="{ink}" stroke-width="0.026" stroke-linejoin="round"/>
+  <line x1="{cx - hw - 0.18:.3f}" y1="{y0:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{y0:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
+  <line x1="{cx - hw - 0.18:.3f}" y1="{yb:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{yb:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
 </svg>'''
     html, _ = _stack(x, y, w, h, c, ink, gold, muted, title_pt=80, top=1.25)
     return svg + html
