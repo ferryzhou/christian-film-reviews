@@ -97,7 +97,10 @@
     ],
     "bleed": 0.125,
     "paper": "cream",
-    "isbn": "",
+    "isbn": {
+      "tw": "979-8-9982815-0-1",
+      "sc": ""
+    },
     "price": "",
     "titleEn": "The Light Shines in the Darkness",
     "subtitleEn": "Redemption in Twenty-One Films",

@@ -48,6 +48,12 @@ def esc(s):
     return H.escape(str(s), quote=True)
 
 
+def isbn_for(lang):
+    """print.isbn 可以是一个字符串（两版共用，不推荐）或 {"tw": ..., "sc": ...}；简繁纸书是两本书，各需一个 ISBN。"""
+    v = PRINT.get("isbn") or ""
+    return (v.get(lang.code, "") if isinstance(v, dict) else v).strip()
+
+
 def inline(text):
     out = ""
     for t, b, i in B.inline_runs(text):
@@ -163,8 +169,8 @@ def interior_html(parts, lang, with_images, outdir):
                + (f'<p class="en">{esc(en_line)}</p>' if en_line else "")
                + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{esc(T(c["publisher"]))}</p></div>')
     cr = [f"<p>{esc(x)}</p>" for x in B.copyright_lines(lang)]
-    if PRINT.get("isbn"):
-        cr.insert(3, f"<p>ISBN {esc(PRINT['isbn'])}</p>")
+    if isbn_for(lang):
+        cr.insert(3, f"<p>ISBN {esc(isbn_for(lang))}</p>")
     cr.append(f"<p>{esc(T('印装：按需印刷（Print on Demand）'))}</p>")
     out.append(f'<div class="plain page copyright">{"".join(cr)}</div>')
 
@@ -279,6 +285,15 @@ def barcode_data_uri(isbn):
     buf = io.BytesIO()
     barcode.get("ean13", digits, writer=SVGWriter()).write(buf, {"module_height": 12, "font_size": 8, "text_distance": 3, "quiet_zone": 2})
     return "data:image/svg+xml;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def isbn_check(isbn):
+    """校验 ISBN-13 校验位；返回 (是否有效, 规范化 13 位)。"""
+    d = isbn.replace("-", "").replace(" ", "")
+    if len(d) != 13 or not d.isdigit():
+        return False, d
+    total = sum(int(ch) * (1 if i % 2 == 0 else 3) for i, ch in enumerate(d[:12]))
+    return (10 - total % 10) % 10 == int(d[12]), d
 
 
 def _dust(seed, n, x0, y0, x1, y1):
@@ -399,7 +414,7 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 .back-blurb p {{ margin: 0 0 0.6em; text-indent: 2em; }}
 </style></head><body>''']
     if not front_only:
-        bc = barcode_data_uri(PRINT["isbn"]) if PRINT.get("isbn") else None
+        bc = barcode_data_uri(isbn_for(lang)) if isbn_for(lang) else None
         blurb = [p for p in T(c["description"]).split("\n") if p.strip()]
         parts.append(f'''
 <div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:{pal["fg"]}">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:{pal["accent"]}">{esc(subtitle)}</span></div>
@@ -457,7 +472,7 @@ def write_print_listing(lang, pages, spines, outdir):
         f"书名：{T(c['title'])}    副标题：{T(c['subtitle'])}    作者：{T(c['author'])}",
         f"English title: {en_title}: {en_sub}    ({variant} edition)",
         f"规格：{w} × {h} in · 平装 · 黑白内文 · {PRINT['paper']} 纸 · {pages} 页（装订按 {pages + pages % 2} 页）",
-        f"ISBN：{PRINT.get('isbn') or '（未填，book.json print.isbn）'}    定价：{PRINT.get('price') or '（未填，book.json print.price）'}", "",
+        f"ISBN：{isbn_for(lang) or '（未填，book.json print.isbn）'}    定价：{PRINT.get('price') or '（未填，book.json print.price）'}", "",
         "--- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---",
         f"Spine width: {spines['lulu']:.3f} in（pages/444 + 0.06）",
         "Category: Religion & Spirituality > Christianity   |   Keywords: " + "、".join(T(k) for k in c["keywords"][:5]),
@@ -488,6 +503,10 @@ def build_all(parts, langs, with_images, outdir, platforms, spine_override=None)
     os.makedirs(outdir, exist_ok=True)
     w, h = PRINT["trim"]
     for lang in langs:
+        if isbn_for(lang):
+            ok, _ = isbn_check(isbn_for(lang))
+            if not ok:
+                sys.exit(f"{lang.label} 的 ISBN {isbn_for(lang)} 校验位不对，请核对 book.json")
         interior, pages = build_interior(parts, lang, with_images, outdir)
         print(f"印刷版 {lang.label}：{pages} 页 · 开本 {w}×{h} in")
         print("  内文 ->", interior)
@@ -497,6 +516,7 @@ def build_all(parts, langs, with_images, outdir, platforms, spine_override=None)
             spines[platform] = spine
             print(f"  封面（{PLATFORMS[platform]['label']}，书脊 {spine:.3f} in{'，命令行覆盖' if spine_override else ''}） ->", cover,
                   "" if pages >= 100 else "（不足 100 页，书脊未印文字）")
+        print(f"  ISBN：{isbn_for(lang) or '无（未填）'}")
         if len(platforms) == 2:
             print("  上架文案 ->", write_print_listing(lang, pages, spines, outdir))
     if with_images:

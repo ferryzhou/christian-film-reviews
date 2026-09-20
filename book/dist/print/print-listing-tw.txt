@@ -3,7 +3,7 @@
 书名：光照在黑暗裡    副标题：二十一部電影裡的救贖    作者：周津
 English title: The Light Shines in the Darkness: Redemption in Twenty-One Films    (Traditional Chinese edition)
 规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 169 页（装订按 170 页）
-ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
+ISBN：979-8-9982815-0-1    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
 Spine width: 0.443 in（pages/444 + 0.06）

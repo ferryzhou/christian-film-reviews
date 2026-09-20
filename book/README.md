@@ -108,7 +108,7 @@ python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给�
 | `print-listing-*.txt` | 两个平台的上架文案：书名/英文书名、规格、书脊、Lulu 分类与关键词、Ingram 的 BISAC 三个类目、英文短简介、折扣与退货建议 |
 | `cover-preview-*.png` | 封面预览 |
 
-开本、纸张、出血、ISBN、定价、英文书名都在 `book.json` 的 `print` 段。**填入 `isbn` 后重跑**：封底右下角自动生成 EAN-13 条码，版权页与文案同步印上 ISBN。
+开本、纸张、出血、ISBN、定价、英文书名都在 `book.json` 的 `print` 段。`isbn` 按版本填：`{"tw": "979-8-…", "sc": ""}`（简繁纸书是两本书，各需一个；不上分销渠道的版本可留空）。填入后重跑：脚本校验校验位，封底右下角生成 EAN-13 条码，版权页与文案同步印上 ISBN。
 
 ### 两条线怎么并行
 
