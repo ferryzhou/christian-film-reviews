@@ -207,7 +207,7 @@ def _base(x, y, w, h, br, bg, extra=""):
     return f'<div style="position:absolute; left:{x}in; top:{y}in; width:{w + br}in; height:{h}in; background:{bg}; {extra}"></div>'
 
 
-def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center", sub_gap=0.45):
+def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center", sub_gap=0.45, verse=False):
     """居中/左对齐的通用文字堆：标签、书名两行、金线、经文出处、副标题、英文、作者。返回 (html, 书名底部 y)。"""
     lines = "".join(f'<div style="line-height:1.1">{esc(l)}</div>' for l in c["lines"])
     lx = x + 0.6
@@ -218,9 +218,12 @@ def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center
         _abs(lx, y + 0.7, w - 1.2, f"{ta} font-size:8pt; letter-spacing:0.4em; color:{accent}", f'✦ {esc(c["kicker"])} ✦'),
         _abs(lx, y + top, w - 1.2, f"{ta} font-size:{title_pt}pt; font-weight:700; letter-spacing:0.05em; color:{fg}", lines),
         _abs(rule_left, tb + 0.18, 0.7, f"height:1pt; background:{accent}", ""),
-        _abs(lx, tb + 0.32, w - 1.2, f"{ta} font-size:9pt; letter-spacing:0.25em; color:{accent}", esc(c["ref"])),
-        _abs(lx, tb + 0.32 + sub_gap, w - 1.2, f"{ta} font-size:16pt; letter-spacing:0.2em; color:{fg}", esc(c["subtitle"])),
-        _abs(lx, tb + 0.32 + sub_gap + 0.42, w - 1.2, f"{ta} font-size:7pt; letter-spacing:0.1em; color:{muted}", esc(c["en_title"])),
+        (_abs(lx, tb + 0.3, w - 1.2, f"{ta} font-size:10pt; letter-spacing:0.08em; line-height:1.7; color:{fg}", esc(c["verse"]))
+         + _abs(lx, tb + 0.58, w - 1.2, f"{ta} font-size:8.5pt; letter-spacing:0.25em; color:{accent}", esc(c["ref"]))
+         if verse else
+         _abs(lx, tb + 0.32, w - 1.2, f"{ta} font-size:9pt; letter-spacing:0.25em; color:{accent}", esc(c["ref"]))),
+        _abs(lx, tb + 0.32 + sub_gap + (0.3 if verse else 0), w - 1.2, f"{ta} font-size:16pt; letter-spacing:0.2em; color:{fg}", esc(c["subtitle"])),
+        _abs(lx, tb + 0.32 + sub_gap + (0.3 if verse else 0) + 0.42, w - 1.2, f"{ta} font-size:7pt; letter-spacing:0.1em; color:{muted}", esc(c["en_title"])),
         _abs(lx, y + h - 1.0, w - 1.2, f"{ta} font-size:13pt; letter-spacing:0.35em; color:{fg}", esc(c["author_line"])),
     ])
     return html, tb
@@ -374,7 +377,7 @@ watermark.palette = {"bg": "#f7f3ea", "fg": "#1b1a17", "accent": "#b8933f", "mut
 def hourglass(lang, x, y, w, h, br, c):
     bg, ink, gold, muted = "#faf6ee", "#1b1a17", "#b8933f", "#8a7f6a"
     W = w + br
-    cx, y0, bh = w / 2, h * 0.60, 1.9      # 中心 x、顶部 y、总高
+    cx, y0, bh = w / 2, h * 0.625, 1.8     # 中心 x、顶部 y、总高
     hw, nw, half = 0.75, 0.055, bh / 2     # 上下口半宽、颈口半宽、半高
 
     def hwid(d):
@@ -399,7 +402,7 @@ def hourglass(lang, x, y, w, h, br, c):
   <line x1="{cx - hw - 0.18:.3f}" y1="{y0:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{y0:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
   <line x1="{cx - hw - 0.18:.3f}" y1="{yb:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{yb:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
 </svg>'''
-    html, _ = _stack(x, y, w, h, c, ink, gold, muted, title_pt=80, top=1.25)
+    html, _ = _stack(x, y, w, h, c, ink, gold, muted, title_pt=80, top=1.15, verse=True)
     return svg + html
 
 
