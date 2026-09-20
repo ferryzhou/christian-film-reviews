@@ -141,7 +141,7 @@ h1.section {{ font-size: 17pt; font-weight: 700; letter-spacing: 0.15em; margin:
 .chapter h3.film {{ font-size: 8.5pt; font-weight: 400; color: #000; letter-spacing: 0.05em; margin: 0 0 0.45in; text-align: left; }}
 .chapter h3 {{ font-size: 11.5pt; font-weight: 700; margin: 1.2em 0 0.4em; }}
 figure {{ margin: 0.9em 0 1.1em; text-align: center; break-inside: avoid; }}
-figure img {{ max-width: 100%; max-height: 3.4in; }}
+figure img {{ max-width: 100%; max-height: 3.0in; }}
 figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; text-align: center; }}
 
 .appendix table {{ border-collapse: collapse; width: 100%; font-size: 8.5pt; line-height: 1.45; margin-top: 0.2in; }}
@@ -154,7 +154,27 @@ figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; 
 """
 
 
-def interior_html(parts, lang, with_images, outdir):
+def _apply_shifts(blocks, ch_id, shifts):
+    """把指定的图后移 n 个段落（shifts: {(ch_id, img_idx): n}），让被推到下一页的图前面的文字先填满本页。"""
+    if not shifts:
+        return blocks
+    imgs = [i for i, b in enumerate(blocks) if b[0] == "img"]
+    out = list(blocks)
+    for k, i in reversed(list(enumerate(imgs))):
+        n = shifts.get((ch_id, k), 0)
+        if not n:
+            continue
+        blk = out.pop(i)
+        j, moved = i, 0
+        while j < len(out) and moved < n:
+            if out[j][0] == "p":
+                moved += 1
+            j += 1
+        out.insert(j, blk)
+    return out
+
+
+def interior_html(parts, lang, with_images, outdir, shifts=None):
     T = lang.T
     c = CONFIG
     title, subtitle = T(c["title"]), T(c["subtitle"])
@@ -205,15 +225,17 @@ def interior_html(parts, lang, with_images, outdir):
         for ch in part["chapters"]:
             out.append(f'<div class="page opener chapter"><h2 id="{ch["anchor"]}">{esc(T(ch["title"]))}</h2>'
                        f'<h3 class="film">{esc(B.chapter_subtitle(ch, lang))}</h3>')
-            for b in ch["blocks"]:
+            img_idx = -1
+            for b in _apply_shifts(ch["blocks"], ch["id"], shifts):
                 if b[0] == "p":
                     out.append(f"<p>{inline(T(b[1]))}</p>")
                 elif b[0] == "h":
                     out.append(f"<h3>{inline(T(b[1]))}</h3>")
                 elif b[0] == "img" and with_images:
+                    img_idx += 1
                     fp = print_image(b[2], outdir)
                     if fp:
-                        out.append(f'<figure><img src="file://{esc(fp)}" alt="{esc(T(b[1]))}"><figcaption>{inline(T(b[1]))}</figcaption></figure>')
+                        out.append(f'<figure data-key="{ch["id"]}:{img_idx}"><img src="file://{esc(fp)}" alt="{esc(T(b[1]))}"><figcaption>{inline(T(b[1]))}</figcaption></figure>')
             out.append("</div>")
 
     # 附录一
@@ -242,11 +264,61 @@ def interior_html(parts, lang, with_images, outdir):
     return html.replace("</style>", 'a.pg::after { content: target-counter(attr(href), page); } a.pg { text-decoration: none; color: inherit; }</style>', 1)
 
 
-def build_interior(parts, lang, with_images, outdir):
+def _figure_gaps(pdf_bytes, captions, bottom_margin_in=0.7, threshold_in=0.9):
+    """找出"页底大片留白 + 下一页顶上是图"的情况，返回该图的 key 列表。captions: 图注前缀 -> key。"""
+    import pymupdf
+    d = pymupdf.open("pdf", pdf_bytes)
+    culprits = []
+    for i in range(d.page_count - 1):
+        pg = d[i]
+        blocks = [b for b in pg.get_text("dict")["blocks"] if b["bbox"][3] < pg.rect.height - bottom_margin_in * 72 + 2]
+        blocks = [b for b in blocks if b["bbox"][1] > 0.5 * 72]  # 去掉页眉
+        if not blocks:
+            continue
+        lowest = max(b["bbox"][3] for b in blocks)
+        gap = (pg.rect.height - bottom_margin_in * 72) - lowest
+        if gap < threshold_in * 72:
+            continue
+        nxt = sorted((b for b in d[i + 1].get_text("dict")["blocks"] if b["bbox"][1] > 0.5 * 72), key=lambda b: b["bbox"][1])
+        if not nxt or nxt[0]["type"] != 1:
+            continue  # 下一页不是以图开头：留白是章末等正常情况
+        texts = [b for b in nxt[1:] if b["type"] == 0]
+        if not texts:
+            continue
+        cap = "".join(sp["text"] for ln in texts[0]["lines"] for sp in ln["spans"]).strip()
+        for prefix, key in captions.items():
+            if cap.startswith(prefix):
+                culprits.append(key)
+                break
+    return culprits
+
+
+def build_interior(parts, lang, with_images, outdir, max_passes=8):
     from weasyprint import HTML
     out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-内文.pdf")
-    doc = HTML(string=interior_html(parts, lang, with_images, outdir), base_url=B.ROOT).render()
+    # 图注前缀 -> (章节 id, 图序号)，用于从渲染结果反查是哪张图被推到了下一页
+    captions = {}
+    for part in parts:
+        for ch in part["chapters"]:
+            k = 0
+            for b in ch["blocks"]:
+                if b[0] == "img":
+                    captions[lang.T(b[1])[:10]] = (ch["id"], k)
+                    k += 1
+    shifts, doc, fixed = {}, None, 0
+    for _ in range(max_passes if with_images else 1):
+        doc = HTML(string=interior_html(parts, lang, with_images, outdir, shifts), base_url=B.ROOT).render()
+        if not with_images:
+            break
+        culprits = _figure_gaps(doc.write_pdf(), captions)
+        if not culprits:
+            break
+        for key in culprits:
+            shifts[key] = shifts.get(key, 0) + 1
+        fixed += len(culprits)
     doc.write_pdf(out)
+    if fixed:
+        print(f"  已后移 {len(shifts)} 张图（共 {fixed} 次）以填补页底留白")
     return out, len(doc.pages)
 
 

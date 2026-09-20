@@ -2,11 +2,11 @@
 
 书名：慢慢地动怒    副标题：二十一部电影里的救赎    作者：周津
 English title: Slow to Anger: Redemption in Twenty-One Films    (Simplified Chinese edition)
-规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 169 页（装订按 170 页）
+规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 159 页（装订按 160 页）
 ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
-Spine width: 0.443 in（pages/444 + 0.06）
+Spine width: 0.420 in（pages/444 + 0.06）
 Category: Religion & Spirituality > Christianity   |   Keywords: 基督教 影评、电影与信仰、福音 电影随笔、基督徒 看电影、肖申克的救赎 密阳 影评
 Description:
 《肖申克的救赎》里安迪为什么要把那本圣经留给典狱长？《密阳》里那个仰着脸问“你看见了吗”的母亲，究竟在向谁发问？《寻梦环游记》唱的“请记得我”，和《狮子王》里那句“记住你是谁”，为什么听起来像同一个声音？
@@ -18,11 +18,11 @@ Description:
 --- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---
 Title: Man Man De Dong Nu (Slow to Anger)
 Subtitle: Redemption in Twenty-One Films (Simplified Chinese Edition)
-Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 170
+Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 160
 Description: 用下方 IngramSpark 的英文短简介
 
 --- IngramSpark（Add a Title；需自有 ISBN）---
-Spine width: 0.425 in（pages × 0.0025，最终以 Cover Template Generator 为准）
+Spine width: 0.400 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 慢慢地动怒    Subtitle: 二十一部电影里的救赎
 Contributor: 周津 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）
 BISAC subjects（下拉框按名称选，最多 3 个）:
