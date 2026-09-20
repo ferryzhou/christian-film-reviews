@@ -154,6 +154,14 @@ figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; 
 """
 
 
+def _pub_html(pub):
+    """出版方“中文 · English”：英文部分不加字距，避免被拉散。"""
+    if " · " in pub:
+        zh, en = pub.split(" · ", 1)
+        return f'{esc(zh)} · <span style="letter-spacing:0.02em">{esc(en)}</span>'
+    return esc(pub)
+
+
 def _apply_shifts(blocks, ch_id, shifts):
     """把指定的图后移 n 个段落（shifts: {(ch_id, img_idx): n}），让被推到下一页的图前面的文字先填满本页。"""
     if not shifts:
@@ -185,7 +193,7 @@ def interior_html(parts, lang, with_images, outdir, shifts=None):
     # 前页：半书名页 → 书名页（右页）→ 版权页（左页）
     out.append(f'<div class="plain"><p class="halftitle noindent" style="string-set: booktitle \'{esc(title)}\'">{esc(title)}</p></div>')
     out.append(f'<div class="plain recto titlepage"><p class="title">{esc(title)}</p><p class="subtitle">{esc(subtitle)}</p>'
-               + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{esc(T(c["publisher"]))}</p></div>')
+               + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{_pub_html(T(c["publisher"]))}</p></div>')
     cr = [f"<p>{esc(x)}</p>" for x in B.copyright_lines(lang)]
     if isbn_for(lang):
         cr.insert(3, f"<p>ISBN {esc(isbn_for(lang))}</p>")
