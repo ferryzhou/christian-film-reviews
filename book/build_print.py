@@ -346,13 +346,45 @@ def _front_html(lang, x, y, w, h, bleed_right):
 '''
 
 
-def cover_html(lang, pages, spine, front_only=False, trim=None):
-    """全包封面（封底 | 书脊 | 封面）或仅封面（电子书）。深色底、放映机光束，呼应书名《光照在黑暗里》。"""
+def cover_ctx(lang):
+    """各套封面设计共用的文字素材。"""
+    T = lang.T
+    c = CONFIG
+    title = T(c["title"])
+    n = len(title)
+    return {
+        "title": title, "lines": [title] if n <= 4 else [title[: (n + 1) // 2], title[(n + 1) // 2:]],
+        "subtitle": T(c["subtitle"]), "author_line": B.author_line(lang), "author": T(c["author"]),
+        "kicker": T("电影随笔集"),
+        "ref": T(c.get("epigraph", {}).get("ref", "")), "verse": T(c.get("epigraph", {}).get("text", "")),
+        "en_title": " · ".join(v for v in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if v),
+        "ff": font_family(lang),
+    }
+
+
+BEAM_PALETTE = {"bg": "#0b0c10", "fg": "#f5ead3", "accent": "#c9a35e", "muted": "#a89f8c"}
+
+
+def cover_design(design=None):
+    """返回 (正面渲染函数, 配色)。design 取自 book.json 的 cover.design，默认 beam。"""
+    from cover_designs import DESIGNS
+    design = design or CONFIG.get("cover", {}).get("design", "beam")
+    if design == "beam":
+        return (lambda lang, x, y, w, h, br, ctx: _front_html(lang, x, y, w, h, br)), BEAM_PALETTE
+    if design not in DESIGNS:
+        sys.exit(f"未知封面设计 {design}，可选：beam, " + ", ".join(DESIGNS))
+    fn = DESIGNS[design][1]
+    return fn, fn.palette
+
+
+def cover_html(lang, pages, spine, front_only=False, trim=None, design=None):
+    """全包封面（封底 | 书脊 | 封面）或仅封面（电子书）。正面样式见 cover_designs.py。"""
     T = lang.T
     c = CONFIG
     w, h = trim or PRINT["trim"]
     bleed = 0 if front_only else PRINT["bleed"]
     W, Hh = (w, h) if front_only else (2 * w + spine + 2 * bleed, h + 2 * bleed)
+    front, pal = cover_design(design)
     ff = font_family(lang)
     back_x, spine_x, front_x = bleed, bleed + w, (0 if front_only else bleed + w + spine)
     safe = 0.4
@@ -361,27 +393,27 @@ def cover_html(lang, pages, spine, front_only=False, trim=None):
     parts = [f'''<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 @page {{ size: {W}in {Hh}in; margin: 0; }}
 html, body {{ margin: 0; padding: 0; }}
-body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font-family: {ff}; color: #f5ead3; background: #0b0c10; }}
+body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font-family: {ff}; color: {pal["fg"]}; background: {pal["bg"]}; }}
 .abs {{ position: absolute; }}
-.v {{ position: absolute; left: 0; width: {spine}in; text-align: center; writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.12em; color: #e9dcc0; }}
+.v {{ position: absolute; left: 0; width: {spine}in; text-align: center; writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.12em; color: {pal["fg"]}; }}
 .back-blurb p {{ margin: 0 0 0.6em; text-indent: 2em; }}
 </style></head><body>''']
     if not front_only:
         bc = barcode_data_uri(PRINT["isbn"]) if PRINT.get("isbn") else None
         blurb = [p for p in T(c["description"]).split("\n") if p.strip()]
         parts.append(f'''
-<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:#f5ead3">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:#c9a35e">{esc(subtitle)}</span></div>
-<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.15}in; height:1pt; background:#c9a35e; opacity:0.7"></div>
-<div class="abs back-blurb" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.4}in; font-size:8.6pt; line-height:1.8; text-align:justify; color:#e9dcc0">{"".join(f"<p>{esc(p)}</p>" for p in blurb)}</div>
-<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:#a89f8c">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:{pal["fg"]}">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:{pal["accent"]}">{esc(subtitle)}</span></div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.15}in; height:1pt; background:{pal["accent"]}; opacity:0.7"></div>
+<div class="abs back-blurb" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.4}in; font-size:8.6pt; line-height:1.8; text-align:justify; color:{pal["fg"]}">{"".join(f"<p>{esc(p)}</p>" for p in blurb)}</div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:{pal["muted"]}">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
 <div class="abs" style="left:{back_x + w - safe - 2.0}in; top:{bleed + h - safe - 1.2}in; width:2.0in; height:1.2in; background:#fff">{f'<img src="{bc}" style="width:2.0in; height:1.2in">' if bc else f'<div style="font-size:6.5pt; color:#999; text-align:center; padding-top:0.5in">{esc(T("ISBN 条码位置（book.json 填入 isbn 后自动生成）"))}</div>'}</div>
-<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:#0b0c10; border-left:0.4pt solid #23242b; border-right:0.4pt solid #23242b"></div>
+<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:{pal["bg"]}; border-left:0.4pt solid {pal["accent"]}; border-right:0.4pt solid {pal["accent"]}"></div>
 ''')
         if show_spine_text:
             parts.append(f'''<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in">
 <div class="v" style="top:{bleed + 0.6}in; font-size:{min(13, max(7, spine * 30)):.1f}pt">{esc(title)}　{esc(subtitle)}</div>
-<div class="v" style="bottom:{bleed + 0.6}in; top:auto; font-size:7pt; letter-spacing:0.2em; color:#c9a35e">{esc(author)}</div></div>''')
-    parts.append(_front_html(lang, front_x, 0 if front_only else bleed, w, h, 0 if front_only else bleed))
+<div class="v" style="bottom:{bleed + 0.6}in; top:auto; font-size:7pt; letter-spacing:0.2em; color:{pal["accent"]}">{esc(author)}</div></div>''')
+    parts.append(front(lang, front_x, 0 if front_only else bleed, w, h, 0 if front_only else bleed, cover_ctx(lang)))
     parts.append("</body></html>")
     return "".join(parts)
 
