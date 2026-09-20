@@ -143,7 +143,7 @@ def interior_html(parts, lang, with_images):
     en_line = " · ".join(x for x in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if x)
     out.append(f'<div class="plain recto titlepage"><p class="title">{esc(title)}</p><p class="subtitle">{esc(subtitle)}</p>'
                + (f'<p class="en">{esc(en_line)}</p>' if en_line else "")
-               + f'<p class="author">{esc(T(c["author"]))}</p><p class="publisher">{esc(T(c["publisher"]))}</p></div>')
+               + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{esc(T(c["publisher"]))}</p></div>')
     cr = [f"<p>{esc(x)}</p>" for x in B.copyright_lines(lang)]
     if PRINT.get("isbn"):
         cr.insert(3, f"<p>ISBN {esc(PRINT['isbn'])}</p>")
@@ -265,7 +265,7 @@ def cover_html(lang, pages, spine):
     bleed = PRINT["bleed"]
     W, Hh = 2 * w + spine + 2 * bleed, h + 2 * bleed
     title, subtitle = T(c["title"]), T(c["subtitle"])
-    author = T(c["author"])
+    author = B.author_line(lang)
     kicker = T("电影随笔集")
     tagline = T("二十一篇以基督信仰为眼光的电影随笔")
     en_title = " · ".join(x for x in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if x)

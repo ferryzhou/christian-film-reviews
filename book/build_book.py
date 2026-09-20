@@ -190,9 +190,15 @@ def copyright_lines(lang):
         f"{c['edition']}　{c['year']} 年",
         "本书文字均为原创评论。所评影片及其片名、台词、剧照之版权归各出品方与发行方所有，本书引用仅为评论与研究目的。",
         "圣经引文出自《圣经》和合本。",
+        c.get("aiDisclosure", ""),
         f"文章网络版：{c['site']}",
         "封面设计：" + c["publisher"],
-    ]]
+    ] if x]
+
+
+def author_line(lang):
+    """封面/书名页上的署名：作者　著"""
+    return lang.T(CONFIG["author"]) + "　" + lang.T(CONFIG.get("authorSuffix", "著"))
 
 
 def preface_blocks():
@@ -304,7 +310,7 @@ def build_docx(parts, lang, with_images):
     para(T(CONFIG["subtitle"]), align="center", indent=False, size=15, color="5A5040")
     for _ in range(3):
         para()
-    para(T(CONFIG["author"]), align="center", indent=False, size=13)
+    para(author_line(lang), align="center", indent=False, size=13)
     page_break()
 
     # 版权页
@@ -489,7 +495,7 @@ def build_epub(parts, lang, with_images, cover_path):
 
     title_html = (f'<div class="titlepage"><p class="title noindent">{esc(T(CONFIG["title"]))}</p>'
                   f'<p class="subtitle noindent">{esc(T(CONFIG["subtitle"]))}</p>'
-                  f'<p class="author noindent">{esc(T(CONFIG["author"]))}</p></div>')
+                  f'<p class="author noindent">{esc(author_line(lang))}</p></div>')
     spine.append(page("titlepage", "titlepage.xhtml", T("书名页"), title_html))
 
     cr_html = '<div class="copyright">' + "".join(f"<p>{esc(x)}</p>" for x in copyright_lines(lang)) + "</div>"
@@ -583,7 +589,7 @@ def build_cover(lang):
         pass
     payload = json.dumps({
         "title": lang.T(CONFIG["title"]), "subtitle": lang.T(CONFIG["subtitle"]),
-        "author": lang.T(CONFIG["author"]), "tagline": lang.T("二十一篇以基督信仰为眼光的电影随笔"),
+        "author": author_line(lang), "tagline": lang.T("二十一篇以基督信仰为眼光的电影随笔"),
         "out": out,
     }, ensure_ascii=False)
     try:

@@ -1,6 +1,6 @@
 === 纸质书上架文案（简体中文）===
 
-书名：光影与信仰    副标题：二十一部电影里的救赎    作者：光影与信仰
+书名：光影与信仰    副标题：二十一部电影里的救赎    作者：周津
 English title: Light, Shadow and Faith: Redemption in Twenty-One Films    (Simplified Chinese edition)
 规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 113 页（装订按 114 页）
 ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
@@ -18,7 +18,7 @@ Description:
 --- IngramSpark（Add a Title；需自有 ISBN）---
 Spine width: 0.285 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 光影与信仰    Subtitle: 二十一部电影里的救赎
-Contributor: 光影与信仰 (Author)    Imprint: 光影与信仰
+Contributor: 周津 (Author)    Imprint: 光影与信仰
 BISAC subjects（下拉框按名称选，最多 3 个）:
   REL012000  RELIGION / Christian Living / General
   PER004030  PERFORMING ARTS / Film / History & Criticism

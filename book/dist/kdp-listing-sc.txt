@@ -3,7 +3,7 @@
 Language: Chinese (Simplified) —— KDP 不支持，此版本不能上传 KDP
 Book Title: 光影与信仰
 Subtitle: 二十一部电影里的救赎
-Author: 光影与信仰
+Author: 周津
 
 Description:
 《肖申克的救赎》里安迪为什么要把那本圣经留给典狱长？《密阳》里那个仰着脸问“你看见了吗”的母亲，究竟在向谁发问？《寻梦环游记》唱的“请记得我”，和《狮子王》里那句“记住你是谁”，为什么听起来像同一个声音？
