@@ -119,7 +119,7 @@ strong {{ font-weight: 700; }}
 .titlepage .en {{ font-size: 8.5pt; letter-spacing: 0.06em; color: #000; margin-top: 0.15in; text-indent: 0; }}
 .titlepage .author {{ font-size: 12pt; letter-spacing: 0.3em; margin-top: 1.6in; text-indent: 0; }}
 .titlepage .publisher {{ font-size: 9pt; letter-spacing: 0.2em; color: #000; margin-top: 0.15in; text-indent: 0; }}
-.copyright {{ padding-top: 4.2in; font-size: 8pt; line-height: 1.6; color: #000; }}
+.copyright {{ padding-top: 3.5in; font-size: 8pt; line-height: 1.6; color: #000; }}
 .copyright p {{ text-indent: 0; margin-bottom: 0.35em; }}
 .epigraph {{ text-align: center; padding-top: 3in; font-size: 12pt; letter-spacing: 0.08em; }}
 .epigraph .ref {{ font-size: 9pt; margin-top: 0.25in; }}
