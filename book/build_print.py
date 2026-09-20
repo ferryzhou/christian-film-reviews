@@ -184,9 +184,7 @@ def interior_html(parts, lang, with_images, outdir, shifts=None):
 
     # 前页：半书名页 → 书名页（右页）→ 版权页（左页）
     out.append(f'<div class="plain"><p class="halftitle noindent" style="string-set: booktitle \'{esc(title)}\'">{esc(title)}</p></div>')
-    en_line = " · ".join(x for x in [PRINT.get("titleEn"), PRINT.get("subtitleEn")] if x)
     out.append(f'<div class="plain recto titlepage"><p class="title">{esc(title)}</p><p class="subtitle">{esc(subtitle)}</p>'
-               + (f'<p class="en">{esc(en_line)}</p>' if en_line else "")
                + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{esc(T(c["publisher"]))}</p></div>')
     cr = [f"<p>{esc(x)}</p>" for x in B.copyright_lines(lang)]
     if isbn_for(lang):
