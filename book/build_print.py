@@ -422,14 +422,18 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 <div class="abs back-blurb" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.4}in; font-size:8.6pt; line-height:1.8; text-align:justify; color:{pal["fg"]}">{"".join(f"<p>{esc(p)}</p>" for p in blurb)}</div>
 <div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:{pal["muted"]}">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
 <div class="abs" style="left:{back_x + w - safe - 2.0}in; top:{bleed + h - safe - 1.2}in; width:2.0in; height:1.2in; background:#fff">{f'<img src="{bc}" style="width:2.0in; height:1.2in">' if bc else f'<div style="font-size:6.5pt; color:#999; text-align:center; padding-top:0.5in">{esc(T("ISBN 条码位置（book.json 填入 isbn 后自动生成）"))}</div>'}</div>
-<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:{pal["bg"]}; border-left:0.4pt solid {pal["accent"]}; border-right:0.4pt solid {pal["accent"]}"></div>
+<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:{pal["bg"]}"></div>
 ''')
         if show_spine_text:
-            # 书脊：单列逐字竖排，只放书名（上）与作者（下），不放副标题
-            tpt = min(13, max(7, spine * 30))
-            stack = lambda text, pt, color: "".join(f'<div style="line-height:1.25; font-size:{pt:.1f}pt; color:{color}; text-align:center">{esc(ch)}</div>' for ch in text if ch.strip())
-            parts.append(f'''<div class="abs" style="left:{spine_x}in; top:{bleed + 0.6}in; width:{spine}in">{stack(title, tpt, pal["fg"])}</div>
-<div class="abs" style="left:{spine_x}in; bottom:{bleed + 0.6}in; width:{spine}in">{stack(author, 7.5, pal["accent"])}</div>''')
+            # 书脊：单列逐字竖排。书名尽量大（两侧各留 ≥0.0625in 安全边，Ingram 规定），副标题小字紧随其后，作者在底部
+            usable = max(0.15, spine - 0.14)
+            tpt = max(9, min(24, usable * 72 * 0.92))
+            spt = max(6.5, min(9.5, tpt * 0.42))
+            stack = lambda text, pt, color, weight="400", gap=1.22: "".join(
+                f'<div style="line-height:{gap}; font-size:{pt:.1f}pt; font-weight:{weight}; color:{color}; text-align:center">{esc(ch)}</div>' for ch in text if ch.strip())
+            parts.append(f'''<div class="abs" style="left:{spine_x}in; top:{bleed + 0.55}in; width:{spine}in">{stack(title, tpt, pal["fg"], "700", 1.18)}
+<div style="height:0.22in"></div>{stack(subtitle, spt, pal["fg"], "400", 1.3)}</div>
+<div class="abs" style="left:{spine_x}in; bottom:{bleed + 0.55}in; width:{spine}in">{stack(author, min(9, spt + 1), pal["accent"])}</div>''')
     parts.append(front(lang, front_x, 0 if front_only else bleed, w, h, 0 if front_only else bleed, cover_ctx(lang)))
     parts.append("</body></html>")
     return "".join(parts)
