@@ -4,7 +4,7 @@ ctx 里有：title / lines（书名按字数拆成 1–2 行）/ subtitle / auth
 坐标单位英寸；(x, y) 是封面正面左上角，w×h 是成品尺寸，bleed_right 是右侧出血（电子书为 0）。
 每套设计附一个 palette：bg / fg / accent，供封底与书脊配色。
 
-在 book.json 的 cover.design 里选用：paper | slab | door | frame | night | beam
+在 book.json 的 cover.design 里选用：fuse | paper | slab | door | frame | night | beam
 """
 
 import html as H
@@ -156,7 +156,53 @@ def night(lang, x, y, w, h, br, c):
 night.palette = {"bg": "#101626", "fg": "#f5efe0", "accent": "#e3c47a", "muted": "#8f93a3"}
 
 
+# ---------------------------------------------------------------- F 导火线（慢慢地动怒）
+def fuse(lang, x, y, w, h, br, c):
+    import random
+    bg, cream, amber, muted = "#14151a", "#f3ecdb", "#d9a441", "#9a9384"
+    W = w + br
+    lines = "".join(f'<div style="line-height:1.1">{esc(l)}</div>' for l in c["lines"])
+    # 导火线：从右下角进入，蜿蜒到左侧中下部的火星；后面是烧过的灰痕
+    sx, sy = 1.05, h - 2.55
+    path = f"M {W:.2f},{h - 1.05:.2f} C {w * 0.72:.2f},{h - 1.05:.2f} {w * 0.58:.2f},{h - 2.15:.2f} {w * 0.40:.2f},{h - 2.25:.2f} S {sx + 0.6:.2f},{sy + 0.05:.2f} {sx:.2f},{sy:.2f}"
+    ash = f"M {sx:.2f},{sy:.2f} C {sx - 0.35:.2f},{sy - 0.05:.2f} {0.55:.2f},{sy - 0.35:.2f} {0.35:.2f},{sy - 0.6:.2f}"
+    rnd = random.Random(19)
+    sparks = "".join(f'<circle cx="{sx + rnd.uniform(-0.28, 0.28):.3f}" cy="{sy + rnd.uniform(-0.3, 0.2):.3f}" r="{rnd.uniform(0.008, 0.022):.3f}" fill="#ffd27a" opacity="{rnd.uniform(0.35, 0.9):.2f}"/>'
+                     for _ in range(14))
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}in" height="{h}in" viewBox="0 0 {W} {h}" style="position:absolute; left:{x}in; top:{y}in">
+  <defs>
+    <radialGradient id="ember" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff1c4" stop-opacity="1"/><stop offset="0.25" stop-color="#ffb347" stop-opacity="0.85"/>
+      <stop offset="0.6" stop-color="#c2542a" stop-opacity="0.25"/><stop offset="1" stop-color="#14151a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0" stop-color="#1d1e25"/><stop offset="1" stop-color="{bg}"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="{W}" height="{h}" fill="url(#vig)"/>
+  <path d="{path}" fill="none" stroke="#3a3b44" stroke-width="0.075" stroke-linecap="round"/>
+  <path d="{path}" fill="none" stroke="#cdb98e" stroke-width="0.045" stroke-linecap="round"/>
+  <path d="{ash}" fill="none" stroke="#4a4a50" stroke-width="0.04" stroke-linecap="round" stroke-dasharray="0.03 0.05"/>
+  <circle cx="{sx:.3f}" cy="{sy:.3f}" r="0.55" fill="url(#ember)"/>
+  <circle cx="{sx:.3f}" cy="{sy:.3f}" r="0.05" fill="#fff6d6"/>
+  {sparks}
+</svg>'''
+    out = [svg,
+           _abs(x + 0.6, y + 0.7, w - 1.2, f"font-size:8pt; letter-spacing:0.4em; color:{amber}", f'✦ {esc(c["kicker"])} ✦'),
+           _abs(x + 0.6, y + 1.2, w - 1.0, f"font-size:84pt; font-weight:700; letter-spacing:0.05em; color:{cream}", lines),
+           _abs(x + 0.62, y + 4.05, 0.7, f"height:1pt; background:{amber}", ""),
+           _abs(x + 0.6, y + 4.2, w - 1.2, f"font-size:9pt; letter-spacing:0.25em; color:{amber}", esc(c["ref"])),
+           _abs(x + 0.6, y + 4.55, w - 1.2, f"font-size:16pt; letter-spacing:0.2em; color:{cream}", esc(c["subtitle"])),
+           _abs(x + 0.6, y + 4.98, w - 1.2, f"font-size:7pt; letter-spacing:0.1em; color:{muted}", esc(c["en_title"])),
+           _abs(x + 0.6, y + h - 1.0, w - 1.2, f"font-size:13pt; letter-spacing:0.35em; color:{cream}", esc(c["author_line"]))]
+    return "".join(out)
+
+
+fuse.palette = {"bg": "#14151a", "fg": "#f3ecdb", "accent": "#d9a441", "muted": "#9a9384"}
+
+
 DESIGNS = {
+    "fuse": ("导火线", fuse),
     "paper": ("纸本竖排", paper),
     "slab": ("黑底大字", slab),
     "door": ("门缝透光", door),

@@ -1,6 +1,6 @@
 # 把本站影评出版为电子书与纸质书（Amazon KDP · Lulu · IngramSpark）
 
-`book/` 目录把 `original-reviews/` 下的自撰影评编成一本书——《光照在黑暗里：二十一部电影里的救赎》——并生成可直接上传 Amazon KDP（Kindle Direct Publishing）的文件、封面与上架文案。
+`book/` 目录把 `original-reviews/` 下的自撰影评编成一本书——《慢慢地动怒：二十一部电影里的救赎》——并生成可直接上传 Amazon KDP（Kindle Direct Publishing）的文件、封面与上架文案。
 
 ## 先读这一段：KDP 对中文书的硬性规定
 
@@ -24,15 +24,15 @@ python3 book/build_book.py --only docx-tw # 只重生成 KDP 用的繁体 DOCX
 python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only/（见"版权与配图"）
 ```
 
-依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `night` 夜与一盏灯），由 WeasyPrint 渲染，不依赖 Chromium。
+依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `fuse` 导火线），由 WeasyPrint 渲染，不依赖 Chromium。
 
 | 产出（`book/dist/`） | 用途 |
 | --- | --- |
-| `光照在黑暗里-繁體.docx` | **上传 KDP 的书稿** |
+| `慢慢地动怒-繁體.docx` | **上传 KDP 的书稿** |
 | `cover-tw.jpg` | KDP 封面，1600×2560（1:1.6），JPEG，原创设计，不含影片素材 |
 | `kdp-listing-tw.txt` | 上架表单文案：书名、副标题、简介、7 组关键词、3 个分类、章节一览 |
-| `光照在黑暗里-繁體.epub` | Send to Kindle 自用、Apple Books / Google Play / Kobo 等其他平台 |
-| `光照在黑暗里-简体.docx` / `.epub` / `cover-sc.jpg` / `kdp-listing-sc.txt` | 简体版，同上；**不能上传 KDP** |
+| `慢慢地动怒-繁體.epub` | Send to Kindle 自用、Apple Books / Google Play / Kobo 等其他平台 |
+| `慢慢地动怒-简体.docx` / `.epub` / `cover-sc.jpg` / `kdp-listing-sc.txt` | 简体版，同上；**不能上传 KDP** |
 
 书的结构：书名页 → 版权页 → 目录（带 Kindle 逻辑目录书签）→ 序 → 五辑二十一篇（每篇：标题、片名/原名/年份/导演、正文）→ 附录一 影片索引 → 附录二 经文索引（自动从正文抽取，按圣经卷序）→ 关于作者。
 
@@ -51,7 +51,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
    - **AI-generated content**：KDP 自 2023 年起要求申报。本仓库的影评由 `.claude/skills/write-film-review` 生成，封面由脚本排版——请如实勾选 "Yes" 并填写文字（Text）与图片（Images）均为 AI-generated；繁体转换为程序转换（Translation 也勾选）。申报不影响上架，隐瞒被发现会下架并可能封号。
    - Pre-order：可不选。
 4. **Kindle eBook Content**：
-   - Manuscript 上传 `光照在黑暗里-繁體.docx`。
+   - Manuscript 上传 `慢慢地动怒-繁體.docx`。
    - Cover 选 "Upload a cover you already have"，上传 `cover-tw.jpg`。
    - AI 内容申报如上一步未出现会在此处出现。
    - **Kindle eBook Preview**：务必用在线预览器（或下载 [Kindle Previewer](https://kdp.amazon.com/en_US/help/topic/G202131170)）翻一遍：目录能否跳转、各篇标题是否成章、繁体字有无明显错字（见下节）。
@@ -72,12 +72,12 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
 - **印刷分辨率**：剧照原图 ≤720px，按 4.2 in 宽排版约 170ppi，低于平台建议的 300ppi，印出来会略软；平台一般只警告不拒收，样书到手确认。
 - **海报**不进书；封面为原创设计，无第三方素材。
 - **台词引用**属于评论范畴；**经文**和合本 1919 年出版，已进入公有领域。
-- **书名**：《光照在黑暗里》取自约翰福音 1:5，题记页印全句；"光影与信仰"作为出版方/品牌名保留。书名与副标题在 `book.json` 改。
+- **书名**：《慢慢地动怒》取自雅各书 1:19，题记页印全句；"光影与信仰"作为出版方/品牌名保留。书名与副标题在 `book.json` 改。
 
 ## 出版前检查清单
 
 - [ ] 署名：`book.json` 的 `author`（周津）+ `authorSuffix`（著）出现在封面与书名页；`aiDisclosure` 印在版权页，序末也有写作方式的交代。KDP 后台仍须如实申报 AI-generated。
-- [ ] 通读一遍 `光照在黑暗里-繁體.docx`。OpenCC 的字符级转换在少数一对多简繁字上会出错，重点扫：**发/髮·發、后/後·后、干/幹·乾、里/裡·里、面/麵·面、只/隻·只、系/係·繫、松/鬆·松、复/復·複**，人名与专名（"辛德勒""俊""宗灿"等）确认未被误转。改法：修 `original-reviews/*.md` 的原文不合适时，直接在 DOCX 里改。
+- [ ] 通读一遍 `慢慢地动怒-繁體.docx`。OpenCC 的字符级转换在少数一对多简繁字上会出错，重点扫：**发/髮·發、后/後·后、干/幹·乾、里/裡·里、面/麵·面、只/隻·只、系/係·繫、松/鬆·松、复/復·複**，人名与专名（"辛德勒""俊""宗灿"等）确认未被误转。改法：修 `original-reviews/*.md` 的原文不合适时，直接在 DOCX 里改。
 - [ ] `titleTW`（台湾译名表）只覆盖了差异明显的 8 部，其余片名简繁转换后与台湾通行译名相同或相近；如发现不同，在 `book.json` 补充。
 - [ ] Kindle 预览器里看目录跳转、五辑扉页、两个附录。
 - [ ] 版权页年份、版本号（`book.json` 的 `year`、`edition`）。
@@ -86,7 +86,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
 
 KDP 不收简体书，简体版可走：
 
-- **Send to Kindle**（自用 / 送读者）：把 `光照在黑暗里-简体.epub` 发到 Kindle 邮箱，中文显示正常。
+- **Send to Kindle**（自用 / 送读者）：把 `慢慢地动怒-简体.epub` 发到 Kindle 邮箱，中文显示正常。
 - **Google Play Books Partner Center**、**Apple Books**（需 Mac 或 aggregator）、**Kobo Writing Life**、**Draft2Digital**：都接受 EPUB 与简体中文，把 `简体.epub` + `cover-sc.jpg` + `kdp-listing-sc.txt` 的文案上传即可。
 - 纸质书：见下一节"印刷与销售纸质书"。
 
@@ -102,9 +102,9 @@ python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给�
 
 | 产出（简繁各一套） | 说明 |
 | --- | --- |
-| `光照在黑暗里-*-内文.pdf` | 5.5×8.5 in（Digest）开本，含灰度剧照；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
-| `光照在黑暗里-*-封面-lulu.pdf` | Lulu 全包封面：书脊按 Lulu 官方公式 pages/444 + 0.06 in（113 页 → 0.317 in），RGB |
-| `光照在黑暗里-*-封面-ingram.pdf` | IngramSpark 全包封面：书脊 = 页数 × 0.0025 in（cream 50# 纸，→ 0.285 in），Ghostscript 转 CMYK；条码区白底 2×1.2 in（Ingram 要求 ≥1.75×1 in） |
+| `慢慢地动怒-*-内文.pdf` | 5.5×8.5 in（Digest）开本，含灰度剧照；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
+| `慢慢地动怒-*-封面-lulu.pdf` | Lulu 全包封面：书脊按 Lulu 官方公式 pages/444 + 0.06 in（113 页 → 0.317 in），RGB |
+| `慢慢地动怒-*-封面-ingram.pdf` | IngramSpark 全包封面：书脊 = 页数 × 0.0025 in（cream 50# 纸，→ 0.285 in），Ghostscript 转 CMYK；条码区白底 2×1.2 in（Ingram 要求 ≥1.75×1 in） |
 | `print-listing-*.txt` | 两个平台的上架文案：书名/英文书名、规格、书脊、Lulu 分类与关键词、Ingram 的 BISAC 三个类目、英文短简介、折扣与退货建议 |
 | `cover-preview-*.png` | 封面预览 |
 
