@@ -425,9 +425,11 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 <div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:{pal["bg"]}; border-left:0.4pt solid {pal["accent"]}; border-right:0.4pt solid {pal["accent"]}"></div>
 ''')
         if show_spine_text:
-            parts.append(f'''<div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in">
-<div class="v" style="top:{bleed + 0.6}in; font-size:{min(13, max(7, spine * 30)):.1f}pt">{esc(title)}　{esc(subtitle)}</div>
-<div class="v" style="bottom:{bleed + 0.6}in; top:auto; font-size:7pt; letter-spacing:0.2em; color:{pal["accent"]}">{esc(author)}</div></div>''')
+            # 书脊：单列逐字竖排，只放书名（上）与作者（下），不放副标题
+            tpt = min(13, max(7, spine * 30))
+            stack = lambda text, pt, color: "".join(f'<div style="line-height:1.25; font-size:{pt:.1f}pt; color:{color}; text-align:center">{esc(ch)}</div>' for ch in text if ch.strip())
+            parts.append(f'''<div class="abs" style="left:{spine_x}in; top:{bleed + 0.6}in; width:{spine}in">{stack(title, tpt, pal["fg"])}</div>
+<div class="abs" style="left:{spine_x}in; bottom:{bleed + 0.6}in; width:{spine}in">{stack(author, 7.5, pal["accent"])}</div>''')
     parts.append(front(lang, front_x, 0 if front_only else bleed, w, h, 0 if front_only else bleed, cover_ctx(lang)))
     parts.append("</body></html>")
     return "".join(parts)

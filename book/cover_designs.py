@@ -207,7 +207,7 @@ def _base(x, y, w, h, br, bg, extra=""):
     return f'<div style="position:absolute; left:{x}in; top:{y}in; width:{w + br}in; height:{h}in; background:{bg}; {extra}"></div>'
 
 
-def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center", sub_gap=0.45, verse=False):
+def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center", sub_gap=0.45, verse=False, show_en=True):
     """居中/左对齐的通用文字堆：标签、书名两行、金线、经文出处、副标题、英文、作者。返回 (html, 书名底部 y)。"""
     lines = "".join(f'<div style="line-height:1.1">{esc(l)}</div>' for l in c["lines"])
     lx = x + 0.6
@@ -223,7 +223,7 @@ def _stack(x, y, w, h, c, fg, accent, muted, title_pt=80, top=1.3, align="center
          if verse else
          _abs(lx, tb + 0.32, w - 1.2, f"{ta} font-size:9pt; letter-spacing:0.25em; color:{accent}", esc(c["ref"]))),
         _abs(lx, tb + 0.32 + sub_gap + (0.3 if verse else 0), w - 1.2, f"{ta} font-size:16pt; letter-spacing:0.2em; color:{fg}", esc(c["subtitle"])),
-        _abs(lx, tb + 0.32 + sub_gap + (0.3 if verse else 0) + 0.42, w - 1.2, f"{ta} font-size:7pt; letter-spacing:0.1em; color:{muted}", esc(c["en_title"])),
+        (_abs(lx, tb + 0.32 + sub_gap + (0.3 if verse else 0) + 0.42, w - 1.2, f"{ta} font-size:7pt; letter-spacing:0.1em; color:{muted}", esc(c["en_title"])) if show_en else ""),
         _abs(lx, y + h - 1.0, w - 1.2, f"{ta} font-size:13pt; letter-spacing:0.35em; color:{fg}", esc(c["author_line"])),
     ])
     return html, tb
@@ -402,7 +402,7 @@ def hourglass(lang, x, y, w, h, br, c):
   <line x1="{cx - hw - 0.18:.3f}" y1="{y0:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{y0:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
   <line x1="{cx - hw - 0.18:.3f}" y1="{yb:.3f}" x2="{cx + hw + 0.18:.3f}" y2="{yb:.3f}" stroke="{ink}" stroke-width="0.045" stroke-linecap="round"/>
 </svg>'''
-    html, _ = _stack(x, y, w, h, c, ink, gold, muted, title_pt=80, top=1.15, verse=True)
+    html, _ = _stack(x, y, w, h, c, ink, gold, muted, title_pt=80, top=1.15, verse=True, show_en=False)
     return svg + html
 
 
