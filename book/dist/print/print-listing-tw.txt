@@ -15,6 +15,12 @@ Description:
 
 全書按主題分為五輯：苦難中的追問、自由與救贖、犧牲與公義、記憶與歸家、青春與教育。書末附影片索引與經文索引。不假定讀者是基督徒：愛電影的人，會在這裡看見從前沒有留意的細節；在信仰門口徘徊的人，或許會發現這些故事早已替他說出了一些不容易直接說出的話。
 
+--- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---
+Title: Guang Zhao Zai Hei An Li (The Light Shines in the Darkness)
+Subtitle: Redemption in Twenty-One Films (Traditional Chinese Edition)
+Author: Zhou, Jin    Language: Chinese    Format: Paperback    Pages: 170
+Description: 用下方 IngramSpark 的英文短简介
+
 --- IngramSpark（Add a Title；需自有 ISBN）---
 Spine width: 0.425 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 光照在黑暗裡    Subtitle: 二十一部電影裡的救贖
