@@ -389,8 +389,11 @@ def build_docx(parts, lang, with_images):
                         pic = doc.add_paragraph()
                         pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
                         pic.paragraph_format.first_line_indent = Pt(0)
+                        pic.paragraph_format.space_before = Pt(12)
+                        pic.paragraph_format.space_after = Pt(4)
                         pic.add_run().add_picture(io.BytesIO(data), width=Inches(4.2))
-                        para(T(b[1]), align="center", indent=False, size=9, italic=True, color="5A5040")
+                        cap = para(T(b[1]), align="center", indent=False, size=9, italic=True, color="5A5040")
+                        cap.paragraph_format.space_after = Pt(16)
             page_break()
 
     # 附录一：影片索引
@@ -462,9 +465,10 @@ p.noindent, p.center, figcaption, .copyright p, .toc p { text-indent: 0; }
 .part { text-align: center; margin-top: 35%; }
 .part h1 { text-align: center; }
 .part .theme { color: #5a5040; font-size: 1.1em; text-indent: 0; }
-figure { margin: 1.4em 0; text-align: center; }
+figure, div.figure { margin: 1.4em 0; padding: 0.4em 0; text-align: center; }
 figure img { max-width: 100%; height: auto; }
-figcaption { font-size: 0.82em; color: #5a5040; margin-top: 0.4em; text-align: center; }
+figcaption { font-size: 0.82em; color: #5a5040; margin: 0.4em 0 1em; padding-bottom: 0.6em; text-align: center; }
+figure + p { margin-top: 0.6em; }
 table { border-collapse: collapse; width: 100%; font-size: 0.85em; }
 th, td { border-bottom: 1px solid #ddd; padding: 0.4em 0.3em; text-align: left; vertical-align: top; }
 .scripture p { text-indent: 0; margin-bottom: 0.5em; }
