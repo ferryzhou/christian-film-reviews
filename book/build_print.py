@@ -346,8 +346,44 @@ def to_cmyk(pdf_path):
     subprocess.run(["gs", "-q", "-o", tmp, "-sDEVICE=pdfwrite", "-dPDFSETTINGS=/prepress",
                     "-sColorConversionStrategy=CMYK", "-dProcessColorModel=/DeviceCMYK",
                     "-dEmbedAllFonts=true", "-dSubsetFonts=true", pdf_path], check=True)
+    _pure_black(tmp)
     os.replace(tmp, pdf_path)
     return True
+
+
+def _pure_black(pdf_path, k_min=0.75, cmy_min=0.55):
+    """Ghostscript 按 ICC 把 RGB 黑转成四色复合黑（如 C69 M66 Y69 K79）；条码与正文黑字要求 100% K。
+    把内容流里近黑的 CMYK 填色/描边统一改为 0 0 0 1。浅色与彩色不动。"""
+    import pymupdf, re
+    d = pymupdf.open(pdf_path)
+    xrefs = set()
+    for pg in d:
+        xrefs.update(pg.get_contents())
+    for x in range(1, d.xref_length()):
+        if d.xref_get_key(x, "Subtype")[1] == "/Form":
+            xrefs.add(x)
+    pat = re.compile(rb"(?<![\w.])([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) (k|K)\b")
+    n = 0
+    def repl(m):
+        nonlocal n
+        c, mm, y, k = (float(v) for v in m.groups()[:4])
+        if k >= k_min and min(c, mm, y) >= cmy_min:
+            n += 1
+            return b"0 0 0 1 " + m.group(5)
+        return m.group(0)
+    for x in xrefs:
+        data = d.xref_stream(x)
+        if data is None:
+            continue
+        new = pat.sub(repl, data)
+        if new != data:
+            d.update_stream(x, new)
+    if n:
+        tmp = pdf_path + ".k.pdf"
+        d.save(tmp, garbage=3, deflate=True); d.close(); os.replace(tmp, pdf_path)
+    else:
+        d.close()
+    return n
 
 
 def barcode_data_uri(isbn):
