@@ -3,7 +3,7 @@
 书名：慢慢地动怒    副标题：二十一部电影里的救赎    作者：周津
 English title: Slow to Anger: Redemption in Twenty-One Films    (Simplified Chinese edition)
 规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 163 页（装订按 164 页）
-ISBN：（未填，book.json print.isbn）    定价：（未填，book.json print.price）
+ISBN：979-8-9982815-1-8    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
 Spine width: 0.429 in（pages/444 + 0.06）
