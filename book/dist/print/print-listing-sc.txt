@@ -1,0 +1,72 @@
+=== 纸质书上架文案（简体中文）===
+
+书名：慢慢地动怒    副标题：二十一部电影里的救赎    作者：周津
+English title: Slow to Anger: Redemption in Twenty-One Films    (Simplified Chinese edition)
+规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 163 页（装订按 164 页）
+ISBN：979-8-9982815-1-8    定价：（未填，book.json print.price）
+
+--- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
+Spine width: 0.429 in（pages/444 + 0.06）
+Category: Religion & Spirituality > Christianity   |   Keywords: 基督教 影评、电影与信仰、福音 电影随笔、基督徒 看电影、肖申克的救赎 密阳 影评
+Description:
+《肖申克的救赎》里安迪为什么要把那本圣经留给典狱长？《密阳》里那个仰着脸问“你看见了吗”的母亲，究竟在向谁发问？《寻梦环游记》唱的“请记得我”，和《狮子王》里那句“记住你是谁”，为什么听起来像同一个声音？
+
+本书收录二十一篇原创电影随笔，以基督信仰的眼光重读二十一部华语与世界影史名作：从伯格曼的《第七封印》到李沧东的《密阳》，从《辛德勒的名单》《美丽人生》到《我不是药神》《无问西东》，从皮克斯的《心灵奇旅》到李安的《少年派的奇幻漂流》。每一篇都从一句台词、一个道具、一个前后呼应的镜头出发，为影片里的每个角色画一张肖像，诚实地呈现人心的困境，再一路走向福音——不停在道德劝勉，而要走到十字架。
+
+全书按主题分为五辑：牺牲与公义、苦难中的追问、自由与救赎、记忆与归家、青春与教育。书末附影片索引与经文索引。不假定读者是基督徒：爱电影的人，会在这里看见从前没有留意的细节；在信仰门口徘徊的人，或许会发现这些故事早已替他说出了一些不容易直接说出的话。
+
+--- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---
+Title: Man Man De Dong Nu (Slow to Anger)
+Subtitle: Redemption in Twenty-One Films (Simplified Chinese Edition)
+Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 164
+Description: 用下方 IngramSpark 的英文短简介
+
+--- IngramSpark（Add a Title；需自有 ISBN）---
+Spine width: 0.410 in（pages × 0.0025，最终以 Cover Template Generator 为准）
+Language: Chinese    Title: 慢慢地动怒    Subtitle: 二十一部电影里的救赎
+Contributor: 周津 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）
+BISAC subjects（下拉框按名称选，最多 3 个）:
+  REL012000  RELIGION / Christian Living / General
+  PER004030  PERFORMING ARTS / Film / History & Criticism
+  LCO010000  LITERARY COLLECTIONS / Essays
+Keywords: Christian film criticism; Chinese essays; faith and cinema; 基督教 影评; 电影与信仰; 福音 电影随笔; 基督徒 看电影
+Short description (English, for retailers):
+Slow to Anger: Redemption in Twenty-One Films is a collection of twenty-one original essays, written in Chinese, that reread landmark films through the eyes of Christian faith: from Bergman's The Seventh Seal and Lee Chang-dong's Secret Sunshine to Schindler's List, Life Is Beautiful, Dying to Survive and Pixar's Soul. Each essay starts from a line of dialogue, a prop or an echoing shot, sketches a portrait of every character, faces the human predicament the film exposes, and walks toward the gospel. Arranged in five parts (Questions in Suffering; Freedom and Redemption; Sacrifice and Justice; Memory, Identity and Homecoming; Youth and Education), with an index of films and an index of Scripture references. For film lovers, and for anyone lingering at the door of faith.
+
+Full description (Chinese):
+《肖申克的救赎》里安迪为什么要把那本圣经留给典狱长？《密阳》里那个仰着脸问“你看见了吗”的母亲，究竟在向谁发问？《寻梦环游记》唱的“请记得我”，和《狮子王》里那句“记住你是谁”，为什么听起来像同一个声音？
+
+本书收录二十一篇原创电影随笔，以基督信仰的眼光重读二十一部华语与世界影史名作：从伯格曼的《第七封印》到李沧东的《密阳》，从《辛德勒的名单》《美丽人生》到《我不是药神》《无问西东》，从皮克斯的《心灵奇旅》到李安的《少年派的奇幻漂流》。每一篇都从一句台词、一个道具、一个前后呼应的镜头出发，为影片里的每个角色画一张肖像，诚实地呈现人心的困境，再一路走向福音——不停在道德劝勉，而要走到十字架。
+
+全书按主题分为五辑：牺牲与公义、苦难中的追问、自由与救赎、记忆与归家、青春与教育。书末附影片索引与经文索引。不假定读者是基督徒：爱电影的人，会在这里看见从前没有留意的细节；在信仰门口徘徊的人，或许会发现这些故事早已替他说出了一些不容易直接说出的话。
+
+Wholesale discount: 55%（Amazon/书店标准；40% 利润更高但书店不进货）    Returns: No    Print on demand: Yes
+Markets: US / UK / EU / AU / Global Connect 全选    Publication date: 上传后 2–4 周
+
+=== 章节一览 ===
+第一辑　舍己的人　牺牲与公义
+   1. 慢慢地动怒　《12怒汉》 12 Angry Men (1957)
+   2. 名单就是生命　《辛德勒的名单》 Schindler's List (1993)
+   3. 早安，公主　《美丽人生》 La vita è bella (1997)
+   4. 让我再救一个　《血战钢锯岭》 Hacksaw Ridge (2016)
+   5. 他有什么罪　《我不是药神》 Dying to Survive (2018)
+第二辑　沉默的天空　苦难中的追问
+   6. 你看见了吗　《密阳》 Secret Sunshine (2007)
+   7. 我要知识，不是信仰　《第七封印》 The Seventh Seal (1957)
+   8. 你更喜欢哪个故事？　《少年派的奇幻漂流》 Life of Pi (2012)
+   9. 他和上帝讲和了　《阿甘正传》 Forrest Gump (1994)
+第三辑　墙内墙外　自由与救赎
+  10. 得救之道，就在其中　《肖申克的救赎》 The Shawshank Redemption (1994)
+  11. 这是给我的　《窃听风暴》 The Lives of Others (2006)
+  12. 祝你早安，午安，晚安　《楚门的世界》 The Truman Show (1998)
+  13. 那我到底是谁　《绿皮书》 Green Book (2018)
+  14. 上帝的键盘　《海上钢琴师》 The Legend of 1900 (1998)
+第四辑　记住你是谁　记忆、身份与归家
+  15. 请记得我　《寻梦环游记》 Coco (2017)
+  16. 记住你是谁　《狮子王》 The Lion King (2019)
+  17. 这就是海洋　《心灵奇旅》 Soul (2020)
+  18. 面具下的脸　《千里走单骑》 Riding Alone for Thousands of Miles (2005)
+第五辑　托底的人　青春与教育
+  19. 我们都爱自己，胜过爱爱情　《致我们终将逝去的青春》 So Young (2013)
+  20. 池塘之底　《放牛班的春天》 Les Choristes (2004)
+  21. 给你托底的人　《无问西东》 Forever Young (2018)
