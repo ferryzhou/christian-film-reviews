@@ -6,3 +6,4 @@ __pycache__/
 book/dist/text-only/
 book/dist/print/.cache/
 book/dist/print/text-only/
+book/dist/verify/

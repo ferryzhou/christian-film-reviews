@@ -81,6 +81,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
 - [ ] `titleTW`（台湾译名表）只覆盖了差异明显的 8 部，其余片名简繁转换后与台湾通行译名相同或相近；如发现不同，在 `book.json` 补充。
 - [ ] Kindle 预览器里看目录跳转、五辑扉页、两个附录。
 - [ ] 版权页年份、版本号（`book.json` 的 `year`、`edition`）。
+- [ ] 图文排版核对：`pip install playwright pillow && python3 verify_epub.py --shots`，用 Chromium 逐章渲染两个 EPUB，检查每张图是否加载、图注与下一段的间距（含阅读器清零 `figure` 边距的情况），并把每张图附近截图拼成对比图放到 `dist/verify/`。本仓库的 Chromium 在 `/opt/pw-browsers/chromium`；别处需先 `playwright install chromium`。
 
 ## 简体读者怎么办
 
