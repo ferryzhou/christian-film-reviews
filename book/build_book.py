@@ -193,7 +193,6 @@ def copyright_lines(lang):
         "圣经引文出自《圣经》和合本。",
         c.get("aiDisclosure", ""),
         f"出版：{c['publisher']}",
-        f"文章网络版：{c['site']}",
         "封面设计：" + c.get("designer", c["publisher"]),
     ] if x]
 
@@ -430,7 +429,6 @@ def build_docx(parts, lang, with_images):
     h = doc.add_heading(T("关于作者"), level=1)
     bookmark(h, "about")
     para(T(CONFIG["authorBio"]))
-    para(CONFIG["site"], indent=False, size=10, color="9A7320")
 
     doc.core_properties.title = T(f"{CONFIG['title']}：{CONFIG['subtitle']}")
     doc.core_properties.author = T(CONFIG["author"])
@@ -497,7 +495,7 @@ def build_epub(parts, lang, with_images, cover_path):
         return out
 
     book = epub.EpubBook()
-    book.set_identifier("urn:uuid:" + str(uuid.uuid5(uuid.NAMESPACE_URL, f"{CONFIG['site']}#book-{lang.code}-{CONFIG['year']}")))
+    book.set_identifier("urn:uuid:" + str(uuid.uuid5(uuid.NAMESPACE_URL, f"light-and-faith-press/{CONFIG['title']}#book-{lang.code}-{CONFIG['year']}")))
     book.set_title(T(f"{CONFIG['title']}：{CONFIG['subtitle']}"))
     book.set_language(lang.bcp47)
     book.add_author(T(CONFIG["author"]))
@@ -590,7 +588,7 @@ def build_epub(parts, lang, with_images, cover_path):
     c = page("app-scripture", "app-scripture.xhtml", T("附录二　经文索引"), sc_html)
     spine.append(c); toc.append(c)
 
-    about_html = f"<h1>{esc(T('关于作者'))}</h1><p>{esc(T(CONFIG['authorBio']))}</p><p class=\"noindent\"><a href=\"{CONFIG['site']}\">{CONFIG['site']}</a></p>"
+    about_html = f"<h1>{esc(T('关于作者'))}</h1><p>{esc(T(CONFIG['authorBio']))}</p>"
     c = page("about", "about.xhtml", T("关于作者"), about_html)
     spine.append(c); toc.append(c)
 

@@ -150,7 +150,6 @@ figcaption {{ font-size: 8pt; line-height: 1.5; color: #000; margin-top: 0.3em; 
 .scripture p {{ text-indent: 0; margin-bottom: 0.45em; font-size: 9pt; line-height: 1.6; }}
 .scripture strong {{ letter-spacing: 0.05em; }}
 .lead {{ text-indent: 0; font-size: 9pt; color: #000; margin-bottom: 0.25in; }}
-.about p.site {{ text-indent: 0; margin-top: 0.3in; font-size: 9pt; color: #000; }}
 """
 
 
@@ -263,7 +262,7 @@ def interior_html(parts, lang, with_images, outdir, shifts=None):
 
     # 关于作者
     out.append(f'<div class="recto opener about"><h1 class="section" id="about">{esc(T("关于作者"))}</h1>'
-               f'<p>{esc(T(c["authorBio"]))}</p><p class="site">{esc(c["site"])}</p></div>')
+               f'<p>{esc(T(c["authorBio"]))}</p></div>')
     out.append("</body></html>")
     html = "\n".join(out)
     # 附录里的页码：a.pg 用 target-counter 取章首页码
@@ -498,7 +497,7 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 <div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:{pal["fg"]}">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:{pal["accent"]}">{esc(subtitle)}</span></div>
 <div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.15}in; height:1pt; background:{pal["accent"]}; opacity:0.7"></div>
 <div class="abs back-blurb" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 1.4}in; font-size:8.6pt; line-height:1.8; text-align:justify; color:{pal["fg"]}">{"".join(f"<p>{esc(p)}</p>" for p in blurb)}</div>
-<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:{pal["muted"]}">{esc(T("文章网络版可免费阅读："))}<br>{esc(c["site"])}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
+<div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe - 2.2}in; top:{bleed + h - 1.35}in; font-size:7.5pt; line-height:1.6; color:{pal["muted"]}">{esc(T("出版："))}{_pub_html(T(c["publisher"]))}{('<br>' + esc(T('定价：')) + esc(PRINT['price'])) if PRINT.get('price') else ''}</div>
 <div class="abs" style="left:{back_x + w - safe - 2.0}in; top:{bleed + h - safe - 1.2}in; width:2.0in; height:1.2in; background:#fff">{f'<img src="{bc}" style="width:2.0in; height:1.2in">' if bc else f'<div style="font-size:6.5pt; color:#999; text-align:center; padding-top:0.5in">{esc(T("ISBN 条码位置（book.json 填入 isbn 后自动生成）"))}</div>'}</div>
 <div class="abs" style="left:{spine_x}in; top:0; width:{spine}in; height:{Hh}in; background:{pal["bg"]}"></div>
 ''')
