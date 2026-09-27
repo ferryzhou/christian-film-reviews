@@ -76,7 +76,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
 
 ## 出版前检查清单
 
-- [ ] 署名：`book.json` 的 `author`（周津）+ `authorSuffix`（著）出现在封面与书名页；`aiDisclosure` 印在版权页，序末也有写作方式的交代。KDP 后台仍须如实申报 AI-generated。
+- [ ] 署名：`book.json` 的 `author`（道影，笔名）+ `authorSuffix`（著）出现在封面与书名页；`aiDisclosure` 印在版权页，序末也有写作方式的交代。KDP 后台仍须如实申报 AI-generated。
 - [ ] 通读一遍 `慢慢地动怒-繁體.docx`。OpenCC 的字符级转换在少数一对多简繁字上会出错，重点扫：**发/髮·發、后/後·后、干/幹·乾、里/裡·里、面/麵·面、只/隻·只、系/係·繫、松/鬆·松、复/復·複**，人名与专名（"辛德勒""俊""宗灿"等）确认未被误转。改法：修 `original-reviews/*.md` 的原文不合适时，直接在 DOCX 里改。
 - [ ] `titleTW`（台湾译名表）只覆盖了差异明显的 8 部，其余片名简繁转换后与台湾通行译名相同或相近；如发现不同，在 `book.json` 补充。
 - [ ] Kindle 预览器里看目录跳转、五辑扉页、两个附录。

@@ -599,7 +599,7 @@ def write_print_listing(lang, pages, spines, outdir):
         "--- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---",
         f"Title: {PRINT.get('titleRoman', '')} ({en_title})",
         f"Subtitle: {en_sub} ({variant} Edition)",
-        f"Author: {PRINT.get('authorRoman', 'Zhou, Jin')}    Publisher: {c.get('publisherEn', '')}    Language: Chinese    Format: Paperback    Pages: {pages + pages % 2}",
+        f"Author: {PRINT.get('authorRoman', c['author'])}    Publisher: {c.get('publisherEn', '')}    Language: Chinese    Format: Paperback    Pages: {pages + pages % 2}",
         "Description: 用下方 IngramSpark 的英文短简介", "",
         "--- IngramSpark（Add a Title；需自有 ISBN）---",
         f"Spine width: {spines['ingram']:.3f} in（pages × {PAPER_THICKNESS.get(PRINT['paper'])}，最终以 Cover Template Generator 为准）",
