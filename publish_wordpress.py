@@ -16,7 +16,7 @@ import json, os, re, sys, mimetypes, urllib.request, uuid, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 API = "https://public-api.wordpress.com/rest/v1.1/sites/{site}/{path}"
-SITE_URL = "https://ferryzhou.github.io/christian-film-reviews"
+SITE_URL = "https://daoying.org"
 SYNC_FILE = os.path.join(ROOT, "wp-sync.json")
 
 

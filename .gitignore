@@ -1,7 +1,6 @@
 .surge-creds.txt
 node_modules/
 wp-preview/
-CNAME
 __pycache__/
 book/dist/text-only/
 book/dist/print/.cache/
