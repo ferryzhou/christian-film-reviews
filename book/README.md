@@ -24,7 +24,7 @@ python3 book/build_book.py --only docx-tw # 只重生成 KDP 用的繁体 DOCX
 python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only/（见"版权与配图"）
 ```
 
-依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `hourglass` 沙漏），由 WeasyPrint 渲染，不依赖 Chromium。
+依赖：`pip install python-docx ebooklib opencc-python-reimplemented pillow weasyprint pymupdf`，并安装 Noto Serif CJK SC/TC 字体（放到 `~/.fonts`）。**印刷版必须先跑 `python3 fonts_otf2ttf.py`** 把 .otf 转成 TrueType 再生成：思源宋体官方只有 CFF 轮廓，Lulu 的预检会报 "Incorrect Fonts: Please convert all fonts to TrueType"，IngramSpark 也更稳妥。封面与印刷封面共用一套设计（`cover_designs.py` 里的几套方案，`book.json` 的 `cover.design` 选用，当前为 `hourglass` 沙漏），由 WeasyPrint 渲染，不依赖 Chromium。
 
 | 产出（`book/dist/`） | 用途 |
 | --- | --- |
@@ -103,7 +103,7 @@ python3 book/build_print.py --spine 0.29 --platform ingram   # 平台模板给�
 
 | 产出（简繁各一套） | 说明 |
 | --- | --- |
-| `慢慢地动怒-*-内文.pdf` | 5.5×8.5 in（Digest）开本，含灰度剧照；字体全部内嵌；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
+| `慢慢地动怒-*-内文.pdf` | 5.5×8.5 in（Digest）开本，含灰度剧照；字体全部内嵌（TrueType 轮廓，Lulu 预检要求）；正文 100% 黑（IngramSpark 要求）；半书名页、书名页、版权页、带页码目录、序、五辑扉页（起右页）、正文（页眉：左页书名 / 右页篇名）、两个附录（含页码）、关于作者 |
 | `慢慢地动怒-*-封面-lulu.pdf` | Lulu 全包封面：书脊按 Lulu 官方公式 pages/444 + 0.06 in（113 页 → 0.317 in），RGB |
 | `慢慢地动怒-*-封面-ingram.pdf` | IngramSpark 全包封面：书脊 = 页数 × 0.0025 in（cream 50# 纸，→ 0.285 in），Ghostscript 转 CMYK；条码区白底 2×1.2 in（Ingram 要求 ≥1.75×1 in） |
 | `print-listing-*.txt` | 两个平台的上架文案：书名/英文书名、规格、书脊、Lulu 分类与关键词、Ingram 的 BISAC 三个类目、英文短简介、折扣与退货建议 |
