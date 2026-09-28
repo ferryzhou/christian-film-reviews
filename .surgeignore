@@ -6,3 +6,4 @@ find_articles.py
 .gitignore
 __pycache__/
 book/
+CNAME

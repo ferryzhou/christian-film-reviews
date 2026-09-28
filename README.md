@@ -1,6 +1,6 @@
 # 光影与信仰 · Christian Film Reviews
 
-**在线访问：<https://ferryzhou.github.io/christian-film-reviews/>**
+**在线访问：<https://daoying.org>**
 
 华人基督徒影评导读索引站。收录齐宏伟、石衡潭、王书亚、刘小枫及基督时报"福音影评"专栏作者的电影评论线索：谁评过哪部电影，从什么角度切入，原文在哪里。
 
@@ -66,8 +66,8 @@ python3 -m http.server 8000
 
 ## 部署
 
-- **GitHub Pages**：<https://ferryzhou.github.io/christian-film-reviews/>，由 `main` 分支自动发布。
-- **surge.sh**：另有一份手动部署的副本 <https://daoying.surge.sh>，合并到 `main` 不会自动更新。同步流程：先 `SITE_URL=https://daoying.surge.sh python3 build_review_pages.py` 重生成静态影评页（og:image/og:url 指向 surge 域，GitHub Pages 在中国大陆被屏蔽，分享用 surge 链接）；再 `SURGE_LOGIN=<邮箱> SURGE_TOKEN=<令牌> npx -y surge ./ daoying.surge.sh`；最后 `python3 build_review_pages.py` 恢复 GitHub 域版本再提交（凭据不入库；`.surgeignore` 排除非站点文件；surge 生成的 `CNAME` 已 gitignore，勿提交——会破坏 GitHub Pages）。
+- **GitHub Pages + 自定义域名**：<https://daoying.org>，由 `main` 分支自动发布。根目录 `CNAME` 文件声明域名（勿删）；旧地址 <https://ferryzhou.github.io/christian-film-reviews/> 由 GitHub 自动 301 跳转到新域名。DNS（在域名注册商处设置）：根域 `daoying.org` 四条 A 记录 `185.199.108.153` / `185.199.109.153` / `185.199.110.153` / `185.199.111.153`（可选 AAAA `2606:50c0:8000::153` / `8001::153` / `8002::153` / `8003::153`），`www` 一条 CNAME → `ferryzhou.github.io`；仓库 Settings → Pages 填 `daoying.org` 并勾选 Enforce HTTPS。
+- **surge.sh**：另有一份手动部署的副本 <https://daoying.surge.sh>，合并到 `main` 不会自动更新。同步流程：先 `SITE_URL=https://daoying.surge.sh python3 build_review_pages.py` 重生成静态影评页（og:image/og:url 指向 surge 域，GitHub Pages 在中国大陆被屏蔽，分享用 surge 链接）；再 `SURGE_LOGIN=<邮箱> SURGE_TOKEN=<令牌> npx -y surge ./ daoying.surge.sh`；最后 `python3 build_review_pages.py` 恢复 daoying.org 版本再提交（凭据不入库；`.surgeignore` 排除非站点文件，包括 `CNAME`——该文件属于 GitHub Pages，surge 部署务必显式写出 `daoying.surge.sh`）。
 
 ## 版权说明
 
