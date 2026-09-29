@@ -7,6 +7,11 @@ function getAuthor(id) {
   return AUTHORS.find(a => a.id === id);
 }
 function filmsByAuthor(authorId) {
+  if (authorId === "daoying") {
+    // 道影：本站原创影评的署名，按发表日期倒序
+    return FILMS.filter(f => getOriginal(f.id))
+      .sort((a, b) => (getOriginal(b.id).date || "").localeCompare(getOriginal(a.id).date || ""));
+  }
   return FILMS.filter(f => f.reviews.some(r => r.authorId === authorId));
 }
 function getFilm(id) {
@@ -43,6 +48,7 @@ function injectChrome(activePage) {
           <a href="index.html" class="${activePage === 'home' ? 'active' : ''}">首页</a>
           <a href="index.html#featured" class="${activePage === 'films' ? 'active' : ''}">电影</a>
           <a href="index.html#authors" class="${activePage === 'authors' ? 'active' : ''}">作者</a>
+          <a href="originals.html" class="${activePage === 'originals' ? 'active' : ''}">本站影评</a>
           <a href="books.html" class="${activePage === 'books' ? 'active' : ''}">文集</a>
           <a href="index.html#disclaimer" class="${activePage === 'about' ? 'active' : ''}">关于</a>
         </nav>
@@ -92,7 +98,9 @@ function renderHome() {
   function matchingFilms() {
     const q = state.q.trim().toLowerCase();
     const films = WEB_FILMS.filter(f => {
-      if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
+      if (state.authorId === "daoying") {
+        if (!getOriginal(f.id)) return false;
+      } else if (state.authorId && !f.reviews.some(r => r.authorId === state.authorId)) return false;
       if (!q) return true;
       return [f.title, f.titleEn, f.director, String(f.year), f.country, f.genre]
         .some(v => v && v.toLowerCase().includes(q));
@@ -212,6 +220,46 @@ function renderBooks() {
   `;
 }
 
+// ========= 本站影评（原创）列表页渲染 =========
+function renderOriginals() {
+  injectChrome("originals");
+  // 按发表日期倒序（最新在上）
+  const items = Object.entries(ORIGINALS)
+    .map(([fid, o]) => ({ fid, film: getFilm(fid), ...o }))
+    .filter(x => x.film)
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const hasPosters = typeof POSTERS !== "undefined";
+  document.title = "本站影评 — 光影与信仰";
+  setMetaDescription(`光影与信仰的原创影评（署名：道影），共 ${items.length} 篇，按发表时间排列。`);
+  $("#originals-content").innerHTML = `
+    <div class="container">
+      <a href="index.html" class="back-link">← 首页</a>
+      <div class="section-head">
+        <h2>本站影评</h2>
+        <span class="count">共 ${items.length} 篇 · 最新在前</span>
+      </div>
+      <p style="margin-bottom:2rem;font-size:0.9rem;color:var(--ink-dim);line-height:1.8">
+        本站原创影评，署名<a href="author.html?id=daoying">道影</a>，取"以道观影"之意：以基督信仰的眼光进入电影的叙事与细节。所引圣经经文均采用和合本。
+      </p>
+      <div class="featured-row">
+        ${items.map((x, i) => `
+          <a class="film-card reveal reveal-${(i % 4) + 1}" href="review/${x.fid}.html">
+            ${hasPosters && POSTERS[x.fid]
+              ? `<img class="card-poster" src="posters/${POSTERS[x.fid]}" alt="《${x.film.title}》海报" loading="lazy" />`
+              : `<div class="card-poster card-poster-empty">✦</div>`}
+            <div class="info">
+              <div class="title">${x.title}</div>
+              <div class="meta">《${x.film.title}》 · ${[x.film.year, x.film.director].filter(Boolean).join(" · ")}</div>
+              <div class="blurb">${x.film.summary}</div>
+              <div class="reviewers"><span class="orig-flag">✦ ${x.date}</span> · ${x.style} · 道影</div>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
 // ========= 作者页渲染 =========
 function renderAuthor() {
   injectChrome("authors");
@@ -259,20 +307,22 @@ function renderAuthor() {
 
       <section class="reveal reveal-3">
         <div class="section-head">
-          <h2>评过的电影</h2>
-          <span class="count">${films.length} 部</span>
+          <h2>${id === "daoying" ? "影评篇目" : "评过的电影"}</h2>
+          <span class="count">${films.length} ${id === "daoying" ? "篇 · 最新在前" : "部"}</span>
         </div>
         <div class="film-list">
-          ${films.map((f, i) => `
-            <a class="row" href="film.html?id=${f.id}">
+          ${films.map((f, i) => {
+            const o = id === "daoying" ? getOriginal(f.id) : null;
+            return `
+            <a class="row" href="${o ? `review/${f.id}.html` : `film.html?id=${f.id}`}">
               <div class="num">${String(i + 1).padStart(2, "0")}</div>
               <div>
-                <div class="ft">${f.title}${f.titleEn ? `<span class="en">${f.titleEn}</span>` : ""}</div>
-                <div class="fd">${[f.director, f.country, f.genre].filter(Boolean).join(" · ")}</div>
+                <div class="ft">${o ? o.title : f.title}${o ? `<span class="en">《${f.title}》</span>` : (f.titleEn ? `<span class="en">${f.titleEn}</span>` : "")}</div>
+                <div class="fd">${o ? [f.year, f.director, o.style].filter(Boolean).join(" · ") : [f.director, f.country, f.genre].filter(Boolean).join(" · ")}</div>
               </div>
-              <div class="year">${f.year}</div>
+              <div class="year">${o ? o.date : f.year}</div>
             </a>
-          `).join("")}
+          `;}).join("")}
         </div>
       </section>
     </div>
@@ -445,7 +495,7 @@ function renderReview() {
               ? `<img class="review-poster" src="posters/${POSTERS[id]}" alt="《${film.title}》海报（低分辨率，仅作影片标识）" />`
               : ""}
             <div class="review-meta mono">
-              ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 本站原创
+              ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 道影 · 本站原创
             </div>
             ${bodyHtml}
             <div class="review-footnote">
@@ -469,3 +519,4 @@ else if (page === "author") renderAuthor();
 else if (page === "film") renderFilm();
 else if (page === "books") renderBooks();
 else if (page === "review") renderReview();
+else if (page === "originals") renderOriginals();

@@ -15,6 +15,7 @@
 | `index.html` | 首页：作者卡片 + 电影索引（搜索 / 按作者筛选 / 按年份排序） |
 | `author.html` | 作者页（`?id=<authorId>`）：简介、文集、评过的电影 |
 | `film.html` | 电影页（`?id=<filmId>`）：元信息、主题摘要、本站影评入口、评论出处 |
+| `originals.html` | 本站原创影评列表页（署名"道影"，按发表日期倒序，最新在前） |
 | `review.html` | 本站影评阅读页（`?id=<filmId>`）：运行时 fetch 并渲染 `original-reviews/<filmId>.md` |
 | `review/<filmId>.html` | 预渲染的静态影评页（`build_review_pages.py` 生成）：自带 og meta，供微信等分享爬虫抓取标题/描述/海报；站内入口指向此处，`review.html?id=` 旧链接仍可用 |
 | `data.js` | 全部数据：`AUTHORS` 与 `FILMS` 两个数组 |
