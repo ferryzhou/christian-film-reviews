@@ -310,19 +310,21 @@ function renderAuthor() {
           <h2>${id === "daoying" ? "影评篇目" : "评过的电影"}</h2>
           <span class="count">${films.length} ${id === "daoying" ? "篇 · 最新在前" : "部"}</span>
         </div>
-        <div class="film-list">
+        <div class="featured-row">
           ${films.map((f, i) => {
             const o = id === "daoying" ? getOriginal(f.id) : null;
+            const hasPosters = typeof POSTERS !== "undefined";
             return `
-            <a class="row" href="${o ? `review/${f.id}.html` : `film.html?id=${f.id}`}">
-              ${typeof POSTERS !== "undefined" && POSTERS[f.id]
-                ? `<img class="row-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
-                : `<div class="num">${String(i + 1).padStart(2, "0")}</div>`}
-              <div>
-                <div class="ft">${o ? o.title : f.title}${o ? `<span class="en">《${f.title}》</span>` : (f.titleEn ? `<span class="en">${f.titleEn}</span>` : "")}</div>
-                <div class="fd">${o ? [f.year, f.director, o.style].filter(Boolean).join(" · ") : [f.director, f.country, f.genre].filter(Boolean).join(" · ")}</div>
+            <a class="film-card reveal reveal-${(i % 4) + 1}" href="${o ? `review/${f.id}.html` : `film.html?id=${f.id}`}">
+              ${hasPosters && POSTERS[f.id]
+                ? `<img class="card-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
+                : `<div class="card-poster card-poster-empty">✦</div>`}
+              <div class="info">
+                <div class="title">${o ? o.title : f.title}</div>
+                <div class="meta">${o ? `《${f.title}》 · ${[f.year, f.director].filter(Boolean).join(" · ")}` : [f.year, f.director].filter(Boolean).join(" · ")}</div>
+                <div class="blurb">${f.summary}</div>
+                <div class="reviewers">${o ? `<span class="orig-flag">✦ ${o.date}</span> · ${o.style} · 道影` : `评 · ${[...new Set(f.reviews.map(r => getAuthor(r.authorId)?.name).filter(Boolean))].join(" / ")}`}</div>
               </div>
-              <div class="year">${o ? o.date : f.year}</div>
             </a>
           `;}).join("")}
         </div>

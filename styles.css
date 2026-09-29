@@ -493,14 +493,6 @@ footer .mono {
   font-size: 1.6rem;
   color: var(--gold-dim);
 }
-.film-list .row-poster {
-  width: 46px;
-  height: 64px;
-  object-fit: cover;
-  border-radius: 4px;
-  display: block;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
 .film-list .ft { font-size: 1.15rem; color: var(--ink); }
 .film-list .ft .en { font-family: "Cormorant Garamond", serif; font-style: italic; color: var(--muted); font-size: 0.9rem; margin-left: 0.5rem; }
 .film-list .fd { font-size: 0.78rem; color: var(--ink-dim); margin-top: 0.2rem; }
