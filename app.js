@@ -315,7 +315,9 @@ function renderAuthor() {
             const o = id === "daoying" ? getOriginal(f.id) : null;
             return `
             <a class="row" href="${o ? `review/${f.id}.html` : `film.html?id=${f.id}`}">
-              <div class="num">${String(i + 1).padStart(2, "0")}</div>
+              ${typeof POSTERS !== "undefined" && POSTERS[f.id]
+                ? `<img class="row-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
+                : `<div class="num">${String(i + 1).padStart(2, "0")}</div>`}
               <div>
                 <div class="ft">${o ? o.title : f.title}${o ? `<span class="en">《${f.title}》</span>` : (f.titleEn ? `<span class="en">${f.titleEn}</span>` : "")}</div>
                 <div class="fd">${o ? [f.year, f.director, o.style].filter(Boolean).join(" · ") : [f.director, f.country, f.genre].filter(Boolean).join(" · ")}</div>
