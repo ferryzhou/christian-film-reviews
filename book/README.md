@@ -57,7 +57,7 @@ python3 book/build_book.py --no-images    # 纯文字版 → book/dist/text-only
    - **Kindle eBook Preview**：务必用在线预览器（或下载 [Kindle Previewer](https://kdp.amazon.com/en_US/help/topic/G202131170)）翻一遍：目录能否跳转、各篇标题是否成章、繁体字有无明显错字（见下节）。
    - ISBN：电子书不需要。
 5. **Kindle eBook Pricing**：
-   - **KDP Select 不要勾选**——Select 要求电子书在其他任何地方（包括你自己的网站）都不得以数字形式免费或付费提供，而这些影评在 <https://ferryzhou.github.io/christian-film-reviews/> 与 WordPress 上公开可读，勾选即违约。
+   - **KDP Select 不要勾选**——Select 要求电子书在其他任何地方（包括你自己的网站）都不得以数字形式免费或付费提供，而这些影评在 <https://daoying.org/> 与 WordPress 上公开可读，勾选即违约。
    - Territories：All territories。
    - 定价参考：US$4.99（可享 70% 版税档位 2.99–9.99）；其他市场按汇率自动换算即可。繁体读者主要在台湾/香港/海外华人，实际购买多经 Amazon.com。
 6. **Publish**。审核通常 72 小时内（Beta 语言可能更久）。审核会核对 AI 申报、版权（见下节）与"内容是否在网上免费可得"——后者对版权所有者是允许的，如被问询，回复自己是网站作者并给出站点链接即可。
