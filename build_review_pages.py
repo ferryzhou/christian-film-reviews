@@ -101,8 +101,9 @@ PAGE = """<!DOCTYPE html>
       <a href="../index.html" class="brand"><span class="mark">✦</span>光影与信仰</a>
       <nav class="nav-links">
         <a href="../index.html">首页</a>
-        <a href="../index.html#featured" class="active">电影</a>
+        <a href="../index.html#featured">电影</a>
         <a href="../index.html#authors">作者</a>
+        <a href="../originals.html" class="active">本站影评</a>
         <a href="../books.html">文集</a>
         <a href="../index.html#disclaimer">关于</a>
       </nav>
@@ -122,7 +123,7 @@ PAGE = """<!DOCTYPE html>
     </section>
     <div class="container">
       <article class="review-article reveal reveal-1">
-        {poster_tag}<div class="review-meta mono">{meta_line} · 本站原创</div>
+        {poster_tag}<div class="review-meta mono">{meta_line} · 道影 · 本站原创</div>
 {body}
         <div class="review-footnote">
           本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。

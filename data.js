@@ -77,6 +77,19 @@ const AUTHORS = [
     bio: "翼报（ebaomonthly.com）是2004年创刊的华人基督教网络月刊，设有艺文走廊、谈天说地、书香阵阵等栏目。除石衡潭的影评专栏外，殷颖、林向阳、余卓雄、杜嘉、李浩、梵等作者也从信仰视角撰写电影评论。",
     works: [],
     source: "https://chs.ebaomonthly.com/"
+  },
+  {
+    id: "daoying",
+    name: "道影",
+    penName: "",
+    born: null,
+    title: "本站主笔",
+    field: "以道观影 · 原创影评",
+    bio: "\"道影\"是本站原创影评的署名，取\"以道观影\"之意：以基督信仰的眼光进入电影的叙事与细节，先诚实呈现影片揭示的人性困境，再指向福音的应答。每篇影评引用和合本圣经经文，坚持从影片自身的台词、道具与结构里长出属灵解读；全部篇目见本站影评页，最新在前。",
+    works: [
+      { title: "本站原创影评（全部在线）", publisher: "光影与信仰", year: 2026, count: null }
+    ],
+    source: "originals.html"
   }
 ];
 
