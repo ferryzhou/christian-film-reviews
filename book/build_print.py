@@ -562,7 +562,7 @@ def build_cover(lang, pages, outdir, platform, spine_override=None):
     if PLATFORMS[platform]["cmyk"]:
         to_cmyk(out)
     prev = os.path.join(outdir, f"cover-preview-{lang.code}-{platform}.png")
-    pymupdf.open(out)[0].get_pixmap(dpi=72).save(prev)
+    pymupdf.open(out)[0].get_pixmap(dpi=150).save(prev)
     return out, spine
 
 
