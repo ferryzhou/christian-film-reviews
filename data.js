@@ -445,6 +445,17 @@ const FILMS = [
     reviews: []
   },
   {
+    id: "shenme-yisi-fufu",
+    title: "什么意思夫妇",
+    titleEn: "What Do You Mean",
+    year: 2026,
+    director: "沈春阳",
+    country: "中国大陆",
+    genre: "喜剧 / 家庭",
+    summary: "递交离婚申请的中年夫妻沈默与尤天意，在冷静期里遭遇一场奇葩意外灵魂互换，被迫替对方上班过日子——公务员进了急诊室，护士长坐进办公室，一边闹笑话，一边重新认识那个\"没意思\"的人。",
+    reviews: []
+  },
+  {
     id: "xindele-de-mingdan",
     title: "辛德勒的名单",
     titleEn: "Schindler's List",
