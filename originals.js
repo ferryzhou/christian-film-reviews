@@ -108,6 +108,11 @@ const ORIGINALS = {
     title: "让我再救一个",
     style: "文学随笔式",
     date: "2026-09-18"
+  },
+  "shenme-yisi-fufu": {
+    title: "你到底什么意思",
+    style: "文学随笔式",
+    date: "2026-10-18"
   }
 };
 

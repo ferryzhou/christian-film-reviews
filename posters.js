@@ -168,6 +168,7 @@ const POSTERS = {
 "shilian33": "shilian33.jpg",
 "shitu-baoluo": "shitu-baoluo.jpg",
 "shiyue-weicheng": "shiyue-weicheng.jpg",
+"shenme-yisi-fufu": "shenme-yisi-fufu.jpg",
 "shiziwang": "shiziwang.jpg",
 "shudian": "shudian.png",
 "shuzui": "shuzui.jpg",
