@@ -34,6 +34,7 @@ def load_films():
         films[fid] = {
             "title": field("title"), "titleEn": field("titleEn"),
             "year": ym.group(1) if ym else "", "director": field("director"),
+            "summary": field("summary"),
         }
     return films
 
@@ -160,7 +161,8 @@ def main():
         first_para = next((b.strip() for b in re.split(r"\n{2,}", body)
                            if b.strip() and not b.strip().startswith(("#", "!["))), "")
         sub = " · ".join(x for x in [film["titleEn"], film["year"], film["director"]] if x)
-        desc = html.escape(f"《{film['title']}》（{sub}）本站原创影评：{first_para[:90]}…", quote=True)
+        # 分享卡片副标题用站内卡片上的剧情简介；无简介时退回正文首段
+        desc = html.escape(film["summary"] or f"《{film['title']}》（{sub}）本站原创影评：{first_para[:90]}…", quote=True)
         url = f"{SITE_URL}/review/{fid}.html"
         og_image = ""
         if posters.get(fid):
