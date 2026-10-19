@@ -162,7 +162,7 @@ def main():
                            if b.strip() and not b.strip().startswith(("#", "!["))), "")
         sub = " · ".join(x for x in [film["titleEn"], film["year"], film["director"]] if x)
         # 分享卡片副标题用站内卡片上的剧情简介；无简介时退回正文首段
-        desc = html.escape(film["summary"] or f"《{film['title']}》（{sub}）本站原创影评：{first_para[:90]}…", quote=True)
+        desc = html.escape(f"《{film['title']}》：{film['summary']}" if film["summary"] else f"《{film['title']}》（{sub}）本站原创影评：{first_para[:90]}…", quote=True)
         url = f"{SITE_URL}/review/{fid}.html"
         og_image = ""
         if posters.get(fid):
