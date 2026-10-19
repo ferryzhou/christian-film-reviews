@@ -478,7 +478,7 @@ function renderReview() {
       document.title = `${title} — 光影与信仰`;
       const firstPara = body.split(/\n{2,}/).map(b => b.trim()).find(b => b && !b.startsWith("#") && !b.startsWith("![")) || "";
       const bodyHtml = mdToHtml(body);
-      setMetaDescription(film.summary || `《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
+      setMetaDescription(film.summary ? `《${film.title}》：${film.summary}` : `《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
       content.innerHTML = `
         <div class="container">
           <a href="film.html?id=${id}" class="back-link">← 《${film.title}》</a>
