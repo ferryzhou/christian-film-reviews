@@ -67,9 +67,30 @@ function injectChrome(activePage) {
   document.body.insertAdjacentHTML("beforeend", footer);
 }
 
+// ========= 纸质书购买卡片（数据见 book.js） =========
+function bookPromo() {
+  if (typeof BOOK === "undefined") return "";
+  return `
+    <section class="book-promo reveal">
+      <img class="book-cover" src="${BOOK.cover}" alt="《${BOOK.title}》封面" loading="lazy" />
+      <div class="book-info">
+        <div class="kicker">道影 · 纸质书</div>
+        <h3>《${BOOK.title}》</h3>
+        <div class="book-sub">${BOOK.subtitle}</div>
+        <p>${BOOK.blurb}</p>
+        <div class="book-buy">
+          ${BOOK.buy.map(b => `<a class="buy-btn" href="${b.url}" target="_blank" rel="noopener">${b.label} →</a>`).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 // ========= 首页渲染 =========
 function renderHome() {
   injectChrome("home");
+  const hero = document.querySelector(".hero");
+  if (hero) hero.insertAdjacentHTML("afterend", `<div class="container">${bookPromo()}</div>`);
 
   // 作者卡片
   const authorsGrid = $("#authors-grid");
@@ -241,6 +262,7 @@ function renderOriginals() {
       <p style="margin-bottom:2rem;font-size:0.9rem;color:var(--ink-dim);line-height:1.8">
         本站原创影评，署名<a href="author.html?id=daoying">道影</a>，取"以道观影"之意：以基督信仰的眼光进入电影的叙事与细节。所引圣经经文均采用和合本。
       </p>
+      ${bookPromo()}
       <div class="featured-row">
         ${items.map((x, i) => `
           <a class="film-card reveal reveal-${(i % 4) + 1}" href="review/${x.fid}.html">
@@ -304,6 +326,8 @@ function renderAuthor() {
           `).join("")}
         </div>
       </div>
+
+      ${id === "daoying" ? bookPromo() : ""}
 
       <section class="reveal reveal-3">
         <div class="section-head">

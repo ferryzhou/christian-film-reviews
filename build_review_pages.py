@@ -10,7 +10,7 @@
 review.html?id=xx 旧链接保持可用，站内入口链接指向静态页。
 """
 
-import html, os, re
+import html, json, os, re
 
 from publish_wordpress import load_registry, load_posters, parse_front_matter
 
@@ -19,6 +19,15 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 #   SITE_URL=https://daoying.surge.sh python3 build_review_pages.py
 SITE_URL = os.environ.get("SITE_URL", "https://daoying.org")
 OUT_DIR = os.path.join(ROOT, "review")
+
+
+def load_book():
+    """book.js 的购买链接 + book/book.json 的收录篇目；收录于书中的影评页脚加一行购买入口。"""
+    js = open(os.path.join(ROOT, "book.js"), encoding="utf-8").read()
+    book = json.loads(js.rsplit("const BOOK =", 1)[1].strip().rstrip(";"))
+    parts = json.load(open(os.path.join(ROOT, "book", "book.json"), encoding="utf-8"))["parts"]
+    book["films"] = {fid for part in parts for fid in part["films"]}
+    return book
 
 
 def load_films():
@@ -127,7 +136,7 @@ PAGE = """<!DOCTYPE html>
         {poster_tag}<div class="review-meta mono">{meta_line} · 道影 · 本站原创</div>
 {body}
         <div class="review-footnote">
-          本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
+          {book_note}本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
           {figure_note}欢迎链接分享；转载请注明出处。
           <a href="../film.html?id={fid}">← 返回《{film}》影片页</a>
         </div>
@@ -149,6 +158,7 @@ def main():
     registry = load_registry()
     posters = load_posters()
     films = load_films()
+    book = load_book()
     os.makedirs(OUT_DIR, exist_ok=True)
     for fid, meta in registry.items():
         film = films.get(fid)
@@ -175,6 +185,11 @@ def main():
         body_html = md_to_html(body)
         figure_note = ("文中配图为低分辨率剧照或取景地照片，仅作评论配图（合理使用），版权归属见各图注；"
                        "如权利方提出异议，本站将及时移除。\n          " if "<figure>" in body_html else "")
+        book_note = ""
+        if fid in book["films"] and book["buy"]:
+            b = book["buy"][0]
+            book_note = (f'<span class="book-note">本文收录于纸质书《{esc(book["title"])}：{esc(book["subtitle"])}》 · '
+                         f'<a href="{esc(b["url"])}" target="_blank" rel="noopener">{esc(b["label"])} →</a></span>\n          ')
         meta_line = " · ".join(x for x in [film["year"], film["director"],
                                            fm.get("style") or meta.get("style"),
                                            fm.get("date") or meta.get("date")] if x)
@@ -183,7 +198,7 @@ def main():
             film=esc(film["title"]),
             en_suffix=f" · {esc(film['titleEn'])}" if film["titleEn"] else "",
             poster_tag=poster_tag, meta_line=esc(meta_line),
-            body=body_html, figure_note=figure_note,
+            body=body_html, figure_note=figure_note, book_note=book_note,
         )
         out = os.path.join(OUT_DIR, f"{fid}.html")
         open(out, "w", encoding="utf-8").write(page)

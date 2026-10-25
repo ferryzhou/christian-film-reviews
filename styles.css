@@ -832,3 +832,65 @@ footer .mono {
   border-radius: 2px;
   box-shadow: 0 6px 22px rgba(42, 36, 24, 0.14);
 }
+
+/* ========= 纸质书购买卡片 ========= */
+.book-promo {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  margin: 2.5rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+}
+.book-promo .book-cover {
+  width: 110px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(42, 36, 24, 0.18);
+}
+.book-promo .kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+.book-promo h3 {
+  margin: 0.3rem 0 0.1rem;
+  font-weight: 500;
+}
+.book-promo .book-sub {
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+}
+.book-promo p {
+  margin: 0.7rem 0 1rem;
+  font-size: 0.88rem;
+  color: var(--ink-dim);
+  line-height: 1.8;
+}
+.book-promo .buy-btn {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  background: var(--gold);
+  color: var(--bg);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+.book-promo .buy-btn:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+.review-article .review-footnote .book-note {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--ink-dim);
+}
+.review-article .review-footnote .book-note a {
+  display: inline;
+  margin: 0;
+}
+@media (max-width: 560px) {
+  .book-promo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
