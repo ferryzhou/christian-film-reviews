@@ -80,6 +80,9 @@
       ]
     }
   ],
+  "excludeFilms": [
+    "shenme-yisi-fufu"
+  ],
   "titleTW": {
     "xiaoshenke-de-jiushu": "刺激1995",
     "xunmeng-huanyouji": "可可夜總會",
@@ -101,6 +104,11 @@
     "isbn": {
       "tw": "979-8-9982815-0-1",
       "sc": "979-8-9982815-1-8"
+    },
+    "isbnByPlatform": {
+      "ingram": {
+        "sc": "979-8-9982815-2-5"
+      }
     },
     "price": "",
     "titleEn": "Slow to Anger",

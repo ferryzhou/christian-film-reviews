@@ -3,7 +3,7 @@
 书名：慢慢地动怒    副标题：二十一部电影里的救赎    作者：周津
 English title: Slow to Anger: Redemption in Twenty-One Films    (Simplified Chinese edition)
 规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 163 页（装订按 164 页）
-ISBN：979-8-9982815-1-8    定价：（未填，book.json print.price）
+ISBN：979-8-9982815-1-8（IngramSpark 版另用 979-8-9982815-2-5）    定价：（未填，book.json print.price）
 
 --- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---
 Spine width: 0.429 in（pages/444 + 0.06）
@@ -21,7 +21,7 @@ Subtitle: Redemption in Twenty-One Films (Simplified Chinese Edition)
 Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 164
 Description: 用下方 IngramSpark 的英文短简介
 
---- IngramSpark（Add a Title；需自有 ISBN）---
+--- IngramSpark（Add a Title；需自有 ISBN：979-8-9982815-2-5）---
 Spine width: 0.410 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 慢慢地动怒    Subtitle: 二十一部电影里的救赎
 Contributor: 周津 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）

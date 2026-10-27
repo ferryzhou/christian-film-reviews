@@ -48,10 +48,14 @@ def esc(s):
     return H.escape(str(s), quote=True)
 
 
-def isbn_for(lang):
-    """print.isbn 可以是一个字符串（两版共用，不推荐）或 {"tw": ..., "sc": ...}；简繁纸书是两本书，各需一个 ISBN。"""
-    v = PRINT.get("isbn") or ""
-    return (v.get(lang.code, "") if isinstance(v, dict) else v).strip()
+def isbn_for(lang, platform=None):
+    """print.isbn 可以是一个字符串（两版共用，不推荐）或 {"tw": ..., "sc": ...}；简繁纸书是两本书，各需一个 ISBN。
+    某平台要用另一个 ISBN 时（如 Lulu 已占用、Ingram 另用新号），在 print.isbnByPlatform.<平台>.<版本> 覆盖。"""
+    v = ((PRINT.get("isbnByPlatform") or {}).get(platform) or {}).get(lang.code) if platform else None
+    if not v:
+        v = PRINT.get("isbn") or ""
+        v = v.get(lang.code, "") if isinstance(v, dict) else v
+    return v.strip()
 
 
 def inline(text):
@@ -181,7 +185,7 @@ def _apply_shifts(blocks, ch_id, shifts):
     return out
 
 
-def interior_html(parts, lang, with_images, outdir, shifts=None):
+def interior_html(parts, lang, with_images, outdir, shifts=None, platform=None):
     T = lang.T
     c = CONFIG
     title, subtitle = T(c["title"]), T(c["subtitle"])
@@ -194,8 +198,8 @@ def interior_html(parts, lang, with_images, outdir, shifts=None):
     out.append(f'<div class="plain recto titlepage"><p class="title">{esc(title)}</p><p class="subtitle">{esc(subtitle)}</p>'
                + f'<p class="author">{esc(B.author_line(lang))}</p><p class="publisher">{_pub_html(T(c["publisher"]))}</p></div>')
     cr = [f"<p>{esc(x)}</p>" for x in B.copyright_lines(lang)]
-    if isbn_for(lang):
-        cr.insert(3, f"<p>ISBN {esc(isbn_for(lang))}</p>")
+    if isbn_for(lang, platform):
+        cr.insert(3, f"<p>ISBN {esc(isbn_for(lang, platform))}</p>")
     cr.append(f"<p>{esc(T('印装：按需印刷（Print on Demand）'))}</p>")
     out.append(f'<div class="plain page copyright">{"".join(cr)}</div>')
 
@@ -298,9 +302,11 @@ def _figure_gaps(pdf_bytes, captions, bottom_margin_in=0.7, threshold_in=0.9):
     return culprits
 
 
-def build_interior(parts, lang, with_images, outdir, max_passes=8):
+def build_interior(parts, lang, with_images, outdir, max_passes=8, platform=None):
+    """platform 只在该平台 ISBN 与默认不同时传入：版权页印该平台的 ISBN，文件名加平台后缀。"""
     from weasyprint import HTML
-    out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-内文.pdf")
+    suffix = f"-{platform}" if platform else ""
+    out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-内文{suffix}.pdf")
     # 图注前缀 -> (章节 id, 图序号)，用于从渲染结果反查是哪张图被推到了下一页
     captions = {}
     for part in parts:
@@ -312,7 +318,7 @@ def build_interior(parts, lang, with_images, outdir, max_passes=8):
                     k += 1
     shifts, doc, fixed = {}, None, 0
     for _ in range(max_passes if with_images else 1):
-        doc = HTML(string=interior_html(parts, lang, with_images, outdir, shifts), base_url=B.ROOT).render()
+        doc = HTML(string=interior_html(parts, lang, with_images, outdir, shifts, platform), base_url=B.ROOT).render()
         if not with_images:
             break
         culprits = _figure_gaps(doc.write_pdf(), captions)
@@ -505,7 +511,7 @@ def cover_design(design=None):
     return fn, fn.palette
 
 
-def cover_html(lang, pages, spine, front_only=False, trim=None, design=None):
+def cover_html(lang, pages, spine, front_only=False, trim=None, design=None, platform=None):
     """全包封面（封底 | 书脊 | 封面）或仅封面（电子书）。正面样式见 cover_designs.py。"""
     T = lang.T
     c = CONFIG
@@ -527,7 +533,7 @@ body {{ width: {W}in; height: {Hh}in; position: relative; overflow: hidden; font
 .back-blurb p {{ margin: 0 0 0.6em; text-indent: 2em; }}
 </style></head><body>''']
     if not front_only:
-        bc = barcode_data_uri(isbn_for(lang)) if isbn_for(lang) else None
+        bc = barcode_data_uri(isbn_for(lang, platform)) if isbn_for(lang, platform) else None
         blurb = [p for p in T(c["description"]).split("\n") if p.strip()]
         parts.append(f'''
 <div class="abs" style="left:{back_x + safe}in; width:{w - 2 * safe}in; top:{bleed + 0.75}in; font-size:13.5pt; font-weight:700; letter-spacing:0.1em; color:{pal["fg"]}">{esc(title)}　<span style="font-weight:400; font-size:10.5pt; color:{pal["accent"]}">{esc(subtitle)}</span></div>
@@ -557,7 +563,7 @@ def build_cover(lang, pages, outdir, platform, spine_override=None):
     import pymupdf
     spine = spine_width(pages, platform, spine_override)
     out = os.path.join(outdir, f"{CONFIG['title']}-{lang.file_tag}-封面-{platform}.pdf")
-    HTML(string=cover_html(lang, pages, spine)).write_pdf(out)
+    HTML(string=cover_html(lang, pages, spine, platform=platform)).write_pdf(out)
     if PLATFORMS[platform]["cmyk"]:
         to_cmyk(out)
     prev = os.path.join(outdir, f"cover-preview-{lang.code}-{platform}.png")
@@ -591,7 +597,9 @@ def write_print_listing(lang, pages, spines, outdir):
         f"书名：{T(c['title'])}    副标题：{T(c['subtitle'])}    作者：{T(c['author'])}",
         f"English title: {en_title}: {en_sub}    ({variant} edition)",
         f"规格：{w} × {h} in · 平装 · 黑白内文 · {PRINT['paper']} 纸 · {pages} 页（装订按 {pages + pages % 2} 页）",
-        f"ISBN：{isbn_for(lang) or '（未填，book.json print.isbn）'}    定价：{PRINT.get('price') or '（未填，book.json print.price）'}", "",
+        f"ISBN：{isbn_for(lang) or '（未填，book.json print.isbn）'}"
+        + (f"（IngramSpark 版另用 {isbn_for(lang, 'ingram')}）" if isbn_for(lang, "ingram") != isbn_for(lang) else "")
+        + f"    定价：{PRINT.get('price') or '（未填，book.json print.price）'}", "",
         "--- Lulu（Create → Print Book；只勾 Lulu Bookstore，不勾 Global Distribution）---",
         f"Spine width: {spines['lulu']:.3f} in（pages/444 + 0.06）",
         "Category: Religion & Spirituality > Christianity   |   Keywords: " + "、".join(T(k) for k in c["keywords"][:5]),
@@ -601,7 +609,7 @@ def write_print_listing(lang, pages, spines, outdir):
         f"Subtitle: {en_sub} ({variant} Edition)",
         f"Author: {PRINT.get('authorRoman', 'Zhou, Jin')}    Publisher: {c.get('publisherEn', '')}    Language: Chinese    Format: Paperback    Pages: {pages + pages % 2}",
         "Description: 用下方 IngramSpark 的英文短简介", "",
-        "--- IngramSpark（Add a Title；需自有 ISBN）---",
+        f"--- IngramSpark（Add a Title；需自有 ISBN：{isbn_for(lang, 'ingram') or '未填'}）---",
         f"Spine width: {spines['ingram']:.3f} in（pages × {PAPER_THICKNESS.get(PRINT['paper'])}，最终以 Cover Template Generator 为准）",
         f"Language: Chinese    Title: {T(c['title'])}    Subtitle: {T(c['subtitle'])}",
         f"Contributor: {T(c['author'])} (Author)    Imprint: {c.get('publisherEn', c['publisher'])}（须与 Bowker 登记的 Publisher 一字不差）",
@@ -627,20 +635,26 @@ def build_all(parts, langs, with_images, outdir, platforms, spine_override=None)
     os.makedirs(outdir, exist_ok=True)
     w, h = PRINT["trim"]
     for lang in langs:
-        if isbn_for(lang):
-            ok, _ = isbn_check(isbn_for(lang))
-            if not ok:
-                sys.exit(f"{lang.label} 的 ISBN {isbn_for(lang)} 校验位不对，请核对 book.json")
+        for platform in [None] + platforms:
+            if isbn_for(lang, platform):
+                ok, _ = isbn_check(isbn_for(lang, platform))
+                if not ok:
+                    sys.exit(f"{lang.label} 的 ISBN {isbn_for(lang, platform)} 校验位不对，请核对 book.json")
         interior, pages = build_interior(parts, lang, with_images, outdir)
         print(f"印刷版 {lang.label}：{pages} 页 · 开本 {w}×{h} in")
         print("  内文 ->", interior)
+        for platform in platforms:
+            if isbn_for(lang, platform) != isbn_for(lang):
+                extra, _ = build_interior(parts, lang, with_images, outdir, platform=platform)
+                print(f"  内文（{PLATFORMS[platform]['label']}，ISBN {isbn_for(lang, platform)}） ->", extra)
         spines = {}
         for platform in platforms:
             cover, spine = build_cover(lang, pages, outdir, platform, spine_override)
             spines[platform] = spine
             print(f"  封面（{PLATFORMS[platform]['label']}，书脊 {spine:.3f} in{'，命令行覆盖' if spine_override else ''}） ->", cover,
                   "" if pages >= 100 else "（不足 100 页，书脊未印文字）")
-        print(f"  ISBN：{isbn_for(lang) or '无（未填）'}")
+        isbns = [PLATFORMS[p]["label"] + " " + (isbn_for(lang, p) or "无（未填）") for p in platforms]
+        print("  ISBN：" + " / ".join(isbns))
         if len(platforms) == 2:
             print("  上架文案 ->", write_print_listing(lang, pages, spines, outdir))
     if with_images:
