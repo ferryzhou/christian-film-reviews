@@ -804,6 +804,22 @@ footer .mono {
   color: var(--gold);
 }
 
+/* 系列影评导航 */
+.original-block h2 .count { font-size: 0.85rem; color: var(--muted); margin-left: 0.6rem; }
+.original-block .orig-card + .orig-card { margin-top: 0.9rem; }
+.review-article .series-nav {
+  margin-top: 2.6rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+}
+.series-nav .series-kicker { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+.series-nav ol { margin: 0; padding-left: 1.4rem; line-height: 2; font-size: 0.95rem; }
+.series-nav a { color: var(--gold); text-decoration: none; }
+.series-nav a:hover { text-decoration: underline; }
+.series-nav li.current span { color: var(--ink-dim); }
+.series-nav li.current::marker { color: var(--gold); }
+
 /* 影评配图 */
 .review-article figure {
   margin: 2.2rem 0;

@@ -126,7 +126,7 @@ PAGE = """<!DOCTYPE html>
       <article class="review-article reveal reveal-1">
         {poster_tag}<div class="review-meta mono">{meta_line} · 道影 · 本站原创</div>
 {body}
-        <div class="review-footnote">
+{series_nav}        <div class="review-footnote">
           本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
           {figure_note}欢迎链接分享；转载请注明出处。
           <a href="../film.html?id={fid}">← 返回《{film}》影片页</a>
@@ -145,17 +145,35 @@ PAGE = """<!DOCTYPE html>
 """
 
 
+def series_nav(registry, rid):
+    """与 app.js seriesNavHtml 同构：同一 series 的各篇导航（页面在 review/ 下，链接同目录）。"""
+    series = registry[rid].get("series")
+    if not series:
+        return ""
+    parts = sorted(((k, v) for k, v in registry.items() if v.get("series") == series),
+                   key=lambda kv: kv[1].get("part", 0))
+    items = []
+    for sid, x in parts:
+        label = esc(f"{x['partLabel']} · {x['title']}" if x.get("partLabel") else x["title"])
+        items.append(f'<li class="current"><span>{label}</span></li>' if sid == rid
+                     else f'<li><a href="{sid}.html">{label}</a></li>')
+    return (f'        <nav class="series-nav">\n          <div class="series-kicker">{esc(series)} · 共 {len(parts)} 篇</div>\n'
+            f'          <ol>{"".join(items)}</ol>\n        </nav>\n')
+
+
 def main():
     registry = load_registry()
     posters = load_posters()
     films = load_films()
     os.makedirs(OUT_DIR, exist_ok=True)
-    for fid, meta in registry.items():
+    for rid, meta in registry.items():
+        # 注册表键为影评 id；系列子篇用 filmId 指向所属影片
+        fid = meta.get("filmId", rid)
         film = films.get(fid)
         if not film:
             print(f"!! data.js 中无 {fid}，跳过")
             continue
-        raw = open(os.path.join(ROOT, "original-reviews", f"{fid}.md"), encoding="utf-8").read()
+        raw = open(os.path.join(ROOT, "original-reviews", f"{rid}.md"), encoding="utf-8").read()
         fm, body = parse_front_matter(raw)
         title = meta["title"]
         first_para = next((b.strip() for b in re.split(r"\n{2,}", body)
@@ -163,7 +181,7 @@ def main():
         sub = " · ".join(x for x in [film["titleEn"], film["year"], film["director"]] if x)
         # 分享卡片副标题用站内卡片上的剧情简介；无简介时退回正文首段
         desc = html.escape(f"《{film['title']}》：{film['summary']}" if film["summary"] else f"《{film['title']}》（{sub}）本站原创影评：{first_para[:90]}…", quote=True)
-        url = f"{SITE_URL}/review/{fid}.html"
+        url = f"{SITE_URL}/review/{rid}.html"
         og_image = ""
         if posters.get(fid):
             og_image = (f'  <meta property="og:image" content="{SITE_URL}/posters/{posters[fid]}" />\n'
@@ -184,10 +202,11 @@ def main():
             en_suffix=f" · {esc(film['titleEn'])}" if film["titleEn"] else "",
             poster_tag=poster_tag, meta_line=esc(meta_line),
             body=body_html, figure_note=figure_note,
+            series_nav=series_nav(registry, rid),
         )
-        out = os.path.join(OUT_DIR, f"{fid}.html")
+        out = os.path.join(OUT_DIR, f"{rid}.html")
         open(out, "w", encoding="utf-8").write(page)
-        print(f"生成 review/{fid}.html")
+        print(f"生成 review/{rid}.html")
     print(f"完成，共 {len(registry)} 篇。")
 
 

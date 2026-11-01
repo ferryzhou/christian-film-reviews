@@ -445,6 +445,17 @@ const FILMS = [
     reviews: []
   },
   {
+    id: "woju",
+    title: "蜗居",
+    titleEn: "Dwelling Narrowness",
+    year: 2009,
+    director: "滕华涛",
+    country: "中国大陆",
+    genre: "电视剧 / 家庭 / 剧情",
+    summary: "江州城里，姐姐海萍为一套房子省吃俭用、把女儿送回老家；妹妹海藻为帮姐姐凑首付，一步步成了市长秘书宋思明的情人。本站以一篇总论加六篇角色专论读这部剧：每个人都在为一处居所缴费，没有一个人缴得清。",
+    reviews: []
+  },
+  {
     id: "shenme-yisi-fufu",
     title: "什么意思夫妇",
     titleEn: "What Do You Mean",

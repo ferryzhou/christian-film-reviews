@@ -25,8 +25,37 @@ function hasWebText(f) {
   return f.reviews.some(r => r.excerpt);
 }
 // 本站自撰影评（originals.js 注册表）
+// 注册表的键是影评 id；一部影片可有多篇（系列），子篇用 filmId 指向所属影片，part 排序（总论为 0）。
+function origFilmId(rid) {
+  const o = typeof ORIGINALS !== "undefined" ? ORIGINALS[rid] : undefined;
+  return (o && o.filmId) || rid;
+}
+function getOriginals(filmId) {
+  if (typeof ORIGINALS === "undefined") return [];
+  return Object.entries(ORIGINALS)
+    .filter(([rid]) => origFilmId(rid) === filmId)
+    .map(([rid, o]) => ({ rid, ...o }))
+    .sort((a, b) => (a.part || 0) - (b.part || 0));
+}
+// 该影片的主篇（单篇影评即其本身；系列取总论）
 function getOriginal(filmId) {
-  return typeof ORIGINALS !== "undefined" ? ORIGINALS[filmId] : undefined;
+  return getOriginals(filmId)[0];
+}
+// 系列导航：同一 series 的各篇，prefix 为站点根相对前缀（静态页在 review/ 下用 "../"）
+function seriesNavHtml(rid, prefix = "") {
+  const o = typeof ORIGINALS !== "undefined" ? ORIGINALS[rid] : undefined;
+  if (!o || !o.series) return "";
+  const parts = Object.entries(ORIGINALS).filter(([, x]) => x.series === o.series)
+    .sort((a, b) => (a[1].part || 0) - (b[1].part || 0));
+  return `
+    <nav class="series-nav">
+      <div class="series-kicker">${o.series} · 共 ${parts.length} 篇</div>
+      <ol>
+        ${parts.map(([sid, x]) => sid === rid
+          ? `<li class="current"><span>${x.partLabel ? x.partLabel + " · " : ""}${x.title}</span></li>`
+          : `<li><a href="${prefix}review/${sid}.html">${x.partLabel ? x.partLabel + " · " : ""}${x.title}</a></li>`).join("")}
+      </ol>
+    </nav>`;
 }
 function setMetaDescription(text) {
   let m = document.querySelector('meta[name="description"]');
@@ -225,9 +254,9 @@ function renderOriginals() {
   injectChrome("originals");
   // 按发表日期倒序（最新在上）
   const items = Object.entries(ORIGINALS)
-    .map(([fid, o]) => ({ fid, film: getFilm(fid), ...o }))
+    .map(([fid, o]) => ({ fid, film: getFilm(origFilmId(fid)), ...o }))
     .filter(x => x.film)
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    .sort((a, b) => (b.date || "").localeCompare(a.date || "") || (a.part || 0) - (b.part || 0));
   const hasPosters = typeof POSTERS !== "undefined";
   document.title = "本站影评 — 光影与信仰";
   setMetaDescription(`光影与信仰的原创影评（署名：道影），共 ${items.length} 篇，按发表时间排列。`);
@@ -244,13 +273,13 @@ function renderOriginals() {
       <div class="featured-row">
         ${items.map((x, i) => `
           <a class="film-card reveal reveal-${(i % 4) + 1}" href="review/${x.fid}.html">
-            ${hasPosters && POSTERS[x.fid]
-              ? `<img class="card-poster" src="posters/${POSTERS[x.fid]}" alt="《${x.film.title}》海报" loading="lazy" />`
+            ${hasPosters && POSTERS[x.film.id]
+              ? `<img class="card-poster" src="posters/${POSTERS[x.film.id]}" alt="《${x.film.title}》海报" loading="lazy" />`
               : `<div class="card-poster card-poster-empty">✦</div>`}
             <div class="info">
               <div class="title">${x.title}</div>
-              <div class="meta">《${x.film.title}》 · ${[x.film.year, x.film.director].filter(Boolean).join(" · ")}</div>
-              <div class="blurb">${x.film.summary}</div>
+              <div class="meta">《${x.film.title}》${x.partLabel ? " · " + x.partLabel : ""} · ${[x.film.year, x.film.director].filter(Boolean).join(" · ")}</div>
+              <div class="blurb">${x.blurb || x.film.summary}</div>
               <div class="reviewers"><span class="orig-flag">✦ ${x.date}</span> · ${x.style} · 道影</div>
             </div>
           </a>
@@ -271,7 +300,12 @@ function renderAuthor() {
   }
   document.title = `${author.name} — 光影与信仰`;
 
-  const films = filmsByAuthor(id);
+  const films = id === "daoying"
+    ? Object.entries(ORIGINALS)
+        .map(([rid, o]) => ({ ...getFilm(origFilmId(rid)), _rid: rid, _o: o }))
+        .filter(f => f.id)
+        .sort((a, b) => (b._o.date || "").localeCompare(a._o.date || "") || (a._o.part || 0) - (b._o.part || 0))
+    : filmsByAuthor(id);
   setMetaDescription(`${author.name}（${author.title}）的影评导读：共评过 ${films.length} 部电影。研究领域：${author.field}。`);
   const content = $("#author-content");
   content.innerHTML = `
@@ -312,10 +346,10 @@ function renderAuthor() {
         </div>
         <div class="featured-row">
           ${films.map((f, i) => {
-            const o = id === "daoying" ? getOriginal(f.id) : null;
+            const o = id === "daoying" ? f._o : null;
             const hasPosters = typeof POSTERS !== "undefined";
             return `
-            <a class="film-card reveal reveal-${(i % 4) + 1}" href="${o ? `review/${f.id}.html` : `film.html?id=${f.id}`}">
+            <a class="film-card reveal reveal-${(i % 4) + 1}" href="${o ? `review/${f._rid}.html` : `film.html?id=${f.id}`}">
               ${hasPosters && POSTERS[f.id]
                 ? `<img class="card-poster" src="posters/${POSTERS[f.id]}" alt="《${f.title}》海报" loading="lazy" />`
                 : `<div class="card-poster card-poster-empty">✦</div>`}
@@ -383,12 +417,13 @@ function renderFilm() {
 
       ${getOriginal(film.id) ? `
       <section class="original-block reveal reveal-3">
-        <h2>本站影评</h2>
-        <a class="orig-card" href="review/${film.id}.html">
-          <div class="orig-kicker">原创 · ${getOriginal(film.id).style}</div>
-          <div class="orig-title">${getOriginal(film.id).title}</div>
+        <h2>本站影评${getOriginals(film.id).length > 1 ? ` <span class="count">${getOriginal(film.id).series || "系列"} · ${getOriginals(film.id).length} 篇</span>` : ""}</h2>
+        ${getOriginals(film.id).map(o => `
+        <a class="orig-card" href="review/${o.rid}.html">
+          <div class="orig-kicker">原创 · ${o.partLabel ? o.partLabel + " · " : ""}${o.style}</div>
+          <div class="orig-title">${o.title}</div>
           <span class="go">阅读全文 →</span>
-        </a>
+        </a>`).join("")}
       </section>` : ""}
 
       <section class="reviews-block reveal reveal-3">
@@ -457,8 +492,8 @@ function renderReview() {
   injectChrome("films");
   const content = $("#review-content");
   const id = (getParam("id") || "").replace(/[^a-z0-9-]/g, "");
-  const film = getFilm(id);
-  const orig = getOriginal(id);
+  const orig = typeof ORIGINALS !== "undefined" ? ORIGINALS[id] : undefined;
+  const film = getFilm(origFilmId(id));
   const notFound = msg => {
     content.innerHTML = `<div class="container" style="padding:4rem 0"><p>${msg}<a href="index.html">返回首页</a></p></div>`;
   };
@@ -481,7 +516,7 @@ function renderReview() {
       setMetaDescription(film.summary ? `《${film.title}》：${film.summary}` : `《${film.title}》本站原创影评：${firstPara.slice(0, 110)}…`);
       content.innerHTML = `
         <div class="container">
-          <a href="film.html?id=${id}" class="back-link">← 《${film.title}》</a>
+          <a href="film.html?id=${film.id}" class="back-link">← 《${film.title}》</a>
         </div>
 
         <section class="film-hero reveal">
@@ -495,18 +530,19 @@ function renderReview() {
 
         <div class="container">
           <article class="review-article reveal reveal-1">
-            ${typeof POSTERS !== "undefined" && POSTERS[id]
-              ? `<img class="review-poster" src="posters/${POSTERS[id]}" alt="《${film.title}》海报（低分辨率，仅作影片标识）" />`
+            ${typeof POSTERS !== "undefined" && POSTERS[film.id]
+              ? `<img class="review-poster" src="posters/${POSTERS[film.id]}" alt="《${film.title}》海报（低分辨率，仅作影片标识）" />`
               : ""}
             <div class="review-meta mono">
               ${[film.year, film.director, fm.style || orig.style, (fm.date || orig.date)].filter(Boolean).join(" · ")} · 道影 · 本站原创
             </div>
             ${bodyHtml}
+            ${seriesNavHtml(id)}
             <div class="review-footnote">
               本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
               ${bodyHtml.includes("<figure>") ? "文中配图为低分辨率剧照或取景地照片，仅作评论配图（合理使用），版权归属见各图注；如权利方提出异议，本站将及时移除。" : ""}
               欢迎链接分享；转载请注明出处。
-              <a href="film.html?id=${id}">← 返回《${film.title}》影片页</a>
+              <a href="film.html?id=${film.id}">← 返回《${film.title}》影片页</a>
             </div>
           </article>
         </div>

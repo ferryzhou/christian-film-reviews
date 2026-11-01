@@ -154,6 +154,7 @@ const POSTERS = {
 "sankuai-guanggaopai": "sankuai-guanggaopai.png",
 "shanzhashu-zhilian": "shanzhashu-zhilian.jpg",
 "shaonian-pi": "shaonian-pi.jpg",
+"woju": "woju.jpg",
 "xindele-de-mingdan": "xindele-de-mingdan.jpg",
 "shaonian-sipaiwei": "shaonian-sipaiwei.jpg",
 "sheitoule-lajitong": "sheitoule-lajitong.jpg",
