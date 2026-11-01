@@ -113,6 +113,54 @@ const ORIGINALS = {
     title: "你到底什么意思",
     style: "文学随笔式",
     date: "2026-10-18"
+  },
+  "woju": {
+    title: "活在这个城市的成本",
+    style: "文学随笔式",
+    date: "2026-11-01",
+    series: "《蜗居》五题",
+    part: 0,
+    partLabel: "总论"
+  },
+  "woju-haiping": {
+    title: "那就让妈妈抱我吧",
+    style: "文学随笔式",
+    date: "2026-11-01",
+    filmId: "woju",
+    series: "《蜗居》五题",
+    part: 1,
+    partLabel: "郭海萍篇",
+    blurb: "女儿跟房子是一体的——一个母亲用产权证证明爱，却先把女儿送走了。冉冉选的惩罚，是让妈妈抱。"
+  },
+  "woju-haizao": {
+    title: "一条是结婚，一条是死掉",
+    style: "文学随笔式",
+    date: "2026-11-01",
+    filmId: "woju",
+    series: "《蜗居》五题",
+    part: 2,
+    partLabel: "郭海藻篇",
+    blurb: "哈根达斯门口的女孩，如何一步步走进那间客厅。卖身钱越拿越脏，赎价叫人被洗净——何西阿的第三条路。"
+  },
+  "woju-songsiming": {
+    title: "人永远不要做自己不擅长的事",
+    style: "文学随笔式",
+    date: "2026-11-01",
+    filmId: "woju",
+    series: "《蜗居》五题",
+    part: 3,
+    partLabel: "宋思明篇",
+    blurb: "江州最会变出解决办法的人，是一个假的救主。他讲的伽罗瓦的故事，是他自己的预言。"
+  },
+  "woju-xiaobei": {
+    title: "我放不下",
+    style: "文学随笔式",
+    date: "2026-11-01",
+    filmId: "woju",
+    series: "《蜗居》五题",
+    part: 4,
+    partLabel: "小贝篇",
+    blurb: "雨中撑伞跑来的男孩，后来在雨中转身跑开。他放不下她，也放不下那辆车——人的饶恕是会用完的。"
   }
 };
 

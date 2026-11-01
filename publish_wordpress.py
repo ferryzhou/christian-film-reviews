@@ -142,7 +142,7 @@ def main():
             return media_cache[rel]
 
         parts = []
-        poster = posters.get(fid)
+        poster = posters.get(meta.get("filmId", fid))
         if poster:
             parts.append(f'<figure class="wp-poster"><img src="{img_url("posters/" + poster)}" '
                          f'alt="《{fm.get("film", fid)}》海报" style="max-width:280px" /></figure>')
