@@ -89,11 +89,21 @@ function injectChrome(activePage) {
       <div class="container">
         <span class="mono">光影与信仰 · 导读索引站</span>
         <span class="mono">不搬运原文 · 仅作路标</span>
+        <span class="mono" id="busuanzi_container_site_uv" style="display:none">访客 <span id="busuanzi_value_site_uv"></span> · 浏览 <span id="busuanzi_value_site_pv"></span></span>
       </div>
     </footer>
   `;
   document.body.insertAdjacentHTML("afterbegin", topbar);
   document.body.insertAdjacentHTML("beforeend", footer);
+  loadVisitorCounter();
+}
+
+// ========= 访问统计（不蒜子，大陆可访问，无需注册）=========
+function loadVisitorCounter() {
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+  document.body.appendChild(s);
 }
 
 // ========= 首页渲染 =========
