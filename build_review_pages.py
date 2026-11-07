@@ -124,7 +124,7 @@ PAGE = """<!DOCTYPE html>
     </section>
     <div class="container">
       <article class="review-article reveal reveal-1">
-        {poster_tag}<div class="review-meta mono">{meta_line} · 道影 · 本站原创</div>
+        {poster_tag}<div class="review-meta mono">{meta_line} · 道影 · 本站原创<span id="busuanzi_container_page_pv" style="display:none"> · 阅读 <span id="busuanzi_value_page_pv"></span> 次</span></div>
 {body}
 {series_nav}        <div class="review-footnote">
           本文为"光影与信仰"原创影评，以基督信仰的眼光读电影。所引圣经经文采用和合本。
@@ -138,8 +138,10 @@ PAGE = """<!DOCTYPE html>
     <div class="container">
       <span class="mono">光影与信仰 · 导读索引站</span>
       <span class="mono">不搬运原文 · 仅作路标</span>
+      <span class="mono" id="busuanzi_container_site_uv" style="display:none">访客 <span id="busuanzi_value_site_uv"></span> · 浏览 <span id="busuanzi_value_site_pv"></span></span>
     </div>
   </footer>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
 """
