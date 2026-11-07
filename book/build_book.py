@@ -121,7 +121,8 @@ def load_book():
             seen.add(fid)
             chapters.append(load_chapter(fid, registry[fid], films.get(fid, {})))
         parts.append({"no": i + 1, "title": part["title"], "theme": part["theme"], "chapters": chapters})
-    missing = [f for f in registry if f not in seen]
+    # book.json 的 excludeFilms：成书之后新写、不收入本版的影评（已出版的版本内容须保持不变）
+    missing = [f for f in registry if f not in seen and f not in CONFIG.get("excludeFilms", [])]
     if missing:  # 新写的影评尚未分辑：归入末尾"未分辑"，并提醒维护 book.json
         print(f"!! 以下影评未在 book.json 分辑中，暂归入第 {len(parts) + 1} 辑：{', '.join(missing)}")
         parts.append({"no": len(parts) + 1, "title": "余音", "theme": "未分辑",

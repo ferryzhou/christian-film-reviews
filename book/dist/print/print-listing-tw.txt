@@ -1,6 +1,6 @@
 === 纸质书上架文案（繁體中文）===
 
-书名：慢慢地動怒    副标题：二十一部電影裡的救贖    作者：周津
+书名：慢慢地動怒    副标题：二十一部電影裡的救贖    作者：道影
 English title: Slow to Anger: Redemption in Twenty-One Films    (Traditional Chinese edition)
 规格：5.5 × 8.5 in · 平装 · 黑白内文 · cream 纸 · 163 页（装订按 164 页）
 ISBN：979-8-9982815-0-1    定价：（未填，book.json print.price）
@@ -18,13 +18,13 @@ Description:
 --- Bowker My Identifiers（数据库只收 Latin-1，中文会变问号；用拼音 + 英文登记，不影响 Ingram/Amazon 显示中文）---
 Title: Man Man De Dong Nu (Slow to Anger)
 Subtitle: Redemption in Twenty-One Films (Traditional Chinese Edition)
-Author: Zhou, Jin    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 164
+Author: Dao Ying    Publisher: Light and Faith Press    Language: Chinese    Format: Paperback    Pages: 164
 Description: 用下方 IngramSpark 的英文短简介
 
---- IngramSpark（Add a Title；需自有 ISBN）---
+--- IngramSpark（Add a Title；需自有 ISBN：979-8-9982815-0-1）---
 Spine width: 0.410 in（pages × 0.0025，最终以 Cover Template Generator 为准）
 Language: Chinese    Title: 慢慢地動怒    Subtitle: 二十一部電影裡的救贖
-Contributor: 周津 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）
+Contributor: 道影 (Author)    Imprint: Light and Faith Press（须与 Bowker 登记的 Publisher 一字不差）
 BISAC subjects（下拉框按名称选，最多 3 个）:
   REL012000  RELIGION / Christian Living / General
   PER004030  PERFORMING ARTS / Film / History & Criticism
@@ -66,7 +66,7 @@ Markets: US / UK / EU / AU / Global Connect 全选    Publication date: 上传�
   16. 記住你是誰　《獅子王》 The Lion King (2019)
   17. 這就是海洋　《心靈奇旅》 Soul (2020)
   18. 面具下的臉　《千里走單騎》 Riding Alone for Thousands of Miles (2005)
-第五輯　託底的人　青春與教育
+第五輯　托底的人　青春與教育
   19. 我們都愛自己，勝過愛愛情　《致我們終將逝去的青春》 So Young (2013)
   20. 池塘之底　《放牛班的春天》 Les Choristes (2004)
-  21. 給你託底的人　《無問西東》 Forever Young (2018)
+  21. 給你托底的人　《無問西東》 Forever Young (2018)
