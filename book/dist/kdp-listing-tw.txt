@@ -3,7 +3,7 @@
 Language: Chinese (Traditional)
 Book Title: 慢慢地動怒
 Subtitle: 二十一部電影裡的救贖
-Author: 周津
+Author: 道影
 
 Description:
 《肖申克的救贖》裡安迪為什麼要把那本聖經留給典獄長？《密陽》裡那個仰著臉問“你看見了嗎”的母親，究竟在向誰發問？《尋夢環遊記》唱的“請記得我”，和《獅子王》裡那句“記住你是誰”，為什麼聽起來像同一個聲音？
@@ -52,7 +52,7 @@ Primary Audience: Not sexually explicit; Reading age: 不填
   16. 記住你是誰　《獅子王》 The Lion King (2019)
   17. 這就是海洋　《心靈奇旅》 Soul (2020)
   18. 面具下的臉　《千里走單騎》 Riding Alone for Thousands of Miles (2005)
-第五輯　託底的人　青春與教育
+第五輯　托底的人　青春與教育
   19. 我們都愛自己，勝過愛愛情　《致我們終將逝去的青春》 So Young (2013)
   20. 池塘之底　《放牛班的春天》 Les Choristes (2004)
-  21. 給你託底的人　《無問西東》 Forever Young (2018)
+  21. 給你托底的人　《無問西東》 Forever Young (2018)
