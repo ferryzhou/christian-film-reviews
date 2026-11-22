@@ -181,6 +181,11 @@ const ORIGINALS = {
     part: 6,
     partLabel: "宋太太篇",
     blurb: "一个没有名字的女人，一辈子舍不得，最后在另一个女人的客厅里看见了自己的梦——浪子故事里的大儿子。"
+  },
+  "changan-de-lizhi": {
+    title: "倒在距离终点多远的地方",
+    style: "文学随笔式",
+    date: "2026-11-22"
   }
 };
 
